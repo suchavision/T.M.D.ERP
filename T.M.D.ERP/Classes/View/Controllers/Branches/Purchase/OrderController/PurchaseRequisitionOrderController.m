@@ -61,7 +61,7 @@
     
     
     
-    JRButton *spinButton = (JRButton *)[self.jsonView getView:@"NESTED_DOWN.spinPurchaseOrder"];
+//    JRButton *spinButton = (JRButton *)[self.jsonView getView:@"NESTED_DOWN.spinPurchaseOrder"];
     
 }
 
