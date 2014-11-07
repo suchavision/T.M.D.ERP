@@ -412,6 +412,15 @@
     }
 }
 
++(UIFont*) getFontWithConfig:(NSDictionary*)dictionary
+{
+    NSString* fontName = [dictionary objectForKey: JSON_FONT_NAME];
+    NSNumber* fontSize = [dictionary objectForKey: JSON_FONT_SIZE];
+    fontName = fontName ? fontName : @"Arial";
+    int size = fontSize ? [fontSize integerValue] : 18 ;
+    return [UIFont fontWithName:fontName size: CanvasFontSize(size)];
+}
+
 #pragma mark - Font
 
 

@@ -18,6 +18,27 @@
     
     // set up bar items
     [OrderListControllerHelper setRightBarButtonItems: self];
+    
+    
+    // then , assign the attributes
+    
+    // set common
+    self.requestModel = [RequestJsonModel getJsonModel];
+    self.requestModel.path = PATH_LOGIC_READ(self.department);
+    
+    self.appTableDidSelectRowBlock = ^void(AppSearchTableViewController* controller ,NSIndexPath* realIndexPath)
+    {
+        if(! [PermissionChecker checkSignedUserWithAlert:department order:orderType permission:PERMISSION_READ]) {
+            return;
+        }
+        
+        // set identification
+        id identification = [controller getIdentification: realIndexPath];
+        JsonController* jsonController = [OrderListControllerHelper getNewJsonControllerInstance: department order:orderType];
+        jsonController.controlMode = JsonControllerModeRead;
+        jsonController.identification = identification;
+        [VIEW.navigator pushViewController: jsonController animated:YES];
+    };
 }
 
 - (void)viewDidLoad
@@ -124,28 +145,6 @@
 
 - (void)setupOrderListControllerWithSpecification
 {
-    // then , assign the attributes
-    NSString* orderType = self.order;
-    NSString* department = self.department;
-    
-    // set common
-    self.requestModel = [RequestJsonModel getJsonModel];
-    self.requestModel.path = PATH_LOGIC_READ(self.department);
-    
-    self.appTableDidSelectRowBlock = ^void(AppSearchTableViewController* controller ,NSIndexPath* realIndexPath)
-    {
-        if(! [PermissionChecker checkSignedUserWithAlert:department order:orderType permission:PERMISSION_READ]) {
-            return;
-        }
-        
-        // set identification
-        id identification = [controller getIdentification: realIndexPath];
-        JsonController* jsonController = [OrderListControllerHelper getNewJsonControllerInstance: department order:orderType];
-        jsonController.controlMode = JsonControllerModeRead;
-        jsonController.identification = identification;
-        [VIEW.navigator pushViewController: jsonController animated:YES];
-    };
-    
     // set from specification
     if (config) {
         
@@ -158,7 +157,7 @@
         if (config[req_MODELS]) {
             [self.requestModel.models addObjectsFromArray: config[req_MODELS]];
         } else {
-            [self.requestModel addModels: orderType, nil];
+            [self.requestModel addModels: self.order, nil];
         }
         
         if (config[req_FIELDS]) [self.requestModel.fields addObjectsFromArray:config[req_FIELDS]];
