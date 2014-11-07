@@ -1,0 +1,229 @@
+{
+    "COMPONENTS" : {
+        
+        "BG_BOOK_IMAGE" : {
+            "JCom": "JRImageView",
+            "JFrame": [5,75],
+            "BORDER" :23,
+            "JSubRender":{
+                "JR_IMG": "PurchaseRequisitionOrder_3.png"
+                
+            }
+        },
+        
+        "NESTED_BODY" : {
+            "JFrame": [10,90,1000,580],
+            
+            "COMPONENTS" : {
+                
+                "NESTED_UP" : {
+                    "JFrame": [20,7,980,65],
+                    
+                    "COMPONENTS" : {
+                        
+                        "orderNO": {
+                            "JCom" : "JRLabelCommaTextFieldView",
+                            "BORDER":19,
+                            "JFrame": [5,7,300,42],
+                            "JSubRender": {
+                                "SubRenders":[{"CH_SPACE": "2"},{},{"JR_IMG":"PurchaseOrder_01.png","JR_ENABLE":0}]
+                            }
+                        },
+                        
+                    
+                        
+                        "requisitionDate": {
+                            "JCom" : "JRLabelCommaTextFieldView",
+                             "BORDER":19,
+                            "JFrame": [670,7,300,42],
+                            "JSubRender": {
+                                "SubRenders":[{},{},{"JR_IMG":"PurchaseOrder_01.png","JR_ENABLE":0}]
+                            }
+                        }
+                        
+                        
+                    }
+                },
+                
+                "NESTED_MIDDLE" : {
+                    "JFrame": [38,62,950,360],
+                     "BORDER":19,
+                    
+                    "COMPONENTS" : {
+                        
+                        
+                        "TABLE_ITEMS_LIST": {
+                            "JCom": "JRRefreshTableView",
+                            "JFrame": [25, 15, 935, 265],
+                            "JSubRender":{
+                                "BGCOLOR": 0,
+                                
+                                "HIDE_SEARCH_BAR": 1,
+                                "SHOW_LINES":1,
+                                "HIDE_REFRESH": 1,
+                                "CELL_BGCOLOR": 0,
+                                
+                                "headerColor":0,
+                                "headerHeight": 45,
+                                
+                                
+                                "headers":["number", "productNames", "amount", "unit", "unitPriceOne","unitPriceTwo", "unitPriceThree"],
+                                "headersX":[40, 190, 360, 470, 570, 690,810 ],
+                                "headersY": [10],
+                            }
+                        },
+                        
+                        
+                        "purpose" : {
+                            "JCom" : "JRLabelTextView",
+                            "JFrame": [15,300,950,60],
+                            
+                            "JSubRender": {
+                                "frames":[[30,10], [100,0,750,45]],
+                                "SubRenders":[{"BORDER": 11},{"BORDER": 32}]
+                            }
+                        },
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        "line_1" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [160, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_2" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [350, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_3" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [450, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_4" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [570, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_5" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [680, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_6" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [807, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        }
+                        
+                        
+                        
+                        
+                        
+                    }
+                },
+                
+                
+                "NESTED_DOWN" : {
+                    "JFrame": [11,420,980,118],
+                    "BORDER": 19,
+                    "COMPONENTS" : {
+                        
+                        "spinPurchaseOrder":  {
+                            "JCom": "JRButton",
+                            "JFrame": [5, 12, -1.1, -1.1],
+                            
+                            "JSubRender":{
+                                "JR_BGN_IMG": "PurchaseRequisitionOrder_2.png","FONT_SIZE": 25,"JS_FONT_N_COLOR":[255,255,255]
+                            }
+                        },
+                        
+                        
+                        
+                        "vendorName":  {
+                            "JCom": "JRLabelTextFieldView",
+                            "JFrame": [153, 19,245,90],
+                            "JSubRender": {
+                                "frames":[[80,10],[50,40,150,50]],
+                                "SubRenders":[{"FONT_SIZE":25}]
+                            }
+                        },
+                        
+                        
+                        "inquirePrice": {
+                            "JCom" : "JRLocalizeLabel",
+                            "JFrame": [420,23,70,95],
+                            "JSubRender": {
+                                "FONT_SIZE": 30,
+                            }
+                        },
+                        "VENDOR": {
+                            "JCom" : "JRLocalizeLabel",
+                            "JFrame": [520,23,50,95],
+                            "JSubRender": {
+                                "FONT_SIZE": 20,
+                            }
+                        },
+                        
+                        "vendorName1":{
+                            "JCom" : "JRTextField",
+                            "JFrame": [580,23,131,90],
+                            "JSubRender": {
+                                "JR_BORDERSTYLE" : 0,
+                                "BGCOLOR":-1
+                            }
+                        },
+                        
+                        "vendorName2":{
+                            "JCom" : "JRTextField",
+                            "JFrame": [711,23,129,90],
+                            "JSubRender": {
+                                "JR_BORDERSTYLE" : 0,
+                                "BGCOLOR":-1
+                            }
+                        },
+                        
+                        "vendorName3":{
+                            "JCom" : "JRTextField",
+                            "JFrame": [840,23,129,90],
+                            "JSubRender": {
+                                "JR_BORDERSTYLE" : 0,
+                                "BGCOLOR":-1
+                            }
+                        },
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+                }
+                
+                
+            }
+        }
+        
+        
+    }
+    
+    
+}

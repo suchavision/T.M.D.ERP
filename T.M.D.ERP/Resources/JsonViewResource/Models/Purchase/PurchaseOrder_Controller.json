@@ -1,0 +1,32 @@
+{
+    
+    "CLIENT": {
+        
+        
+        "CREATE_AUTOFILL": {
+            "NOW_DATE":["bookDate"],
+        },
+      
+        
+        "COMS_DATE_PICKERS": ["bookDate", "deliveryDate"],
+        
+        "COMS_DATE_PATTERNS": {
+            "bookDate":"yyyy-MM-dd",
+            "deliveryDate":"yyyy-MM-dd"
+        },
+        
+        
+        "CONTROL_MODE" : {
+            
+            "DEFAULT_MODE_SUB":{
+                "UNENABLE":["NESTED_DOWN.spin"],
+                "ENABLE":[]
+            },
+        }
+        
+        
+        
+    }
+    
+    
+}

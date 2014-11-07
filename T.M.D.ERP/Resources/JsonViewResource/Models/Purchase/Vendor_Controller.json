@@ -1,0 +1,92 @@
+
+{
+    "IMAGES" : {
+        
+        "IMAGES_LOAD": ["IMG_Photo_One", "IMG_Photo_Two"],
+        "IMAGES_NAMES": {
+            "IMG_Photo_One": {
+                "MAINNAME": ["number","contactOne"]
+            },
+            "IMG_Photo_Two": {
+                "MAINNAME": ["number","contactTwo"]
+            }
+        },
+        "IMAGES_DATAS": {
+            "IMG_Photo_One": {
+            },
+            "IMG_Photo_Two": {
+            }
+        },
+        
+        
+        "IMAGE_PICKER":{
+            "BTN_Take_One":"IMG_Photo_One",
+            "BTN_Take_Two":"IMG_Photo_Two",
+        },
+        "IMAGES_PREVIEWS":{
+            "IMG_Photo_One":{
+                "X":150
+            },
+            "IMG_Photo_Two":{
+                "X":150
+            }
+        }
+        
+        
+    },
+    
+    
+    "SERVER":{
+        
+        "SUBMIT_BUTTONS" : [
+                            {
+                            
+                            "MODEL_SENDVIEW" : "NESTED_INFO",
+                            
+                            "NESTED_BODY_FOOTER.ZZ_BTNSubmit": {
+                            }
+                            
+                            }
+        ],
+        
+        "CHECK_NOTEMPTY": [
+                            "number","name","category",
+                            "principal","NESTED_BODY_UP_RIGHT.phoneNO","faxNO","address",
+                            "IMG_Photo_One","NESTED_BODY_DOWN.NESTED_BODY_DOWN_LEFT.contactOne",
+                            "NESTED_BODY_DOWN.NESTED_BODY_DOWN_LEFT.phoneNO",
+                            ],
+        
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    "CLIENT": {
+        
+        
+        
+        
+        "CONTROL_MODE" : {
+            
+            "DEFAULT_MODE_SUB":{
+                "UNENABLE":[],
+                "ENABLE":["NESTED_header.BTN_Delete","NESTED_BODY_UP", "BTN_Take_One", "contactOne", "BTN_Take_Two", "contactTwo"]
+            },
+            
+            "READ_MODE_SUB":{
+                "ENABLE":[],
+                "UNENABLE":[ "NESTED_BODY_UP", "BTN_Take_One", "contactOne", "BTN_Take_Two", "contactTwo"]
+            }
+
+        }
+        
+        
+    }
+    
+    
+    
+}

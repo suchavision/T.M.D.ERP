@@ -1,0 +1,352 @@
+
+{
+    
+    
+    "WHEELS" : {
+        
+        "SORTED_Categories" : ["HumanResource","VIP","SharedOrder","Assistant","Statistics","Articles","Finance","Business","Design","FactoryAffair","Vehicle","Security","Purchase","QualityControl","Warehouse","Manufacture","Cards","Approval"],
+        
+        
+        "SORTED_Models" : {
+            
+            "HumanResource": ["Employee","EmployeeCHOrder","EmployeeQuitOrder", "EmployeeLeaveOrder", "EmployeeATTDROrder","EmployeeATTFixOrder","EmployeeATTOrder","EmployeeDormOrder","EmployeeMEOrder","EmployeeMissMealOrder","EmployeeOTOrder","EmployeeSMOrder"],
+            
+            
+            "Warehouse" :["WHRecycleInventory","WHScrapOrder","WHPickingDetailsOrder","WHPickingOrder","WHInventory","WHPurchaseOrder","WHInventoryCHOrderController","WHLendOutOrder",],
+        },
+        
+        
+        
+        "Common": {
+            "WHEELS_VIEWS": {
+                "DEFAULT_" : {
+                    "JCom": "JsonDivView",
+                    "JFrame": [0, 0, 500, 200],
+                    "BGCOLOR": [255, 255, 255, 0.8],
+                    "BORDER": 2,
+                    "BORDERWIDTH": 2,
+                    "COMPONENTS": {
+                        "LABEL": {
+                            "JCom": "JRLocalizeLabel",
+                            "JFrame": [0, 0, 100, 50],
+                            "JSubRender": {"FONT_SIZE":50,   "JR_ENABLE":1 }
+                        }
+                    }
+                    
+                },
+                
+                "DEFAULT" : {
+                    "JCom": "JRImageView",
+                    "BGCOLOR": 0,
+                    "BORDER": 0,
+                    "BORDERWIDTH": 0,
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_1.png",   "JR_ENABLE":1
+                    },
+                    "COMPONENTS": {
+                        "LABEL": {
+                            "JCom": "JRLocalizeLabel",
+                            "JFrame": [0, 0,476, 204],
+                            "JSubRender": {
+                                "FONT_SIZE":35,"FONT_NAME": "GurmukhiMN-Bold"
+                            }
+                        }
+                        
+                    }
+                    
+                }
+            },
+            
+            "WHEELS_BACKGROUNDVIEW": {
+                "JCom": "JRImageView",
+                "JFrame": [0,0,1024,768],
+                "BGCOLOR": [222,45,89, 0.5],
+                "JSubRender":{
+                    "JR_IMG": "Login_BG.png", "JR_ENABLE":0
+                }
+            }
+        },
+
+        
+        "Categories" : {
+            
+            "WHEELS_VIEWS" : {
+                
+                "HumanResource" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_1.png"
+                    },
+                },
+                
+                "VIP" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_17.png"
+                    }
+                },
+                
+                "SharedOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_2.png"
+                    }
+                    
+                },
+                
+                "Assistant" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_3.png"
+                    }
+                    
+                },
+                
+                "Statistics" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_4.png"
+                    }
+                },
+                
+                "Articles" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_5.png"
+                    }
+                },
+                
+                "Finance" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_15.png"
+                    }
+                },
+                
+                "Business" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_6.png"
+                    }
+                },
+                
+                "Design" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_7.png"
+                    }
+                },
+                
+                "Purchase" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_8.png"
+                    }
+                },
+                
+                "QualityControl" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_9.png"
+                    }
+                },
+                
+                "Warehouse" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_10.png"
+                    }
+                },
+                
+                "Manufacture" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_11.png"
+                    }
+                },
+                
+                "FactoryAffair" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_12.png"
+                    }
+                },
+                
+                "Vehicle" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_13.png"
+                    }
+                },
+                
+                "Security" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_14.png"
+                    }
+                },
+                
+                "Cards" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_18.png"
+                    }
+                },
+                
+                "Approval" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_16.png"
+                    }
+                }
+            }
+            
+        },
+        
+        
+        "HumanResource" : {
+            
+            "WHEELS_VIEWS" : {
+                "Employee" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_1.png"
+                    },
+                },
+                
+                "EmployeeCHOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_2.png"
+                    },
+                },
+                
+                "EmployeeQuitOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_3.png"
+                    },
+                },
+                
+                "EmployeeLeaveOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_4.png"
+                    },
+                }
+                
+            }
+            
+        },
+        
+        
+        
+        "Warehouse" : {
+            
+            "WHEELS_VIEWS" : {
+                
+                "WHRecycleInventory" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_1.png"
+                    },
+                    
+                },
+                
+                "WHScrapOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_17.png"
+                    },
+                    
+                },
+                
+                "WHPickingDetailsOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_2.png"
+                    },
+                    
+                },
+                
+                "WHPickingOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_3.png"
+                    },
+                    
+                },
+                
+                
+                "WHInventory" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_4.png"
+                    },
+                    
+                },
+                
+                
+                "WHPurchaseOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_5.png"
+                    },
+                    
+                },
+                
+                
+                "WHInventoryCHOrderController" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_15.png"
+                    },
+                    
+                },
+                
+                
+                "WHLendOutOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_6.png"
+                    },
+                    
+                  
+                    
+                }
+            }
+
+        },
+        "Finance" : {
+            
+            "WHEELS_VIEWS" : {
+
+                "FinanceSalary" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_8.png"
+                    },
+                    
+                },
+                
+                "FinanceSalaryCHOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_9.png"
+                    },
+                    
+                },
+                
+                "FinancePaymentOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_10.png"
+                    },
+                    
+                },
+                
+                "FinanceAccount" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_11.png"
+                    },
+                    
+                },
+                
+                
+                "FinanceAccountCHOrder" : {
+                    "JSubRender":{
+                        "JR_IMG": "Wheel_12.png"
+                    },
+                    
+                }
+            }
+            
+        }
+
+        
+    },
+    
+    
+    
+    
+    "JOBLEVELS": [
+                  ["1", "董事長"],
+                  ["2", "總經理,董事長助理"],
+                  ["3", "副總經理,總經理助理"],
+                  ["4", "經理,副總經理助理"],
+                  ["5", "副理,課長"],
+                  ["6", "副課,財務員"],
+                  ["7", "生管人員,質檢員"],
+                  ["8", "設計員,人事,倉庫"],
+                  ["9", "保安隊長,車隊隊長,班助長"],
+                  ["10", "保安,員工,司機"],
+                  ]
+    
+}

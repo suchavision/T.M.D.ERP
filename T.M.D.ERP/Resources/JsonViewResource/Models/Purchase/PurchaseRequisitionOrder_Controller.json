@@ -1,0 +1,18 @@
+{
+    
+    
+    
+    "CLIENT":{
+        
+        "COMS_DATE_PICKERS": ["requisitionDate"],
+        "COMS_DATE_PATTERNS": {
+            "purchaseDate":"yyyy-MM-dd"
+        },
+        "CREATE_AUTOFILL": {
+            "NOW_DATE":["requisitionDate"],
+        },
+        
+    }
+
+    
+}

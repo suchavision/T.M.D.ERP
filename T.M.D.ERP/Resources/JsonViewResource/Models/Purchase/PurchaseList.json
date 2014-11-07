@@ -1,0 +1,49 @@
+
+{
+    
+    "Vendor" : {
+        "FIELDS": [["id", "number","category","name"]],
+        
+        "HEADERS": ["Vendor.number","Vendor.category","Vendor.name"],
+        "HEADERSX": [50, 260,420],
+        "VALUESX":  [50, 260,420],
+        
+        
+        "FILTERS": {"0":"FILTER_NIL"},
+        
+        
+        
+        "__Delete_Images_Folder": "number"
+        
+    },
+    
+    
+    "PurchaseOrder" : {
+        "FIELDS": [["id", "orderNO"]],
+        
+        "HEADERS": ["orderNO"],
+        "HEADERSX": [50],
+        "VALUESX": [0],
+        
+        
+        "FILTERS": {"0":"FILTER_NIL"}
+    },
+    
+    
+    "PurchaseRequisitionOrder": {
+        "FIELDS": [["id", "orderNO"]],
+        
+        "HEADERS": ["orderNO"],
+        "HEADERSX": [50],
+        "VALUESX": [0],
+        
+        
+        "FILTERS": {"0":"FILTER_NIL"}
+    },
+    
+    
+    
+    
+}
+
+
