@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString* orderNO = [@"GCD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
+    NSString* orderNO = [@"CGD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
     [((id<JRComponentProtocal>)[self.jsonView getView:@"orderNO"]) setValue: orderNO];
     
     __weak PurchaseOrderController *weakSelf = self;
@@ -35,7 +35,7 @@
     vendorTextFiled.textFieldDidClickAction = ^void(JRTextField* textField) {
         NSArray* needFields = @[@"number", @"name", @"principal",@"phoneNO"];
         PickerModelTableView* pickView = [PickerModelTableView popupWithRequestModel:MODEL_VENDOR  fields:needFields criterias:nil];
-         pickView.tableView.headersXcoordinates = @[@(0), @(200), @(520), @(800)];
+         pickView.tableView.headersXcoordinates = @[@(30), @(200), @(520), @(800)];
         // when select
         pickView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
             

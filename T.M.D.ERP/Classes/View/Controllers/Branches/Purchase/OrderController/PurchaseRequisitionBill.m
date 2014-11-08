@@ -18,19 +18,19 @@
     if (self) {
         __weak PurchaseRequisitionBill* weakSelf = self;
         
-        _productCodeTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(0, 0, 180, 50)];
+        _productCodeTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(0, 0, 153, 50)];
         _productCodeTxtField.attribute = attr_productCode;
-        _productNameTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(180, 0, 250, 50)];
+        _productNameTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(155, 0, 188, 50)];
         _productNameTxtField.attribute = attr_productName;
-        _amountTxtField    = [[JRTextField alloc] initWithFrame:CanvasRect(430, 0, 120, 50)];
+        _amountTxtField    = [[JRTextField alloc] initWithFrame:CanvasRect(345, 0, 100, 50)];
         _amountTxtField.attribute = attr_amount;
-        _unitTxtField   = [[JRTextField alloc] initWithFrame:CanvasRect(50, 0, 90, 50)];
+        _unitTxtField   = [[JRTextField alloc] initWithFrame:CanvasRect(445, 0, 115, 50)];
         _unitTxtField.attribute = attr_unit;
-        _unitPriceTxtFieldOne  = [[JRTextField alloc] initWithFrame:CanvasRect(640, 0, 120, 50)];
+        _unitPriceTxtFieldOne  = [[JRTextField alloc] initWithFrame:CanvasRect(560, 0, 110, 50)];
         _unitPriceTxtFieldOne.attribute = attr_unitPriceOne;
-        _unitPriceTxtFieldTwo  = [[JRTextField alloc] initWithFrame:CanvasRect(760, 0, 175, 50)];
-        _unitPriceTxtFieldOne.attribute = attr_unitPriceOne;
-        _unitPriceTxtFieldThree  = [[JRTextField alloc] initWithFrame:CanvasRect(760, 0, 175, 50)];
+        _unitPriceTxtFieldTwo  = [[JRTextField alloc] initWithFrame:CanvasRect(670, 0, 130, 50)];
+        _unitPriceTxtFieldTwo.attribute = attr_unitPriceTwo;
+        _unitPriceTxtFieldThree  = [[JRTextField alloc] initWithFrame:CanvasRect(800, 0, 125, 50)];
         _unitPriceTxtFieldThree.attribute = attr_unitPriceThree;
 
         _productCodeTxtField.textAlignment = NSTextAlignmentCenter;

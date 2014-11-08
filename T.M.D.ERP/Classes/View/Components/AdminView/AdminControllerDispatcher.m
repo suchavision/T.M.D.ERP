@@ -12,11 +12,11 @@
     employeeListController.navigationItem.rightBarButtonItems = nil;
     
     // did click event
-    int nameIndex = [[employeeListController.requestModel.fields firstObject] indexOfObject: @"name"];
-    int employeeNOIndex = [[employeeListController.requestModel.fields firstObject] indexOfObject: @"employeeNO"];
-    employeeListController.headerTableView.tableView.tableViewBaseDidSelectIndexPathAction = ^void(TableViewBase* tableViewObj, NSIndexPath* indexPath) {
-        FilterTableView* filterTableView = (FilterTableView*)tableViewObj;
-        NSArray* contents = [filterTableView getRealContentsAtIndexPath: indexPath];
+    employeeListController.appTableDidSelectRowBlock = ^void(AppSearchTableViewController* controller ,NSIndexPath* realIndexPath) {
+        int nameIndex = [[controller.requestModel.fields firstObject] indexOfObject: @"name"];
+        int employeeNOIndex = [[controller.requestModel.fields firstObject] indexOfObject: @"employeeNO"];
+        
+        NSArray* contents = [controller valueForIndexPath: realIndexPath];
         NSString* userNumber = [contents safeObjectAtIndex: employeeNOIndex];
         NSString* employeeName = [contents safeObjectAtIndex: nameIndex];
         NSMutableArray* actionButtons = [NSMutableArray arrayWithObjects:
@@ -28,15 +28,11 @@
         UIActionSheet* actionSheet =
         [PopupViewHelper popSheet: employeeName inView:[ViewHelper getTopView] actionBlock:^(UIView *view, NSInteger buttonIndex) {
             UIViewController* controller = nil;
-//            UIActionSheet* actionSheet = (UIActionSheet*)view;
-//            NSString* clickButtonTitle = [actionSheet buttonTitleAtIndex: buttonIndex];
-            
             if (buttonIndex == 0) {
                 // edit the permissions
                 DepartmentsEditController *departmentController = (DepartmentsEditController*)[AppViewHelper getDepartmentsWheelController: [DepartmentsEditController class]];
                 departmentController.userNumber = userNumber;
                 departmentController.wheels = [AppDataHelper getAllUserCategoryWheels];
-
                 controller = departmentController;
                 
             } else if (buttonIndex == 1) {
