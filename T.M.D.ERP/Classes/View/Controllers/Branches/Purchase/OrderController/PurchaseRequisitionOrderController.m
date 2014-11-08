@@ -4,6 +4,15 @@
 @interface PurchaseRequisitionOrderController ()
 {
     JRRefreshTableView *_purchaseRequisitionTableView;
+    
+    NSString* vendorNumber;         // 承办厂商编号
+    
+    NSString* vendorNumber1;		// 询价厂商编号
+    
+    NSString* vendorNumber2;		// 询价厂商编号
+    
+    NSString* vendorNumber3;		// 询价厂商编号
+
 }
 
 @end
@@ -68,8 +77,9 @@
         pickView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
             
             FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
-            NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
-            NSArray *array = [filterTableView realContentForIndexPath:realIndexPath];
+            NSArray *array = [filterTableView getRealContentsAtIndexPath:indexPath];
+            
+            vendorNumber1 = [array safeObjectAtIndex: 1];
             NSString *vendorName = [array objectAtIndex:2];
             [jrTextField setValue:vendorName];
             [PickerModelTableView dismiss];
@@ -87,8 +97,9 @@
         pickView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
             
             FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
-            NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
-            NSArray *array = [filterTableView realContentForIndexPath:realIndexPath];
+            NSArray *array = [filterTableView getRealContentsAtIndexPath:indexPath];
+            
+            vendorNumber2 = [array safeObjectAtIndex: 1];
             NSString *vendorName = [array objectAtIndex:2];
             [jrTextField setValue:vendorName];
             [PickerModelTableView dismiss];
@@ -106,8 +117,9 @@
         pickView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
             
             FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
-            NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
-            NSArray *array = [filterTableView realContentForIndexPath:realIndexPath];
+            NSArray *array = [filterTableView getRealContentsAtIndexPath:indexPath];
+            
+            vendorNumber3 = [array safeObjectAtIndex: 1];
             NSString *vendorName = [array objectAtIndex:2];
             [jrTextField setValue:vendorName];
             [PickerModelTableView dismiss];
@@ -116,7 +128,30 @@
         
         
     };
-
+    
+    JRLabelTextFieldView *underTakeVendor = (JRLabelTextFieldView *)[self.jsonView getView:@"vendorName"];
+    JRTextField* underTextField = underTakeVendor.textField;
+    underTextField.textFieldDidClickAction = ^void(JRTextField* tx) {
+        NSString *vendorOne = [vendorName1 getValue];
+        NSString *vendorTwo = [vendorName2 getValue];
+        NSString *vendorThree = [vendorName3 getValue];
+        
+        
+        if(!OBJECT_EMPYT(vendorOne) && vendorTwo != nil && vendorThree != nil)
+        {
+            NSArray *dataSources = [NSArray arrayWithObjects:vendorOne,vendorTwo,vendorThree, nil];
+            NSArray *realDataSources = [NSArray arrayWithObjects:@[vendorNumber1, vendorOne],@[vendorNumber2, vendorTwo],@[vendorNumber3, vendorThree], nil];
+            
+            JRButtonsHeaderTableView* tableViews = [PopupTableHelper showPopTableView: tx titleKey:@"VENDOR" dataSources:dataSources realDataSources:realDataSources];
+            
+            tableViews.tableView.tableView.tableViewBaseDidSelectIndexPathAction = ^void(TableViewBase* tb, NSIndexPath* indexPath) {
+                NSArray* vendorDatas = [tb realContentForIndexPath: indexPath];
+                vendorNumber = [vendorDatas firstObject];
+                [tx setValue: [vendorDatas lastObject]];
+                [PopupTableHelper dissmissCurrentPopTableView];
+            };
+        }
+    };
 }
 
 
@@ -132,6 +167,12 @@
     [requestModel addModel: order];
     
     [requestModel addObject: withoutImagesObjects ];
+    
+    [withoutImagesObjects setObject:vendorNumber forKey:@"vendorNumber"];
+    [withoutImagesObjects setObject:vendorNumber1 forKey:@"vendorNumber1"];
+    [withoutImagesObjects setObject:vendorNumber2 forKey:@"vendorNumber2"];
+    [withoutImagesObjects setObject:vendorNumber3 forKey:@"vendorNumber3"];
+    
     [requestModel.preconditions addObject: @{}];
     
     for (int i = 0; i < _requisitionTableViewDataSource.count; i++) {
@@ -163,39 +204,109 @@
 {
     
     NSArray* results = response.results;
-    DBLOG(@"results === %@", results);
-//    _purchaseFooterCellContents = [ArrayHelper deepCopy: [results lastObject]];
-//    [_purchaseFooterTableView.tableView reloadData];
     
-    NSMutableDictionary* responseObject = [NSMutableDictionary dictionary];
-    NSDictionary* warehousePurchaseOrderValues = [[results firstObject] firstObject];
-    [responseObject setObject:warehousePurchaseOrderValues forKey:@"purchase"];
-    NSMutableDictionary* resultsObj = [DictionaryHelper deepCopy: responseObject];
-    self.valueObjects = resultsObj[@"purchase"];
-    _requisitionTableViewDataSource = results[1];
+    NSMutableDictionary* valuesObjects = [DictionaryHelper deepCopy: [[results firstObject] firstObject]];
+    self.valueObjects = valuesObjects;
+    
+    _requisitionTableViewDataSource = [results lastObject];
     [_purchaseRequisitionTableView reloadTableData];
-    return resultsObj;
+    
+    return valuesObjects;
     
 }
 
 -(void) enableViewsWithReceiveObjects: (NSMutableDictionary*)objects
 {
-    [super enableViewsWithReceiveObjects: objects[@"purchase"]];
+    [super enableViewsWithReceiveObjects: objects];
+    
+    
+    __weak PurchaseRequisitionOrderController* weakSelf = self;
+    
+    if ([JsonControllerHelper isAllApplied: self.order valueObjects:self.valueObjects]) {
+        JRButton *spinPurchaseOrderButton = (JRButton *)[self.jsonView getView:@"spinPurchaseOrder"];
+        [JsonControllerHelper setUserInterfaceEnable: spinPurchaseOrderButton enable:YES];
+        spinPurchaseOrderButton.didClikcButtonAction = ^(id sender){
+            
+            if(! [PermissionChecker checkSignedUserWithAlert: DEPARTMENT_PURCHASE order:ORDER_PurchaseOrder permission:PERMISSION_CREATE]) {
+                return;
+            }
+            
+            
+            RequestJsonModel* jsonModel = [RequestJsonModel getJsonModel];
+            [jsonModel addModel: MODEL_VENDOR];
+            [jsonModel addObject: @{@"number": vendorNumber}];
+            [jsonModel.fields addObject:@[@"number", @"name", @"principal", @"phoneNO"]];
+            jsonModel.path = PATH_LOGIC_READ(DEPARTMENT_PURCHASE);
+            
+            [VIEW.progress show];
+            [MODEL.requester startPostRequest: jsonModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+                [VIEW.progress hide];
+                
+                if (response.status) {
+                    NSArray* vendorInformations = [[response.results firstObject] firstObject];
+                    
+                    NSString* number = [vendorInformations firstObject];
+                    NSString* name = [vendorInformations objectAtIndex: 1];
+                    NSString* principal = [vendorInformations objectAtIndex: 2];
+                    NSString* phoneNO = [vendorInformations objectAtIndex: 3];
+                    
+                    
+                    // ----------
+                    PurchaseOrderController * jsonController = (PurchaseOrderController*)[OrderListControllerHelper getNewJsonControllerInstance: DEPARTMENT_PURCHASE order:ORDER_PurchaseOrder];
+                    
+                    jsonController.controlMode = JsonControllerModeCreate;
+                    jsonController.vendorNumber = number;
+                    
+                    
+                    NSMutableDictionary* destinationObjects = [NSMutableDictionary dictionary];
+                    [destinationObjects setObject:weakSelf.valueObjects[@"orderNO"] forKey:@"bookPurhaseNO"];
+                    [destinationObjects setObject:name forKey:@"vendorName"];
+                    [destinationObjects setObject:principal forKey:@"contact"];
+                    [destinationObjects setObject:phoneNO forKey:@"phoneNO"];
+                    [destinationObjects setObject:[(JRLabelTextView *)[weakSelf.jsonView getView:@"purpose"] getValue] forKey:@"purpose"];
+                    [jsonController.jsonView setModel:destinationObjects];
+                    
+                    
+                    // --------- bills
+                    NSString* unitPriceKey = nil;
+                    if ([number isEqualToString:vendorNumber1]) {
+                        unitPriceKey = @"unitPrice1";
+                    } else if([number isEqualToString: vendorNumber2]) {
+                        unitPriceKey = @"unitPrice2";
+                    } else if([number isEqualToString: vendorNumber3]) {
+                        unitPriceKey = @"unitPrice3";
+                    }
+                    
+                    NSMutableArray* array = [NSMutableArray array];
+                    for (NSMutableDictionary* dic in weakSelf.requisitionTableViewDataSource) {
+                        id unitPrice = dic[unitPriceKey];
+                        NSMutableDictionary* contents = [DictionaryHelper subtract: dic keys:@[@"productCode", @"productName", @"amount", @"unit"]];
+                        [contents setObject: unitPrice forKey:@"unitPrice"];
+                        [array addObject: contents];
+                    }
+                    
+                    [jsonController.purchaseCellContents setArray: array];
+                    
+                    [VIEW.navigator pushViewController: jsonController animated:YES];
+                }
+                
+            }];
+            
+        };
+        
+    }
+
 }
 
 -(void) translateReceiveObjects: (NSMutableDictionary*)objects
 {
-    NSMutableDictionary* orderObjdect = [objects objectForKey:@"purchase"];
-    [super translateReceiveObjects: orderObjdect];
+    [super translateReceiveObjects: objects];
+    
+    vendorNumber = objects[@"vendorNumber"];
+    vendorNumber1 = objects[@"vendorNumber1"];
+    vendorNumber2 = objects[@"vendorNumber2"];
+    vendorNumber3 = objects[@"vendorNumber3"];
 }
 
--(void) renderWithReceiveObjects: (NSMutableDictionary*)objects
-{
-    NSMutableDictionary* purchaseDic = [objects objectForKey:@"purchase"];
-    
-    [self.jsonView setModel: purchaseDic];
-//    _requisitionTableViewDataSource = [purchaseDic objectForKey:];
-    
-}
 
 @end

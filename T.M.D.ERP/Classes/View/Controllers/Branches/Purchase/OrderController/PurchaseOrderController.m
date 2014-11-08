@@ -6,7 +6,7 @@
 @interface PurchaseOrderController ()
 {
     JRRefreshTableView* _purchaseTableView;
-    NSString* vendorNumber;
+    
     JRTextField *_summaryTextField;
 }
 
@@ -15,6 +15,11 @@
 @end
 
 @implementation PurchaseOrderController
+
+
+@synthesize vendorNumber;
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

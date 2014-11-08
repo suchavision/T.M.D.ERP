@@ -65,13 +65,7 @@
         [self.contentView addSubview:_unitTxtField];
         [self.contentView addSubview:_unitPriceTxtField];
         [self.contentView addSubview:_subTotalTxtField];
-        
-        [ColorHelper setBorder: _productCodeTxtField];
-        [ColorHelper setBorder: _productNameTxtField];
-        [ColorHelper setBorder: _amountTxtField];
-        [ColorHelper setBorder: _unitTxtField];
-        [ColorHelper setBorder: _unitPriceTxtField];
-        [ColorHelper setBorder: _unitPriceTxtField];
+      
         
         [self setValidatorTextField];
 
@@ -80,7 +74,6 @@
         
         [ViewHelper iterateSubView: self.contentView class:[JRTextField class] handler:^BOOL(id subView) {
             JRTextField* tx = (JRTextField*) subView;
-            [ColorHelper setBorder:subView];
             tx.enabled = YES;
             return NO;
         }];

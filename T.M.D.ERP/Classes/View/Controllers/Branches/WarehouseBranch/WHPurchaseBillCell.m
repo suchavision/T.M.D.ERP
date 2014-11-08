@@ -48,7 +48,6 @@
         
         [ViewHelper iterateSubView: self.contentView class:[JRTextField class] handler:^BOOL(id subView) {
             JRTextField* tx = (JRTextField*) subView;
-          [ColorHelper setBorder:subView];
             tx.enabled = NO;
             return NO;
         }];

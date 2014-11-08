@@ -21,6 +21,7 @@
 
 
 @implementation WHPurchaseOrderController
+@synthesize vendorNumber;
 
 - (instancetype)init
 {
@@ -56,10 +57,10 @@
             FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
             NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
             NSArray *array = [filterTableView realContentForIndexPath:realIndexPath];
-            
-            NSString* vendorNameValue = [array objectAtIndex:1];
-            NSString* contacterValue = [array objectAtIndex:2];
-            NSString* phoneNoValue = [array objectAtIndex:3];
+        
+            NSString* vendorNameValue = [array objectAtIndex:2];
+            NSString* contacterValue = [array objectAtIndex:3];
+            NSString* phoneNoValue = [array objectAtIndex:4];
             [textField setValue: vendorNameValue];
             [contactTextField setValue:contacterValue];
             [phoneNoTextField setValue:phoneNoValue];
@@ -147,9 +148,13 @@
     
     [objects setObject:_middleTableViewDataSource forKey:@"WHPurchaseBills"];
     if (objects[@"shouldPay"]) [objects setObject:objects[@"shouldPay"] forKey:@"totalPay"];
+    if (vendorNumber && self.controlMode == JsonControllerModeCreate) [objects setObject: vendorNumber forKey:@"vendorNumber"];
+    
+    return objects;
     
     return objects;
 }
+
 
 #pragma mark -
 #pragma mark - Response

@@ -162,8 +162,8 @@
                             "JCom": "JRLabelTextFieldView",
                             "JFrame": [153, 19,245,90],
                             "JSubRender": {
-                                "frames":[[80,10],[50,40,150,50]],
-                                "SubRenders":[{"FONT_SIZE":25}]
+                                "frames":[[80],[50,0,150,100]],
+                                "SubRenders":[{"FONT_SIZE":25}, {"textAlignment":1}]
                             }
                         },
                         
@@ -180,6 +180,7 @@
                             "JFrame": [520,10,50,95],
                             "JSubRender": {
                                 "FONT_SIZE": 20,
+                                "textAlignment": 1
                             }
                         },
                         
@@ -188,7 +189,8 @@
                             "JFrame": [580,23,131,90],
                             "JSubRender": {
                                 "JR_BORDERSTYLE" : 0,
-                                "BGCOLOR":-1
+                                "BGCOLOR":-1,
+                                "textAlignment": 1
                             }
                         },
                         
@@ -197,7 +199,8 @@
                             "JFrame": [711,23,129,90],
                             "JSubRender": {
                                 "JR_BORDERSTYLE" : 0,
-                                "BGCOLOR":-1
+                                "BGCOLOR":-1,
+                                 "textAlignment": 1
                             }
                         },
                         
@@ -206,7 +209,8 @@
                             "JFrame": [840,23,129,90],
                             "JSubRender": {
                                 "JR_BORDERSTYLE" : 0,
-                                "BGCOLOR":-1
+                                "BGCOLOR":-1,
+                                 "textAlignment": 1
                             }
                         },
                         

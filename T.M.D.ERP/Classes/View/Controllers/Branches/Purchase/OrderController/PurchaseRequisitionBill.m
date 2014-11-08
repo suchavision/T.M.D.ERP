@@ -76,22 +76,12 @@
         [self.contentView addSubview:_unitPriceTxtFieldTwo];
         [self.contentView addSubview:_unitPriceTxtFieldThree];
         
-        [ColorHelper setBorder: _productCodeTxtField];
-        [ColorHelper setBorder: _productNameTxtField];
-        [ColorHelper setBorder: _amountTxtField];
-        [ColorHelper setBorder: _unitTxtField];
-        [ColorHelper setBorder: _unitPriceTxtFieldOne];
-        [ColorHelper setBorder: _unitPriceTxtFieldTwo];
-        [ColorHelper setBorder:_unitPriceTxtFieldThree];
-        
-
-        
+               
         [self setValidatorTextField];
         self.backgroundColor = [UIColor clearColor];
         
         [ViewHelper iterateSubView: self.contentView class:[JRTextField class] handler:^BOOL(id subView) {
             JRTextField* tx = (JRTextField*) subView;
-            [ColorHelper setBorder:subView];
             tx.enabled = YES;
             return NO;
         }];
