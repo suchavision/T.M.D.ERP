@@ -6,4 +6,6 @@
 
 - (id)initWithDepartment: (NSString*)department;
 
+-(void) setupAllCellsByOrders: (NSArray*)orders;
+
 @end

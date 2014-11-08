@@ -404,9 +404,6 @@
     if (!dictionary[JSON_FONT_NAME]) {
         label.font = [UIFont fontWithName: @"Arial" size:label.font.pointSize];
     }
-    if (dictionary[JSON_FONT_SIZE]) {
-        label.font = [label.font fontWithSize: CanvasFontSize(label.font.pointSize)];
-    }
     if (!dictionary[JSON_FONT_SIZE]) {
         label.font = [label.font fontWithSize: CanvasFontSize(18)];
     }

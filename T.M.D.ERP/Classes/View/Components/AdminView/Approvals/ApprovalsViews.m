@@ -82,7 +82,6 @@
     for (int i = 0; i < approvals.count; i++) {
         PanelView* panelView = [[PanelView alloc] init];
         panelView.tag = ApprovalsViews_PANEL_VIEW_TAG(i);
-//        [ColorHelper setBorder: panelView];
         [self addSubviewToContentView: panelView];
         panelView.frame = CanvasRect(250, 0, 600, 600);
         
@@ -122,7 +121,7 @@
                 FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
                 NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
                 NSArray* contents = [filterTableView contentForIndexPath: indexPath];
-                id userNumber = [filterTableView realContentForIndexPath: realIndexPath];
+                id userNumber = [[filterTableView realContentForIndexPath: realIndexPath] safeObjectAtIndex: 1];
                 // popup to ask sure
                 [PopupViewHelper popAlert: nil message:LOCALIZE_MESSAGE_FORMAT(@"AskSureToAddApproval", MODEL.usersNONames[userNumber]) style:0 actionBlock:^(UIView *popView, NSInteger index) {
                     if (index == 1) {
