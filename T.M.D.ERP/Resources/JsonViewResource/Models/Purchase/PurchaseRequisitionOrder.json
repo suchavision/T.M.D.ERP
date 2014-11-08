@@ -54,7 +54,8 @@
                         
                         "TABLE_ITEMS_LIST": {
                             "JCom": "JRRefreshTableView",
-                            "JFrame": [25, 15, 935, 265],
+                            "JFrame": [10, 15, 935, 265],
+                            "BORDER": 2,
                             "JSubRender":{
                                 "BGCOLOR": 0,
                                 
@@ -68,7 +69,7 @@
                                 
                                 
                                 "headers":["number", "productNames", "amount", "unit", "unitPriceOne","unitPriceTwo", "unitPriceThree"],
-                                "headersX":[40, 190, 360, 470, 570, 690,810 ],
+                                "headersX":[50, 225, 380, 490, 600, 710,835 ],
                                 "headersY": [10],
                             }
                         },
@@ -80,7 +81,7 @@
                             
                             "JSubRender": {
                                 "frames":[[30,10], [100,0,750,45]],
-                                "SubRenders":[{"BORDER": 11},{"BORDER": 32}]
+                                "SubRenders":[{},{}]
                             }
                         },
                         
@@ -169,14 +170,14 @@
                         
                         "inquirePrice": {
                             "JCom" : "JRLocalizeLabel",
-                            "JFrame": [420,23,70,95],
+                            "JFrame": [420,10,70,95],
                             "JSubRender": {
                                 "FONT_SIZE": 30,
                             }
                         },
                         "VENDOR": {
                             "JCom" : "JRLocalizeLabel",
-                            "JFrame": [520,23,50,95],
+                            "JFrame": [520,10,50,95],
                             "JSubRender": {
                                 "FONT_SIZE": 20,
                             }

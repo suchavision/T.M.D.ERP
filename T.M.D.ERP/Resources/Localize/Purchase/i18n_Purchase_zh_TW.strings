@@ -11,7 +11,7 @@
 "PurchaseRequisitionOrder.inquirePrice"="z";
 "PurchaseRequisitionOrder.requisitionDate"="日期";
 "PurchaseRequisitionOrder.vendorName"="承辦廠商";
-"PurchaseRequisitionOrder.inquirePrice"="廠商";
+"PurchaseRequisitionOrder.inquirePrice"="詢價";
 "Vendor.IMG_Photo_One"="聯絡人一頭像";
 "Vendor.Vendor"="廠商資料卡";
 "Vendor.ZZ_BTNSubmit"="存檔";

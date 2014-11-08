@@ -122,8 +122,8 @@
 #pragma mark - JSON VIEW TEST HERE
     
 
-        JsonController* jsonController = [[EmployeeController alloc] initWithOrder:@"Employee" department:DEPARTMENT_HUMANRESOURCE];
-//    JsonController* jsonController = [[PurchaseRequisitionOrderController alloc] initWithOrder:@"PurchaseRequisitionOrder" department:DEPARTMENT_PURCHASE];
+//        JsonController* jsonController = [[EmployeeController alloc] initWithOrder:@"Employee" department:DEPARTMENT_HUMANRESOURCE];
+    JsonController* jsonController = [[PurchaseRequisitionOrderController alloc] initWithOrder:@"PurchaseRequisitionOrder" department:DEPARTMENT_PURCHASE];
 
 //        JsonController* jsonController = [[WHInventoryController alloc] initWithOrder:@"PurchaseOrder" department:DEPARTMENT_WAREHOUSE];
 //        JsonController* jsonController = [[FinanceReceiptOrderController alloc] initWithOrder:@"FinanceReceiptOrder" department:DEPARTMENT_FINANCE];
@@ -144,8 +144,8 @@
 {
     [super viewDidLoad];
     
-    [self previewJsonView];
-    return;
+//    [self previewJsonView];
+//    return;
     
     
 #pragma mark - Json View

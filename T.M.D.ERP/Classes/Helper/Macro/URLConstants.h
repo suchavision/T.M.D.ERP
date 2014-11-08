@@ -16,7 +16,7 @@
 
 //#define kURL @"http://192.168.0.115"        // Is Air
 
-//#define kURL @"http://192.168.0.105"        // Dong Air
+#define kURL @"http://192.168.0.105"        // Dong Air
 
 #else
 
