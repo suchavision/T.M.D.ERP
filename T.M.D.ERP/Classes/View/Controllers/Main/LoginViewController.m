@@ -144,8 +144,8 @@
 {
     [super viewDidLoad];
     
-    [self previewJsonView];
-    return;
+//    [self previewJsonView];
+//    return;
     
     
 #pragma mark - Json View
