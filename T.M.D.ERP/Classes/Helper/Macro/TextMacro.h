@@ -142,7 +142,11 @@
 /*
  质检
  */
+#define ORDER_PurchaseOrder      @"PurchaseOrder"
 
+/*
+ 采购
+ */
 
 
 #pragma mark -

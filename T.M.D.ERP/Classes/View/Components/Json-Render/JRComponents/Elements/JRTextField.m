@@ -48,6 +48,10 @@
         self.placeholder = dictionary[@"placeholder"];
     }
     
+    if (dictionary[@"textAlignment"]){
+        self.textAlignment = [dictionary[@"textAlignment"] integerValue];
+    }
+    
     // border style
     if (dictionary[k_JR_BORDERSTYLE]) self.borderStyle = [dictionary[k_JR_BORDERSTYLE] integerValue];
     

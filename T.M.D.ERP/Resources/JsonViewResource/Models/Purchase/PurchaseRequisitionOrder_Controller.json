@@ -11,7 +11,14 @@
         "CREATE_AUTOFILL": {
             "NOW_DATE":["requisitionDate"],
         },
-        
+        "CONTROL_MODE" : {
+            
+            "DEFAULT_MODE_SUB":{
+                "UNENABLE":["NESTED_DOWN.spinPurchaseOrder"],
+                "ENABLE":[]
+            },
+        }
+
     }
 
     
