@@ -21,7 +21,7 @@
             return YES;
         };
         self.headerTableViewHeaderHeightAction = ^CGFloat(HeaderTableView* tableObj) {
-          return [FrameTranslater convertCanvasHeight: 60.0f];
+          return [FrameTranslater convertCanvasHeight: 70.0f];
         };
         
         [self.searchBar setHiddenCancelButton: YES];

@@ -17,7 +17,7 @@
 
 
 @interface SetPermissionListController () {
-    NSDictionary* allCellsDictionary;
+    NSArray* allCells;
     NSArray* permissionsMethods;
 }
 
@@ -51,98 +51,80 @@
     [super viewWillAppear: animated];
 }
 
--(void) setContentsDictionary:(NSMutableDictionary *)contentsDictionary
-{
-    NSMutableDictionary* newContentsDictionary = [NSMutableDictionary dictionary];
-    for (NSString* key in contentsDictionary) {
-        NSArray* array = [contentsDictionary objectForKey:key];
-        [newContentsDictionary setObject: [LocalizeHelper localize: array] forKey:key];
-    }
-    [super setContentsDictionary:newContentsDictionary];
-    
-    allCellsDictionary = [self generateCellByOrders: contentsDictionary count:permissionsMethods.count];
-}
 
 #pragma mark - TableViewBaseTableProxy
+
 - (UITableViewCell*)tableViewBase:(TableViewBase *)tableViewObj cellForIndexPath:(NSIndexPath *)indexPath oldCell:(UITableViewCell*)oldCell {
-    NSString* key = self.sections[indexPath.section];
-    UITableViewCell* cell = [[allCellsDictionary objectForKey: key] objectAtIndex: indexPath.row];
-    return cell;
+    return [allCells objectAtIndex: indexPath.row];
 }
 
+-(void) setupAllCellsByOrders: (NSArray*)orders
+{
+    allCells = [self generateCellsByOrders: orders];
+}
 
 #pragma mark - Private methods
--(NSDictionary*) generateCellByOrders: (NSDictionary*)orders count:(int)permisstionCount {
-    NSMutableDictionary* allCells = [NSMutableDictionary dictionary];
+
+-(NSMutableArray*) generateCellsByOrders: (NSArray*)orders {
+    NSMutableArray* results = [NSMutableArray array];
     
-    for (NSString* key in orders) {
-        NSArray* subOrders = [orders objectForKey: key];
-        subOrders = [subOrders sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [obj1 compare: obj2];
-        }];
-        NSMutableArray* subCellsArray = [NSMutableArray array];
-        [allCells setObject: subCellsArray forKey:key];
+    for (int i = 0; i < orders.count; i++) {
+        // get the new cell
+        OrderTableViewCell* cell = [[OrderTableViewCell alloc] init ];
         
-        for (int i = 0; i < subOrders.count; i++) {
-            // get the new cell
-            OrderTableViewCell* cell = [[OrderTableViewCell alloc] init ];
+        NSString* orderType = [orders objectAtIndex: i];
+        NSArray* permissions = [orderPermissions objectForKey: orderType];
+        
+        // set checkboxes
+        for (int tag = 0; tag < permissionsMethods.count; tag++) {
             
-            NSString* orderString = [subOrders objectAtIndex: i];
-            NSArray* permissions = [orderPermissions objectForKey: orderString];
+            CGRect canvas = CGRectMake(0, 0, 65, 65);
+            JRCheckBox* checkBox = [[JRCheckBox alloc] init] ;
+            checkBox.frame = [FrameTranslater convertCanvasRect: canvas];
+            // set x
+            float x = [self.valuesXcoordinates[tag+1] floatValue];
+            [checkBox setOriginX: [FrameTranslater convertCanvasX: x]];
             
-            // set checkboxes
-            for (int tag = 0; tag < permisstionCount; tag++) {
-                
-                CGRect canvas = CGRectMake(0, 0, 65, 65);
-                JRCheckBox* checkBox = [[JRCheckBox alloc] init] ;
-                checkBox.frame = [FrameTranslater convertCanvasRect: canvas];
-                // set x
-                float x = [self.valuesXcoordinates[tag+1] floatValue];
-                [checkBox setOriginX: [FrameTranslater convertCanvasX: x]];
-                
-                checkBox.stateChangedBlock = ^(id sender) {
-                    [self checkBoxStateChanged: sender];
-                };
-//                [ColorHelper setBorder: checkBox];
-                checkBox.tag = tag;             // important  !!
-                [cell addSubview: checkBox];
-                
-                NSString* method = [permissionsMethods objectAtIndex: tag];
-                if ([permissions containsObject: method]) checkBox.checked = YES;
-            }
-            
-            // set the 'select all' button
-            NormalButton* button = [NormalButton buttonWithType: UIButtonTypeSystem];
-            [button setTitle: LOCALIZE_KEY(KEY_SELECTALL) forState:UIControlStateNormal];
-            [button setTitleColor: button.tintColor forState:UIControlStateNormal];
-            button.frame = [FrameTranslater convertCanvasRect: CGRectMake(850, 0, 100, 56)];
-//            [ColorHelper setBorder: button];
-            [cell addSubview: button];
-            button.didClikcButtonAction = ^void(NormalButton* sender) {
-                __block BOOL flag = NO;
-                __block BOOL isChecked = NO;
-                [ViewHelper iterateSubView: cell class:[JRCheckBox class] handler:^BOOL(id subView) {
-                    JRCheckBox* checkBox = (JRCheckBox*)subView;
-                    if (! flag) {
-                        isChecked = ! checkBox.checked;
-                        flag = YES;
-                    }
-                    [checkBox setChecked: isChecked];
-                    [self checkBoxStateChanged: checkBox];
-                    return NO;
-                }];
-                sender.selected = isChecked;
+            checkBox.stateChangedBlock = ^(id sender) {
+                [self checkBoxStateChanged: sender];
             };
+            checkBox.tag = tag;             // important  !!
+            [cell addSubview: checkBox];
             
-            // set order type
-            cell.order = orderString;
-            
-            [subCellsArray addObject: cell];
+            NSString* method = [permissionsMethods objectAtIndex: tag];
+            if ([permissions containsObject: method]) checkBox.checked = YES;
         }
         
+        // set the 'select all' button
+        NormalButton* selectAllButton = [NormalButton buttonWithType: UIButtonTypeSystem];
+        [selectAllButton setTitle: LOCALIZE_KEY(KEY_SELECTALL) forState:UIControlStateNormal];
+        [selectAllButton setTitleColor: selectAllButton.tintColor forState:UIControlStateNormal];
+        selectAllButton.frame = [FrameTranslater convertCanvasRect: CGRectMake(850, 0, 100, 56)];
+        [cell addSubview: selectAllButton];
+        selectAllButton.didClikcButtonAction = ^void(NormalButton* sender) {
+            __block BOOL flag = NO;
+            __block BOOL isChecked = NO;
+            [ViewHelper iterateSubView: cell class:[JRCheckBox class] handler:^BOOL(id subView) {
+                JRCheckBox* checkBox = (JRCheckBox*)subView;
+                if (! flag) {
+                    isChecked = ! checkBox.checked;
+                    flag = YES;
+                }
+                [checkBox setChecked: isChecked];
+                [self checkBoxStateChanged: checkBox];
+                return NO;
+            }];
+            sender.selected = isChecked;
+        };
+        
+        // set order type
+        cell.order = orderType;
+        
+        [results addObject: cell];
     }
     
-    return allCells;
+    
+    return results;
 }
 
 // update the permission data

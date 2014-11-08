@@ -41,7 +41,13 @@
         SetPermissionListController* controller = [[SetPermissionListController alloc] initWithDepartment: department];
         
         controller.orderPermissions = [weakInstance.permissions objectForKey: department];
-        controller.contentsDictionary = [NSMutableDictionary dictionaryWithObject: departmentOrders forKey:department];
+        
+        NSMutableArray* localizeOrdersNames = [LocalizeHelper localize: departmentOrders];
+        NSDictionary* contentsDictionary = @{department: localizeOrdersNames};
+        controller.contentsDictionary = [contentsDictionary mutableCopy];
+        [controller setupAllCellsByOrders:departmentOrders];
+        
+        controller.headerTableView.hideSearchBar = YES;
         
         [VIEW.navigator pushViewController: controller animated:YES];
     };
