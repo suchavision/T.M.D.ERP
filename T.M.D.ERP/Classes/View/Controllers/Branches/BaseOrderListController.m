@@ -112,7 +112,15 @@
     
     JsonController* jsonController = [OrderListControllerHelper getNewJsonControllerInstance: self.department order:self.order];
     jsonController.controlMode = JsonControllerModeCreate;
+    
+    // for cache 
+    JsonControllerScheduledTaskHelper* scheduledTaskHelper = [[JsonControllerScheduledTaskHelper alloc] init];
+    scheduledTaskHelper.jsonController = jsonController;
+    [jsonController setScheduledTaskHelper: scheduledTaskHelper];
+    
     [VIEW.navigator pushViewController: jsonController animated:YES];
+    
+    
 }
 
 

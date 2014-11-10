@@ -308,12 +308,13 @@
 
 
 
-+(void) disableReturnedButton:(JRButton*)returnButton order:(NSString*)order withObjects:(NSDictionary*)objects
++(void) disableOrEnableReturnedButton:(JRButton*)returnButton order:(NSString*)order withObjects:(NSDictionary*)objects
 {
     NSString* lastHasApproval = [JsonControllerHelper getCurrentHasApprovedLevel: order valueObjects:objects];
     BOOL isAllApproved = [JsonControllerHelper isAllApplied: order valueObjects:objects];
-    if ([lastHasApproval isEqualToString:PROPERTY_CREATEUSER] || isAllApproved) {
+    if ([lastHasApproval isEqualToString:PROPERTY_CREATEUSER] || isAllApproved || ![objects[PROPERTY_FORWARDUSER] isEqualToString:MODEL.signedUserName]) {
         [JsonControllerHelper setUserInterfaceEnable: returnButton enable:NO];
+        return;
     }
 }
 
