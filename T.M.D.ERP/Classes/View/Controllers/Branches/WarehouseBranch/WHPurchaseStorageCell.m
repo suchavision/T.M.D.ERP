@@ -123,14 +123,6 @@
     
     _storageUnitPriceTxtField.inputValidator = [[NumericInputValidator alloc]init];
     _storageUnitPriceTxtField.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"WHPurchaseOrder", _storageUnitPriceTxtField.attribute));
-//    
-//    _numTxtField.delegate = self;
-//    _unitPriceTxtField.delegate = self;
-//    _storageNumTxtField.delegate = self;
-//    _storageUnitPriceTxtField.delegate = self;
-    
-//    _subTotalTxtField.userInteractionEnabled = NO;
-//    _storageSubTotalTxtField.userInteractionEnabled = NO;
     
     
     __weak WHPurchaseStorageCell* weakInstance = self;
