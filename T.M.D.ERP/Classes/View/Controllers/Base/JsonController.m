@@ -8,12 +8,13 @@
     JsonControllerScheduledTaskHelper* scheduledTaskHelper;
 }
 
+-(void) setScheduledTaskHelper: (JsonControllerScheduledTaskHelper*)helper
+{
+    scheduledTaskHelper = helper;
+}
+
 -(JsonControllerScheduledTaskHelper*) scheduledTaskHelper
 {
-    if (!scheduledTaskHelper) {
-        scheduledTaskHelper = [[JsonControllerScheduledTaskHelper alloc] init];
-        scheduledTaskHelper.jsonController = self;
-    }
     return scheduledTaskHelper;
 }
 
@@ -364,7 +365,7 @@
 {
     // check and disable returned button
     JRButton* returnBTN = ((JRButton*)[self.jsonView getView: JSON_KEYS(json_NESTED_header, json_BTN_Return)]);
-    [JsonControllerHelper disableReturnedButton: returnBTN order:self.order withObjects:objects];
+    [JsonControllerHelper disableOrEnableReturnedButton: returnBTN order:self.order withObjects:objects];
     
     // this two go first , will cause render controlle mode
     

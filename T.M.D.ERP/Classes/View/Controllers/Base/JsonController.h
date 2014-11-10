@@ -5,6 +5,7 @@
 @class JsonDivView;
 @class RequestJsonModel;
 @class ResponseJsonModel;
+@class JsonControllerScheduledTaskHelper;
 
 @interface JsonController : BaseController
 
@@ -21,6 +22,9 @@
 -(id) initWithOrder: (NSString*)order department:(NSString*)department;
 
 -(JsonView*) jsonView;
+
+-(void) setScheduledTaskHelper: (JsonControllerScheduledTaskHelper*)helper;
+
 -(BOOL) viewWillAppearShouldRequestServer;
 
 

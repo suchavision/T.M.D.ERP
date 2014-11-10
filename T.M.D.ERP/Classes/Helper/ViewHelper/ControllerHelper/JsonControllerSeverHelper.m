@@ -20,8 +20,6 @@
             return;
         }
         
-    } else {
-        
         if (! OBJECT_EMPYT(valueObjects[currentHasApprovedLevel])) {
             if ([MODEL.signedUserName isEqualToString:valueObjects[currentHasApprovedLevel]]) {
                 [objects setObject:@"" forKey:currentHasApprovedLevel];
