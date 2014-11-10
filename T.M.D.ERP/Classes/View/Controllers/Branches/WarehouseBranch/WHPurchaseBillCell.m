@@ -62,7 +62,6 @@
 {
     [super setDatas:cotents];
     float finalValue = [_payablesTxtField.text floatValue] - [_currentPaymentTxtField.text floatValue];
-//    NSString *finalValueString = [NSString stringWithFormat:@"%.2f",finalValue];
     NSString *finalValueString = [[NSNumber numberWithFloat:finalValue] stringValue];
     _unPaidTxtField.text = finalValueString;
 }
