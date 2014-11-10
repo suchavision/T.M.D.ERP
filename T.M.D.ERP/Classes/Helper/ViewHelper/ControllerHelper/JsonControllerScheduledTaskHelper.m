@@ -17,7 +17,7 @@
 }
 
 
--(void) viewWillAppearCheckRegisterCache
+-(void) viewDidAppearCheckRegisterCache
 {
     if (jsonController.controlMode == JsonControllerModeCreate) {
         // start

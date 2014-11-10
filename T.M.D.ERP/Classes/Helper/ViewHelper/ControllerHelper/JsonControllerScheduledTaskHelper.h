@@ -12,7 +12,7 @@
 
 -(void) viewWillDisappearUnRegisterCache;
 
--(void) viewWillAppearCheckRegisterCache;
+-(void) viewDidAppearCheckRegisterCache;
 
 -(void) didCreateOrderDeleteCacheFile;
 
