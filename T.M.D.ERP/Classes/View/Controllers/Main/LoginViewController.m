@@ -250,20 +250,6 @@
 //           [AppViewHelper alertWarning: @"Verify Code Cannot Be Empty!"];
 //            return;
 //        }
-//    NSData* data = UIImagePNGRepresentation([UIImage imageNamed:@"camera.png"]);
-//    NSString* fileName = @"/Users/isaacs/Desktop/camera.png";
-//    NSDictionary* parameters = @{UPLOAD_Data: data, UPLOAD_FileName: fileName, UPLOAD_MIMEType: @"image/png"};
-//    HTTPUploader* uploader = [[HTTPUploader alloc] initWithURLString:@"http://127.0.0.1:7072/ERPWebServer/resource/upload" parameters:parameters timeoutInterval:100];
-//    
-//    [uploader startRequest:^(HTTPRequestBase *httpRequest, NSURLResponse *response, NSData *data, NSError *connectionError) {
-//       
-//        NSString* string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        NSLog(@"%@, %@", response, string);
-//        
-//        
-//    }];
-//    
-//    return;
     
     
     NSString* tokenStr = [UserInstance sharedInstance].DGUDID;

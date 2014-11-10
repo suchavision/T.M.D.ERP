@@ -8,6 +8,15 @@
     JsonControllerScheduledTaskHelper* scheduledTaskHelper;
 }
 
+-(JsonControllerScheduledTaskHelper*) scheduledTaskHelper
+{
+    if (!scheduledTaskHelper) {
+        scheduledTaskHelper = [[JsonControllerScheduledTaskHelper alloc] init];
+        scheduledTaskHelper.jsonController = self;
+    }
+    return scheduledTaskHelper;
+}
+
 -(id) initWithOrder: (NSString*)order department:(NSString*)department
 {
     self = [super initWithNibName:nil bundle:nil];
@@ -16,8 +25,6 @@
         self.department = department;
         self.controlMode = JsonControllerModeNull;
         
-        scheduledTaskHelper = [[JsonControllerScheduledTaskHelper alloc] init];
-        scheduledTaskHelper.jsonController = self;
     }
     return self;
 }
@@ -57,14 +64,14 @@
 {
     [super viewWillDisappear:animated];
     
-    [scheduledTaskHelper viewWillDisappearUnRegisterCache];
+    [[self scheduledTaskHelper] viewWillDisappearUnRegisterCache];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [scheduledTaskHelper viewWillAppearCheckRegisterCache];
+    [[self scheduledTaskHelper] viewDidAppearCheckRegisterCache];
 }
 
 -(JsonView *)jsonView
@@ -482,7 +489,7 @@
     }
     
     
-    [scheduledTaskHelper didCreateOrderDeleteCacheFile];
+    [[self scheduledTaskHelper] didCreateOrderDeleteCacheFile];
 }
 
 -(void) didFailedSendObjects: (NSMutableDictionary*)objects response:(ResponseJsonModel*)response
