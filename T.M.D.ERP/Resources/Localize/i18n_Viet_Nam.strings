@@ -48,15 +48,14 @@
 "FAILED"="thất bại";
 "FactoryAffair"="Bộ phận nhà máy";
 "Files"="tập tin";
-"FinaceReceiptOrder"="z";
-"FinaceReceiptOrder.payer"="z";
-"FinaceReceiptOrder.receiveDate"="z";
-"FinaceReceiptOrder.receiveWay"="z";
-"FinaceReceiptOrder.receiver"="z";
 "Finance"="Vụ Tài chính";
 "FinanceAccount"="Thông tin tài khoản";
 "FinanceAccountCHOrder"="tài khoản giao dịch";
 "FinancePaymentOrder"="thanh toán duy nhất";
+"FinanceReceiptOrder"="z";
+"FinanceReceiptOrder.receiveDate"="z";
+"FinanceReceiptOrder.receiveWay"="z";
+"FinanceReceiptOrder.receiver"="z";
 "FinanceSalary"="Bảng lương";
 "FinanceSalaryCHOrder"="giao dịch biên chế";
 "Friday"="z";
@@ -158,6 +157,7 @@
 "Work"="công việc";
 "YES"="được";
 "ZZ_BTNSubmit"="lưu trữ";
+"accountName"="z";
 "address"="địa chỉ";
 "age"="tuổi";
 "already"="z";
@@ -215,6 +215,7 @@
 "jobPosition"="bài";
 "jobTitle"="tiêu đề";
 "languageSet"="ngôn ngư";
+"lastUnitPrice"="z";
 "leaveFactory"="nhà máy";
 "leaveType"="không để lại";
 "limit"="giới hạn";
@@ -233,8 +234,10 @@
 "number"="số";
 "order"="Đặt hàng";
 "orderNO"="số lẻ";
+"orderNo"="z";
 "password"="mật khẩu";
 "payMode"="z";
+"payer"="z";
 "pendingApprovalsCount"="Trong khi chờ tin";
 "people"="z";
 "permission"="z";
@@ -249,6 +252,7 @@
 "purpose"="z";
 "re_password"="tra";
 "read"="xem";
+"receiveWay"="z";
 "references"="Tài liệu liên quan";
 "rememberPawword"="nhớ mật khẩu";
 "rememberUserName"="nhớ tài khoản";
@@ -260,6 +264,7 @@
 "save"="tiết kiệm";
 "settings"="thiết lập";
 "shouldPay"="z";
+"shouldReceive"="z";
 "show"="chương trình";
 "signature"="chữ ký";
 "signin"="z";

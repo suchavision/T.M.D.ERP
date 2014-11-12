@@ -34,7 +34,6 @@
     NSString* orderNO = [@"QGD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
     [((id<JRComponentProtocal>)[self.jsonView getView:@"orderNO"]) setValue: orderNO];
     _purchaseRequisitionTableView = (JRRefreshTableView *)[self.jsonView getView:@"NESTED_MIDDLE.TABLE_ITEMS_LIST"];
-    NSArray *array = [NSArray array];
        _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase *tableViewObject){
         return 1;
     };

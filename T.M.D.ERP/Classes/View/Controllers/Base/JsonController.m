@@ -1,6 +1,5 @@
 #import "JsonController.h"
 #import "AppInterface.h"
-// ss
 @implementation JsonController
 {
     JsonView* jsonView;

@@ -1,86 +1,71 @@
 #import "FinanceReceiptOrderController.h"
 #import "AppInterface.h"
-#import "FinancePaymentBillCell.h"
+#import "FinanceReceiptBill.h"
 
 
-
-#define STAFF_CATEGORY              @"staffCategory"
-#define STAFF_NUMBER                @"staffNO"
-#define ReferenceOrder_Attr_TotalShouldPay @"totalPay"
 
 @implementation FinanceReceiptOrderController
 {
     JRRefreshTableView* tableLeft;
     JRImagesTableView* tableRight;
     
-    // Table Right   ------------ Begin ---------------------------------
     NSMutableArray* tableRightSectionContents;
-    // Table Right   ------------ End ---------------------------------
-    
-    
-    // Table Left   ------------ Begin ---------------------------------
     NSMutableArray* tableLeftSectionBillsContents;
-    // Table Left   ------------ End ---------------------------------
+   
 }
 
--(void)didReceiveMemoryWarning
+- (instancetype)init
 {
-    [super didReceiveMemoryWarning];
-    
-    NSLog(@"FinancePaymentOrderController ----- didReceiveMemoryWarning");
-}
-
--(void)dealloc
-{
-    NSLog(@"FinancePaymentOrderController ----- dealloc");
-    
-    [tableRight stopLazyLoading];
-    [tableRight.loadImages removeAllObjects];
-    
-    tableLeft = nil;
-    tableRight = nil;
-    
-    [tableRightSectionContents removeAllObjects];
-    tableRightSectionContents = nil;
-    
-    
-    [tableLeftSectionBillsContents removeAllObjects];
-    tableLeftSectionBillsContents = nil;
-    
+    self = [super init];
+    if (self) {
+        self->tableLeftSectionBillsContents = [[NSMutableArray alloc] init];
+        tableRightSectionContents  = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    tableRightSectionContents = [NSMutableArray array];
-    tableLeftSectionBillsContents = [NSMutableArray array];
     JsonView* jsonView = self.jsonView;
     __weak FinanceReceiptOrderController* weakSelf = self;
+    __block FinanceReceiptOrderController *blockWeakSelf = self;
     NSDictionary* specConfig = self.specifications[@"Specifications"];
     
-    JRButton* priorPageBTN = (JRButton*)[self.jsonView getView:json_BTN_PriorPage];
-    JRButton* nextPageBTN = (JRButton*)[self.jsonView getView: json_BTN_NextPage];
-    JRButton* backBTN = (JRButton*)[self.jsonView getView: JSON_KEYS(json_NESTED_header, json_BTN_Back)];
     
-    
-    NormalButtonDidClickBlock superPriorPageBTNBlock = priorPageBTN.didClikcButtonAction;
-    priorPageBTN.didClikcButtonAction = ^void(id sender) {
-        [tableRight stopLazyLoading];
-        superPriorPageBTNBlock(sender);
-        NSLog(@"priorPageBTN-------");
+    tableLeft = (JRRefreshTableView *)[jsonView getView:@"NESTED_MAIN_Table.TABLE_Left"];
+    tableLeft.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase *tableViewObj)
+    {
+        return 1;
     };
-    NormalButtonDidClickBlock superNextPageBTNBlock = nextPageBTN.didClikcButtonAction;
-    nextPageBTN.didClikcButtonAction = ^void(id sender) {
-        [tableRight stopLazyLoading];
-        superNextPageBTNBlock(sender);
-        NSLog(@"nextPageBTN-------");
+    tableLeft.tableView.tableViewBaseNumberOfRowsInSectionAction = ^NSInteger(TableViewBase *tableViewObj , NSInteger section){
+        return weakSelf.controlMode == JsonControllerModeCreate ?  blockWeakSelf->tableLeftSectionBillsContents.count+1 : blockWeakSelf-> tableLeftSectionBillsContents.count;
+    
+    };
+    tableLeft.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase *tableViewObj , NSIndexPath *indexPath, UITableViewCell *olderCell){
+        static NSString *CellIdentifier = @"cell";
+        FinanceReceiptBill *cell = [tableViewObj dequeueReusableCellWithIdentifier:CellIdentifier];
+        if(!cell)
+        {
+            cell = [[FinanceReceiptBill alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell.didEndEditNewCellAction = ^void(BaseJRTableViewCell* cell){
+                FinanceReceiptBill* purchaseCell = (FinanceReceiptBill*)cell;
+                NSIndexPath* indexPath = [tableViewObj indexPathForCell: purchaseCell];
+                int row = indexPath.row;
+                if (row == blockWeakSelf->tableLeftSectionBillsContents.count) {
+                    [blockWeakSelf->tableLeftSectionBillsContents addObject:[cell getDatas]];
+                } else {
+                    [blockWeakSelf->tableLeftSectionBillsContents replaceObjectAtIndex:row withObject:[cell getDatas]];
+                }
+                
+                [tableViewObj reloadData];
+                [tableViewObj scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            };
 
-    };
-    backBTN.didClikcButtonAction = ^void(id sender) {
-        [tableRight stopLazyLoading];
-        [VIEW.navigator popViewControllerAnimated: YES];
-        NSLog(@"backBTN-------");
+        }
+        [cell setDatas: [blockWeakSelf->tableLeftSectionBillsContents safeObjectAtIndex: indexPath.row]];
+        return cell;
     };
     
     
@@ -157,23 +142,6 @@
     
 }
 
--(RequestJsonModel*) assembleSendRequest: (NSMutableDictionary*)withoutImagesObjects order:(NSString*)order department:(NSString*)department
-{
-    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
-    requestModel.path = PATH_LOGIC_CREATE(department);
-    [requestModel addModel: order];
-    [requestModel addObject: withoutImagesObjects ];
-    [requestModel.preconditions addObject: @{}];
-    
-    for (int i = 0; i < tableLeftSectionBillsContents.count; i++) {
-        NSMutableDictionary* itemValues = tableLeftSectionBillsContents[i];
-        [requestModel addModel: BILL_FinancePaymentBill];
-        [requestModel addObject: itemValues];
-        [requestModel.preconditions addObject: @{attr_paymentOrderNO:@"0-orderNO"}];
-    }
-    
-    return requestModel;
-}
 
 -(void) didSuccessSendObjects: (NSMutableDictionary*)objects response:(ResponseJsonModel*)response
 {
@@ -206,7 +174,6 @@
 }
 
 
-#pragma mark - Private Methods
 
 // Table Right   ------------ Begin ---------------------------------
 // Right Table Image Names
@@ -227,9 +194,10 @@
 }
 -(NSString*) getRightTableImagePath
 {
-    NSString* signatureImagePath = [JsonControllerHelper getImageNamePathWithOrder:self.order attribute:@"IMG_Signature" jsoncontroller:self];
-    NSString* orderResourcesPath = [signatureImagePath stringByDeletingLastPathComponent];
-    NSString* rightTableImagePath = [orderResourcesPath stringByAppendingPathComponent: @"images"];
+    NSString* departmentOrderTypePath = [JsonControllerHelper getImagesHomeFolder: self.order department:self.department];
+    NSString* orderNO = self.valueObjects[PROPERTY_ORDERNO];
+    NSString* orderNOFolderPath = [departmentOrderTypePath stringByAppendingString:orderNO];
+    NSString* rightTableImagePath = [orderNOFolderPath stringByAppendingPathComponent: @"images"];
     return  rightTableImagePath;
 }
 // Table Right   ------------ End ---------------------------------
@@ -237,6 +205,79 @@
 
 
 
+
+#pragma mark -
+#pragma mark - Request
+-(RequestJsonModel*) assembleSendRequest: (NSMutableDictionary*)withoutImagesObjects order:(NSString*)order department:(NSString*)department
+{
+    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
+    requestModel.path = PATH_LOGIC_CREATE(department);
+    [requestModel addModel: order];
+    [requestModel addObject: withoutImagesObjects ];
+    [requestModel.preconditions addObject: @{}];
+    
+    for (int i = 0; i < tableLeftSectionBillsContents.count; i++) {
+        NSMutableDictionary* itemValues = tableLeftSectionBillsContents[i];
+        [requestModel addModel: @"FinanceReceiptBill"];
+        [requestModel addObject: itemValues];
+        [requestModel.preconditions addObject: @{@"receiptOrderNO":@"0-orderNO"}];
+    }
+    
+    return requestModel;
+}
+
+
+
+
+
+-(RequestJsonModel*) assembleReadRequest:(NSDictionary*)objects
+{
+    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
+    requestModel.path = PATH_LOGIC_READ(self.department);
+    [requestModel addModels: self.order, @"FinanceReceiptBill", nil];
+    [requestModel addObjects: objects, @{}, nil];
+    [requestModel.preconditions addObjectsFromArray: @[@{}, @{@"receiptOrderNO": @"0-0-orderNO"}]];
+    return requestModel;
+}
+
+-(NSMutableDictionary*) assembleSendObjects: (NSString*)divViewKey
+{
+    NSMutableDictionary* objects = [super assembleSendObjects:divViewKey];
+    
+//    if (vendorNumber && self.controlMode == JsonControllerModeCreate) [objects setObject: vendorNumber forKey:@"vendorNumber"];
+    
+    return objects;
+}
+
+
+#pragma mark -
+#pragma mark - Response
+-(NSMutableDictionary*) assembleReadResponse: (ResponseJsonModel*)response
+{
+    NSArray* results = response.results;
+    
+    DLOG(@"++++++++++ %@", results);
+    
+    NSDictionary* orderValues = [[results firstObject] firstObject];
+    self.valueObjects = [DictionaryHelper deepCopy: orderValues];
+    
+    NSArray* billValues = [results lastObject];
+    [tableLeftSectionBillsContents setArray:billValues];
+    [tableLeft reloadTableData];
+    
+    return self.valueObjects;
+}
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Private Methods
 
 
 

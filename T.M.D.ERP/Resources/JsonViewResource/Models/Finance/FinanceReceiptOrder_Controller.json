@@ -1,30 +1,4 @@
 {
-    "IMAGES" : {
-        "IMAGES_LOAD": ["IMG_Signature"],
-        
-        "IMAGES_NAMES": {
-            "IMG_Signature": {
-                "MAINNAME": ["orderNO","staffCategory*staffNO"],
-                "SUF":"_PayeeSIGN.png"
-            }
-        },
-        
-        "IMAGES_DATAS": {
-            "IMG_Signature": {
-                "IS_SAVE_AS_PNG_DATA": 1
-            }
-        },
-        
-        "IMAGES_PREVIEWS":{
-            "IMG_Signature":{
-            }
-        }
-        
-    },
-    
-    
-    
-    
     
     
     
@@ -45,12 +19,15 @@
     "CLIENT": {
         
         "CREATE_AUTOFILL": {
-            "NOW_DATE":["createDate"]
+            "NOW_DATE":["receiveDate"]
         },
-        "COMS_DATE_PATTERNS": {
-            "createDate":"yyyy-MM-dd"
-        },
+        "COMS_DATE_PICKERS": ["receiveDate"],
         
+        "COMS_DATE_PATTERNS": {
+            "receiveDate":"yyyy-MM-dd"
+        },
+
+    
         "COMS_SIGNATURE_BUTTONS": {
             "signature": "IMG_Signature"
         },

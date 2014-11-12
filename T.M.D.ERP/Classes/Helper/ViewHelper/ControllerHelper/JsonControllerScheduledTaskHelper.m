@@ -3,6 +3,8 @@
 #import "AppInterface.h"
 
 
+#define CacheIntervalTime 10
+
 
 @implementation JsonControllerScheduledTaskHelper
 
@@ -21,13 +23,14 @@
 {
     if (jsonController.controlMode == JsonControllerModeCreate) {
         // start
-        [ScheduledTask.sharedInstance registerSchedule:self timeElapsed:20 repeats:0];
+        [ScheduledTask.sharedInstance registerSchedule:self timeElapsed:CacheIntervalTime repeats:0];
         
         // get and set to view
         NSString* cachePath = [self getWritingFilePath: jsonController.department order:jsonController.order];
         NSDictionary* objects = [JsonFileManager getJsonFromPath: cachePath];
         if ([self needToWriteOrRenderCache: objects]) {
-            [jsonController.jsonView setModel: objects];
+            NSMutableDictionary* valueObjects = [DictionaryHelper deepCopy: objects];
+            [jsonController renderWithReceiveObjects: valueObjects];
         }
     }
 }
@@ -46,8 +49,9 @@
 {
     if (jsonController.controlMode != JsonControllerModeCreate) return;
     
-    NSDictionary* withImagesObjects = [jsonController.jsonView getModel];
+    NSDictionary* withImagesObjects = [jsonController assembleSendObjects: nil];
     NSMutableDictionary* objects = [DictionaryHelper filter:withImagesObjects withType:[UIImage class]];
+    
     if ([self needToWriteOrRenderCache: objects]) {
         NSString* jsonString = [CollectionHelper convertJSONObjectToJSONString: objects];
         NSString* cachePath = [self getWritingFilePath: jsonController.department order:jsonController.order];

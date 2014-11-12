@@ -12,6 +12,8 @@
 
 @property (strong) NSMutableArray* purchaseCellContents;
 
+@property (assign) BOOL isRefreshLastUnitPrice ;
+
 @end
 
 @implementation PurchaseOrderController
@@ -71,9 +73,10 @@
         return weakSelf.controlMode == JsonControllerModeCreate ? weakSelf.purchaseCellContents.count + 1 : weakSelf.purchaseCellContents.count;
     };
     _purchaseTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj, NSIndexPath *indexPath) {
-        return YES;
+        return YES ;
     };
     _purchaseTableView.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase* tableViewObj, NSIndexPath* indexPath, UITableViewCell* oldCell) {
+        
         static NSString *CellIdentifier = @"Cell";
         PurchaseBillCell* cell = [tableViewObj dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -83,20 +86,33 @@
                 PurchaseBillCell* purchaseCell = (PurchaseBillCell*)cell;
                 NSIndexPath* indexPath = [tableViewObj indexPathForCell: purchaseCell];
                 int row = indexPath.row;
+                
+                id cellDatas = [cell getDatas];
+                
                 if (row == weakSelf.purchaseCellContents.count) {
-                    [weakSelf.purchaseCellContents addObject:[cell getDatas]];
+                    [weakSelf.purchaseCellContents addObject:cellDatas];
                 } else {
-                    [weakSelf.purchaseCellContents replaceObjectAtIndex:row withObject:[cell getDatas]];
+                    [weakSelf.purchaseCellContents replaceObjectAtIndex:row withObject:cellDatas];
                 }
                 
+                weakSelf.isRefreshLastUnitPrice = NO;
                 [tableViewObj reloadData];
                 [tableViewObj scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
             };
         }
         
-        NSDictionary* cellValue = [weakSelf.purchaseCellContents safeObjectAtIndex: indexPath.row];
-        [cell setDatas: cellValue];
-        [weakSelf refreshTotal];
+        NSDictionary* cellValues = [weakSelf.purchaseCellContents safeObjectAtIndex: indexPath.row];
+        [cell setDatas: cellValues];
+        
+        [weakSelf refreshCaculateTotal];
+        
+        
+        if (indexPath.row == weakSelf.purchaseCellContents.count - 1) {
+            if (! weakSelf.isRefreshLastUnitPrice) {
+                [weakSelf refreshLastUnitPrice];
+            }
+        }
+        
         return cell;
     };
     
@@ -160,7 +176,7 @@
     NSDictionary* orderValues = [[results firstObject] firstObject];
     self.valueObjects = [DictionaryHelper deepCopy: orderValues];
     
-    NSArray* billValues = [results lastObject];
+    NSArray* billValues = [ArrayHelper deepCopy: [results lastObject]];
     [self.purchaseCellContents setArray:billValues];
     [_purchaseTableView reloadTableData];
     
@@ -206,7 +222,7 @@
     }
 }
 
--(void)refreshTotal
+-(void)refreshCaculateTotal
 {
     if (_purchaseCellContents.count == 0) return;
     float subTotalFloat = 0;
@@ -222,6 +238,50 @@
 
 }
 
+
+-(void) refreshLastUnitPrice
+{
+     NSLog(@"--------refreshLastUnitPrice ++++++++ ");
+    
+    RequestJsonModel* jsonModel = [RequestJsonModel getJsonModel];
+    jsonModel.path = PATH_LOGIC_READ(self.department);
+    
+    NSArray* dataSources = self.purchaseCellContents;
+    for (NSDictionary* cellValues in dataSources ) {
+        NSString* productCode = [cellValues objectForKey:attr_productCode];
+        
+        [jsonModel addModel:@"PurchaseBill"];
+        [jsonModel addObject: @{attr_productCode: productCode}];
+        [jsonModel.fields addObject:@[attr_productCode, attr_unitPrice]];
+        [jsonModel.limits addObject:@[@(0), @(1)]];
+        [jsonModel.sorts addObject: @[@"id.DESC"]];
+        
+    }
+    
+    __weak PurchaseOrderController *weakSelf = self;
+    
+    [MODEL.requester startPostRequest:jsonModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+        if (response.status) {
+            NSArray* results = response.results;
+            
+            for (int i = 0; i < results.count; i++) {
+                
+                NSArray* values = results[i];
+                NSArray* fieldsValues = [values firstObject];
+//                NSString* productCode = [fieldsValues firstObject];
+                NSNumber* lastUnitPrice = [fieldsValues lastObject];
+                
+                if(!lastUnitPrice) return ;
+                [[weakSelf.purchaseCellContents safeObjectAtIndex:i] setObject:lastUnitPrice forKey:attr_lastUnitPrice];
+            }
+        }
+        
+        [_purchaseTableView reloadTableData];
+        weakSelf.isRefreshLastUnitPrice = YES;
+        
+    }];
+    
+}
 
 
 

@@ -27,7 +27,7 @@
                             "JFrame": [0,5,250,40],
                             "JSubRender": {
                                 "frames":[[], [], []],
-                                "SubRenders":[{},{},{"JR_IMG":"PettyApplicationForm_01.png","JR_ENABLE":0}]
+                                "SubRenders":[{"CH_SPACE": "7"},{},{"JR_IMG":"PettyApplicationForm_01.png","JR_ENABLE":0}]
                             }
                         },
                         
@@ -36,7 +36,7 @@
                             "JFrame": [290,5,250,40],
                             "JSubRender": {
                                 "frames":[[], [], []],
-                                "SubRenders":[{},{},{"JR_IMG":"PettyApplicationForm_01.png"}]
+                                "SubRenders":[{"CH_SPACE": "2"},{},{"JR_IMG":"PettyApplicationForm_01.png"}]
                             }
                         },
                         
@@ -45,7 +45,7 @@
                             "JFrame": [620,5,250,40],
                             "JSubRender": {
                                 "frames":[[], [], []],
-                                "SubRenders":[{"CH_SPACE": "1"},{},{"JR_IMG":"PettyApplicationForm_01.png", "JR_ISNAME_NO": 1}]
+                                "SubRenders":[{"CH_SPACE": "2"},{},{"JR_IMG":"PettyApplicationForm_01.png", "JR_ISNAME_NO": 1}]
                             }
                         },
                         
@@ -69,7 +69,7 @@
                         },
                         
                         
-                        "receivebankAccount": {
+                        "accountName": {
                             "JCom" : "JRLabelCommaTextFieldView",
                             "JFrame": [620,65,370,40],
                             "JSubRender": {
@@ -97,9 +97,9 @@
                         },
                         "feeDescription": {
                             "JCom" : "JRLabelTextView",
-                            "JFrame": [0,0,600,100],
+                            "JFrame": [0,0,950,100],
                             "JSubRender": {
-                                "frames":[[40,0,100,30],[140,5,450,85]],
+                                "frames":[[40,0,100,30],[140,20,800,85]],
                                 "SubRenders":[{"JS_FONT_N_COLOR":[1,1,1],"BORDER_":5},{"BORDER_":4}]
                             }
                         },

@@ -103,8 +103,8 @@
                                 "headerHeight": 45,
                                 
                                 
-                                "headers":["productCode", "productNames", "amount", "unit", "unitPrice", "subtotal"],
-                                "headersX":[50, 250, 470, 575, 680, 830],
+                                "headers":["productCode", "productNames", "amount", "unit", "unitPrice", "lastUnitPrice", "subtotal"],
+                                "headersX":[50, 260, 470, 575, 660, 744, 860],
                                 "headersY": [10],
                             }
                         },
@@ -163,7 +163,14 @@
                         },
                         "line_5" : {
                             "JCom": "JRImageView",
-                            "JFrame": [780, 0],
+                            "JFrame": [750, 0],
+                            "JSubRender":{
+                                "JR_IMG": "PurchaseOrder_02.png"
+                            }
+                        },
+                        "line_6" : {
+                            "JCom": "JRImageView",
+                            "JFrame": [850, 0],
                             "JSubRender":{
                                 "JR_IMG": "PurchaseOrder_02.png"
                             }

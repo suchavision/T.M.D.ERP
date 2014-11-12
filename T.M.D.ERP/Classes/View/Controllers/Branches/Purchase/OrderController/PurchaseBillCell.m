@@ -6,6 +6,7 @@
 @property(nonatomic, strong) JRTextField* productCodeTxtField;
 @property(nonatomic, strong) JRTextField* productNameTxtField;
 @property(nonatomic, strong) JRTextField* amountTxtField;
+@property(nonatomic, strong) JRTextField* lastUnitPrice;
 @property(nonatomic, strong) JRTextField* unitTxtField;
 @property(nonatomic, strong) JRTextField* unitPriceTxtField;
 @property(nonatomic, strong) JRTextField* subTotalTxtField;
@@ -19,17 +20,19 @@
     if (self) {
          __weak PurchaseBillCell* weakSelf = self;
         
-        _productCodeTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(0, 0, 180, 50)];
+        _productCodeTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(0, 0, 160, 50)];
         _productCodeTxtField.attribute = attr_productCode;
-        _productNameTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(180, 0, 250, 50)];
+        _productNameTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(190, 0, 200, 50)];
         _productNameTxtField.attribute = attr_productName;
-        _amountTxtField    = [[JRTextField alloc] initWithFrame:CanvasRect(430, 0, 120, 50)];
+        _amountTxtField    = [[JRTextField alloc] initWithFrame:CanvasRect(425, 0, 120, 50)];
         _amountTxtField.attribute = attr_amount;
-        _unitTxtField   = [[JRTextField alloc] initWithFrame:CanvasRect(550, 0, 90, 50)];
+        _unitTxtField   = [[JRTextField alloc] initWithFrame:CanvasRect(548, 0, 90, 50)];
         _unitTxtField.attribute = attr_unit;
-        _unitPriceTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(640, 0, 120, 50)];
+        _unitPriceTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(616, 0, 120, 50)];
         _unitPriceTxtField.attribute = attr_unitPrice;
-        _subTotalTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(760, 0, 175, 50)];
+        _lastUnitPrice = [[JRTextField alloc] initWithFrame:CanvasRect(762, 0, 70, 50)];
+        _lastUnitPrice.attribute = attr_lastUnitPrice;
+        _subTotalTxtField  = [[JRTextField alloc] initWithFrame:CanvasRect(785, 0, 175, 50)];
         _productCodeTxtField.textAlignment = NSTextAlignmentCenter;
         _productNameTxtField.textAlignment = NSTextAlignmentCenter;
         _amountTxtField.textAlignment = NSTextAlignmentCenter;
@@ -65,6 +68,7 @@
         [self.contentView addSubview:_unitTxtField];
         [self.contentView addSubview:_unitPriceTxtField];
         [self.contentView addSubview:_subTotalTxtField];
+        [self.contentView addSubview:_lastUnitPrice];
       
         
         [self setValidatorTextField];
@@ -85,7 +89,9 @@
 
 -(void)setValidatorTextField
 {
+    __weak PurchaseBillCell* weakSelf = self;
     __weak JRTextField *_weakProductNameTxtField =  _productNameTxtField;
+    
     _productCodeTxtField.textFieldDidClickAction = ^(JRTextField* jrTextField){
         
         NSArray* needFields = @[@"productCode",@"productName"];
@@ -96,9 +102,13 @@
             NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
             
             NSArray* array = [filterTableView realContentForIndexPath: realIndexPath];
-            jrTextField.text = [array objectAtIndex:1];
+            
+            NSString* productCode = [array objectAtIndex:1];
+            jrTextField.text = productCode;
+            
             _weakProductNameTxtField.text = [array objectAtIndex:2];
             
+            weakSelf.didEndEditNewCellAction(weakSelf);
             
             [PickerModelTableView dismiss];
         };

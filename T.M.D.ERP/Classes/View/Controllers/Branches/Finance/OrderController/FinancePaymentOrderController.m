@@ -5,55 +5,19 @@
 
 #define STAFF_CATEGORY              @"staffCategory"
 #define STAFF_NUMBER                @"staffNO"
-//12334s
 
-// Table Left   ------------ Begin ---------------------------------
 
 #define ReferenceOrder_Attr_TotalShouldPay @"shouldPay"      // the cost
-
-// Table Left   ------------ End ---------------------------------
-
 
 @implementation FinancePaymentOrderController
 {
     JRRefreshTableView* tableLeft;
     JRImagesTableView* tableRight;
     
-    // Table Right   ------------ Begin ---------------------------------
     NSMutableArray* tableRightSectionContents;
-    // Table Right   ------------ End ---------------------------------
-    
-    
-    // Table Left   ------------ Begin ---------------------------------
     NSMutableArray* tableLeftSectionBillsContents;
-    // Table Left   ------------ End ---------------------------------
 }
 
--(void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
-    NSLog(@"FinancePaymentOrderController ----- didReceiveMemoryWarning");
-}
-
--(void)dealloc
-{
-    NSLog(@"FinancePaymentOrderController ----- dealloc");
-    
-    [tableRight stopLazyLoading];
-    [tableRight.loadImages removeAllObjects];
-    
-    tableLeft = nil;
-    tableRight = nil;
-    
-    [tableRightSectionContents removeAllObjects];
-    tableRightSectionContents = nil;
-    
-    
-    [tableLeftSectionBillsContents removeAllObjects];
-    tableLeftSectionBillsContents = nil;
-    
-}
 
 +(void) popPayWayTable: (JRTextField*)payWayTextfield selectedAction:(void(^)(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString* selectedVisualValue))selectedAction
 {
@@ -83,17 +47,13 @@
     
     
     
-    // -------
-    
-    
-    
     // NESTED_MAIN   ------------ Begin ---------------------------------
     // staff categry & staff number
     JRLabelCommaTextFieldView* staffCategory = (JRLabelCommaTextFieldView*)[jsonView getView: @"NESTED_MAIN_Header.staffCategory"];
-    JRLabelCommaTextFieldView* staffNO = (JRLabelCommaTextFieldView*)[jsonView getView: @"NESTED_MAIN_Header.staffNO"];
+    JRLabelCommaTextFieldView* staffApply = (JRLabelCommaTextFieldView*)[jsonView getView: @"NESTED_MAIN_Header.staffNO"];
     
     JRTextField* staffCategoryTextField = staffCategory.textField;
-    __weak JRTextField* staffNOTextField = staffNO.textField;
+    __weak JRTextField* staffNOTextField = staffApply.textField;
 
     NSArray* keys =  @[KEY_EMPLOYEE, KEY_VENDOR, KEY_CLIENT, KEY_OTHERS];
     NSArray* values = @[MODEL_EMPLOYEE, MODEL_VENDOR, MODEL_CLIENT, KEY_OTHERS];

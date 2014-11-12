@@ -48,15 +48,14 @@
 "FAILED"="Failed";
 "FactoryAffair"="Factory Affair";
 "Files"="Files";
-"FinaceReceiptOrder"="Receipt Order";
-"FinaceReceiptOrder.payer"="z";
-"FinaceReceiptOrder.receiveDate"="z";
-"FinaceReceiptOrder.receiveWay"="z";
-"FinaceReceiptOrder.receiver"="z";
 "Finance"="Finance";
 "FinanceAccount"="Bank Account";
 "FinanceAccountCHOrder"="Transaction accounts";
 "FinancePaymentOrder"="Single payment";
+"FinanceReceiptOrder"="Receipt Order";
+"FinanceReceiptOrder.receiveDate"="z";
+"FinanceReceiptOrder.receiveWay"="z";
+"FinanceReceiptOrder.receiver"="z";
 "FinanceSalary"="Salary Order";
 "FinanceSalaryCHOrder"="Salary Change Order";
 "Friday"="Friday";
@@ -159,6 +158,7 @@
 "Work"="Work";
 "YES"="YES";
 "ZZ_BTNSubmit"="Submit";
+"accountName"="z";
 "address"="Address";
 "age"="Age";
 "already"="Already";
@@ -216,6 +216,7 @@
 "jobPosition"="Job Position";
 "jobTitle"="Job Title";
 "languageSet"="Set Language";
+"lastUnitPrice"="z";
 "leaveFactory"="Leave Factory";
 "leaveType"="Leave Type";
 "limit"="Limit";
@@ -234,8 +235,10 @@
 "number"="Serial NO.";
 "order"="Order";
 "orderNO"="Order NO.";
+"orderNo"="z";
 "password"="Password";
 "payMode"="Pay Mode";
+"payer"="z";
 "pendingApprovalsCount"="Pendings Count";
 "people"="People";
 "permission"="Permission";
@@ -250,6 +253,7 @@
 "purpose"="z";
 "re_password"="Verify";
 "read"="Read";
+"receiveWay"="z";
 "references"="Related Documents";
 "rememberPawword"="Save Password";
 "rememberUserName"="Save Account";
@@ -261,6 +265,7 @@
 "save"="Save";
 "settings"="Settings";
 "shouldPay"="Should Pay";
+"shouldReceive"="z";
 "show"="Show";
 "signature"="Signature";
 "signin"="Signin";
