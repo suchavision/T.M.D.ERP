@@ -51,17 +51,15 @@
 "FAILED"="失败";
 "FactoryAffair"="厂务部门";
 "Files"="文件";
-"FinaceReceiptOrder"="收款单";
-"FinaceReceiptOrder.payer"="付款人";
-"FinaceReceiptOrder.receiveDate"="收款日期";
-"FinaceReceiptOrder.receiveWay"="收款方式";
-"FinaceReceiptOrder.receiver"="收款人";
 "Finance"="财务部门";
 "FinanceAccount"="账户资料";
 "FinanceAccountCHOrder"="账户异动表";
 "FinancePaymentOrder"="支付单";
 "FinanceReceiptOrder"="收费单";
 "FinanceReceiptOrder.orderNO"="单名";
+"FinanceReceiptOrder.receiveDate"="收款日期";
+"FinanceReceiptOrder.receiveWay"="收款方式";
+"FinanceReceiptOrder.receiver"="收款人";
 "FinanceSalary"="薪资表";
 "FinanceSalaryCHOrder"="薪资异动表";
 "Friday"="星期五";
@@ -165,6 +163,7 @@
 "Work"="工作";
 "YES"="是";
 "ZZ_BTNSubmit"="存档";
+"accountName"="收款账户";
 "address"="地址";
 "age"="年龄";
 "already"="已经";
@@ -222,6 +221,7 @@
 "jobPosition"="职位";
 "jobTitle"="职称";
 "languageSet"="语言设置";
+"lastUnitPrice"="上笔单价";
 "leaveFactory"="出厂";
 "leaveType"="假别";
 "limit"="限制";
@@ -240,8 +240,10 @@
 "number"="编号";
 "order"="表单";
 "orderNO"="单号";
+"orderNo"="单号";
 "password"="密码";
 "payMode"="付款方式";
+"payer"="付款人";
 "pendingApprovalsCount"="待批文件数";
 "people"="人";
 "permission"="权限";
@@ -257,6 +259,7 @@
 "re_password"="重复密码";
 "read"="查看";
 "realPayTotal"="实付总计";
+"receiveWay"="收款方式";
 "references"="相关文件";
 "rememberPawword"="记住密码";
 "rememberUserName"="记住帐号";
@@ -268,6 +271,7 @@
 "save"="保存";
 "settings"="设置";
 "shouldPay"="應付";
+"shouldReceive"="应收金额";
 "show"="显示";
 "signature"="签名";
 "signin"="登录";

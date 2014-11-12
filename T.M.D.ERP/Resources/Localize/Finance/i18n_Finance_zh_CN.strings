@@ -27,15 +27,14 @@
 "FinancePaymentOrder.signature"="领款人签章";
 "FinancePaymentOrder.staffCategory"="人员类别";
 "FinancePaymentOrder.staffNO"="申请人";
+"FinanceReceiptOrder.accountName"="收款账户";
+"FinanceReceiptOrder.accountNumber"="收款编号";
 "FinanceReceiptOrder.notReceive"="未收金额";
 "FinanceReceiptOrder.payer"="付款人";
 "FinanceReceiptOrder.photo"="相关文件";
 "FinanceReceiptOrder.realReceive"="收款金额";
 "FinanceReceiptOrder.receiveDate"="收款时间";
-"FinanceReceiptOrder.receiveWay"="收款方式";
-"FinanceReceiptOrder.receivebankAccount"="收款账户";
 "FinanceReceiptOrder.receiver"="收款人";
-"FinanceReceiptOrder.shouldReceive"="应收金额";
 "FinanceSalary.BTN_Adjust"="薪资调整";
 "FinanceSalary.Day_Type"="日薪制";
 "FinanceSalary.FinanceSalary"="薪资表";

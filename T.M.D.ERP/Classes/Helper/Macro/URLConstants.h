@@ -104,7 +104,7 @@
 
 #pragma mark - Local Resource Path
 
-#define ModelsStructurePath @"App/ModelsStructure.txt"
+
 
 #define SignedInBasicDataPath @"App/SignedInBasicData.txt"
 

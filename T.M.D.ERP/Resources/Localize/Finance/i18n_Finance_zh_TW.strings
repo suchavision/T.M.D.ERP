@@ -26,9 +26,14 @@
 "FinancePaymentOrder.signature"="領款人簽章";
 "FinancePaymentOrder.staffCategory"="人員類別";
 "FinancePaymentOrder.staffNO"="申請人";
-"FinanceReceiptOrder.payer"="z";
-"FinanceReceiptOrder.photo"="z";
-"FinanceReceiptOrder.receiver"="z";
+"FinanceReceiptOrder.notReceive"="未收金額";
+"FinanceReceiptOrder.payer"="付款人";
+"FinanceReceiptOrder.photo"="相關文件";
+"FinanceReceiptOrder.realReceive"="收款金額";
+"FinanceReceiptOrder.receiveDate"="收款時間";
+"FinanceReceiptOrder.receiveMode"="收款方式";
+"FinanceReceiptOrder.receivebankAccount"="收款賬戶";
+"FinanceReceiptOrder.receiver"="收款人";
 "FinanceSalary.BTN_Adjust"="薪資調整";
 "FinanceSalary.Day_Type"="日薪制";
 "FinanceSalary.FinanceSalary"="薪資表";

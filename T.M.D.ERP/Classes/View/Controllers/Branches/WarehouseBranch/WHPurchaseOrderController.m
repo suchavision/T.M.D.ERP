@@ -133,14 +133,6 @@
 #pragma mark -
 #pragma mark - Request
 
--(NSArray*) getOrderFields{
-    NSMutableArray* WHPurchaseOrderFields = [[MODEL.modelsStructure getModelProperties: @"WHPurchaseOrder"] mutableCopy];
-    [WHPurchaseOrderFields removeObject: @"WHPurchaseBills"];
-    [WHPurchaseOrderFields removeObject: @"createDate"];
-    
-    return WHPurchaseOrderFields;
-}
-
 
 -(NSMutableDictionary*) assembleSendObjects: (NSString*)divViewKey
 {
@@ -151,8 +143,6 @@
     if (vendorNumber && self.controlMode == JsonControllerModeCreate) [objects setObject: vendorNumber forKey:@"vendorNumber"];
     
     return objects;
-    
-    return objects;
 }
 
 
@@ -161,40 +151,27 @@
 
 -(NSMutableDictionary*) assembleReadResponse: (ResponseJsonModel*)response
 {
-    
+    NSLog(@"homePath:%@",NSHomeDirectory());
     NSArray* results = response.results;
     DBLOG(@"results === %@", results);
     _purchaseFooterCellContents = [ArrayHelper deepCopy: [results lastObject]];
     [_purchaseFooterTableView.tableView reloadData];
     
-    NSMutableDictionary* responseObject = [NSMutableDictionary dictionary];
     NSDictionary* warehousePurchaseOrderValues = [[results firstObject] firstObject];
-    [responseObject setObject:warehousePurchaseOrderValues forKey:@"purchase"];
-    NSMutableDictionary* resultsObj = [DictionaryHelper deepCopy: responseObject];
-    self.valueObjects = resultsObj[@"purchase"];
+    
+    NSMutableDictionary* resultsObj = [DictionaryHelper deepCopy: warehousePurchaseOrderValues];
+    self.valueObjects =  resultsObj;
     
     return resultsObj;
 
 }
 
--(void) enableViewsWithReceiveObjects: (NSMutableDictionary*)objects
-{
-    [super enableViewsWithReceiveObjects: objects[@"purchase"]];
-}
-
--(void) translateReceiveObjects: (NSMutableDictionary*)objects
-{
-    NSMutableDictionary* orderObjdect = [objects objectForKey:@"purchase"];
-    [super translateReceiveObjects: orderObjdect];
-}
 
 -(void) renderWithReceiveObjects: (NSMutableDictionary*)objects
 {
-    NSMutableDictionary* purchaseDic = [objects objectForKey:@"purchase"];
+    [super renderWithReceiveObjects:objects];
     
-    [self.jsonView setModel: purchaseDic];
-    
-    _middleTableViewDataSource = [purchaseDic objectForKey:@"WHPurchaseBills"];
+    _middleTableViewDataSource = [objects objectForKey:@"WHPurchaseBills"];
     [_purchaseTableView reloadTableData];
 }
 

@@ -25,6 +25,7 @@
     // set common
     self.requestModel = [RequestJsonModel getJsonModel];
     self.requestModel.path = PATH_LOGIC_READ(self.department);
+    [self.requestModel addModels: self.order, nil];
     
     self.appTableDidSelectRowBlock = ^void(AppSearchTableViewController* controller ,NSIndexPath* realIndexPath)
     {
@@ -158,14 +159,11 @@
         
         if (config[list_REQUEST_PATH]) {
             self.requestModel.path = PATH_LOGIC_READ(config[list_REQUEST_PATH]);
-        } else {
-            self.requestModel.path = PATH_LOGIC_READ(self.department);
         }
         
         if (config[req_MODELS]) {
+            [self.requestModel.models removeAllObjects];
             [self.requestModel.models addObjectsFromArray: config[req_MODELS]];
-        } else {
-            [self.requestModel addModels: self.order, nil];
         }
         
         if (config[req_FIELDS]) [self.requestModel.fields addObjectsFromArray:config[req_FIELDS]];

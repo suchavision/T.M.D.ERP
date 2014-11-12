@@ -414,7 +414,7 @@
         NSString* departmentType = department;
         
         for (NSString* buttonKey in oneGroupButtonsConfig) {
-            if ([buttonKey isEqualToString:kController_SUBMIT_BUTTONS_SENDVIEW] || [buttonKey isEqualToString:kController_SUBMIT_BUTTONS_SENDORDER]) continue;  // not button
+            if ([buttonKey isEqualToString:kController_SUBMIT_BUTTONS_SENDVIEW] || [buttonKey isEqualToString:kController_SUBMIT_BUTTONS_SENDORDER]) continue;  // not buttonx
             
             NSDictionary* buttonConfig = oneGroupButtonsConfig[buttonKey];
             if (! buttonConfig || ! [buttonConfig isKindOfClass:[NSDictionary class]]) continue;

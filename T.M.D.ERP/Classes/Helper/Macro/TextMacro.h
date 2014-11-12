@@ -84,6 +84,8 @@
 #define BILL_FinancePaymentBill     @"FinancePaymentBill"
 #define ORDER_FinanceSalary         @"FinanceSalary"
 #define ORDER_FinanceSalaryCHOrder  @"FinanceSalaryCHOrder"
+#define ORDER_FinanceReceiptOrder  @"FinanceReceiptOrder"
+
 
 //Vehicle
 #define ORDER_VEHICLEINFO           @"VehicleInfoOrder"
