@@ -319,13 +319,20 @@
 }
 
 
++(BOOL) isReturnedToSignedUser:(NSDictionary*)objects order:(NSString*)order
+{
+    NSString* lastHasApprovalLevel = [JsonControllerHelper getCurrentHasApprovedLevel: order valueObjects:objects];
+    BOOL isReturnedToSignedUser = [objects[PROPERTY_RETURNED] boolValue] && [MODEL.signedUserName isEqualToString: objects[lastHasApprovalLevel]];
+    return isReturnedToSignedUser;
+}
+
 +(void) enableSubmitButtonsForApplyMode: (JsonController*)jsoncontroller withObjects:(NSDictionary*)objects order:(NSString*)order
 {
     
     NSString* lastHasApprovalLevel = [JsonControllerHelper getCurrentHasApprovedLevel: order valueObjects:objects];
-    BOOL isReturned = [objects[PROPERTY_RETURNED] boolValue] && [MODEL.signedUserName isEqualToString: objects[lastHasApprovalLevel]];
+    BOOL isReturnedToSignedUser = [self isReturnedToSignedUser: objects order:order];
     
-    if (isReturned) {
+    if (isReturnedToSignedUser) {
         jsoncontroller.controlMode = JsonControllerModeModify;
     }
     
@@ -333,7 +340,7 @@
     [JsonControllerHelper iterateJsonControllerSubmitButtonsConfig: jsoncontroller handler:^BOOL(NSString* buttonKey, JRButton *submitBTN, NSString *departmentType, NSString *orderType, NSString *sendNestedViewKey, NSString *appTo, NSString *appFrom, JsonControllerSubmitButtonType buttonType) {
         
         // for returned mode
-        if (isReturned) {
+        if (isReturnedToSignedUser) {
             
             if (([lastHasApprovalLevel isEqualToString: PROPERTY_CREATEUSER] && buttonType == JsonControllerSubmitButtonTypeSaveOrUpdate) || [buttonKey rangeOfString: lastHasApprovalLevel].location != NSNotFound) {
                     [submitBTN setTitleColor: [UIColor redColor] forState:UIControlStateNormal];

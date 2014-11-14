@@ -3,7 +3,7 @@
 @interface JsonControllerSeverHelper : NSObject
 
 
-+(void) startReturnOrderRequest: (NSString*)orderType department:(NSString*)department valueObjects:(NSDictionary*)valueObjects identities:(NSDictionary*)identities;
++(void) startReturnOrderRequest: (NSString*)orderType department:(NSString*)department valueObjects:(NSDictionary*)valueObjects identities:(NSDictionary*)identities reason:(NSString*)reason;
 
 
 

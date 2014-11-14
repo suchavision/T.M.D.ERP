@@ -192,6 +192,7 @@
 "delete"="刪除";
 "department"="工作崗位";
 "description"="描述";
+"device"="設備";
 "digit"="數字";
 "done"="完成";
 "donot"="z";
@@ -209,6 +210,7 @@
 "forwardUser"="接收者";
 "from"="從";
 "gender"="性別";
+"get"="獲取";
 "have"="有";
 "hour"="時";
 "if"="是否";
@@ -223,6 +225,7 @@
 "leaveType"="假別";
 "limit"="限制";
 "list"="列表";
+"load"="加載";
 "local"="本地";
 "male"="男";
 "member"="人員";
@@ -253,6 +256,7 @@
 "purpose"="用途";
 "re_password"="重復密碼";
 "read"="查看";
+"reason"="原因";
 "references"="相關文件";
 "rememberPawword"="記住密碼";
 "rememberUserName"="記住帳號";
@@ -279,6 +283,7 @@
 "this"="此";
 "time"="時間";
 "to"="到";
+"token"="令牌";
 "unit"="單位";
 "unitPrice"="單價";
 "unitPriceOne"="單價1";
@@ -289,6 +294,7 @@
 "username"="帳號";
 "vendorName"="廠商";
 "wheel"="滾輪";
+"will"="將會";
 "without"="沒有";
 "year"="年";
 "yourself"="自己";

@@ -41,6 +41,9 @@
 
 +(void) disableOrEnableReturnedButton:(JRButton*)returnButton order:(NSString*)order withObjects:(NSDictionary*)objects;
 
+
++(BOOL) isReturnedToSignedUser:(NSDictionary*)objects order:(NSString*)order;
+
 +(void) enableSubmitButtonsForApplyMode: (JsonController*)jsoncontroller withObjects:(NSDictionary*)objects order:(NSString*)order;
 
 

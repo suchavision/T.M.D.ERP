@@ -189,6 +189,7 @@
 "delete"="Delete";
 "department"="Department";
 "description"="Description";
+"device"="Device";
 "digit"="Digit";
 "done"="Done";
 "donot"="don't";
@@ -206,6 +207,7 @@
 "forwardUser"="Forward-User";
 "from"="From";
 "gender"="Gender";
+"get"="Get";
 "have"="Have";
 "hour"="Time";
 "if"="If";
@@ -220,6 +222,7 @@
 "leaveType"="Leave Type";
 "limit"="Limit";
 "list"="List";
+"load"="Load ";
 "local"="Local";
 "male"="Male";
 "member"="Staff";
@@ -250,6 +253,7 @@
 "purpose"="z";
 "re_password"="Verify";
 "read"="Read";
+"reason"="Reason";
 "references"="Related Documents";
 "rememberPawword"="Save Password";
 "rememberUserName"="Save Account";
@@ -276,6 +280,7 @@
 "this"="This";
 "time"="Time";
 "to"="To";
+"token"="Token";
 "unit"="Unit";
 "unitPrice"="Unit Price";
 "unitPriceOne"="z";
@@ -285,6 +290,7 @@
 "username"="Account";
 "vendorName"="Vendor";
 "wheel"="Wheel";
+"will"="Will";
 "without"="Without";
 "year"="year";
 "yourself"="Yourself";
