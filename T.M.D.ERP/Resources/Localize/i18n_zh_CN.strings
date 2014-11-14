@@ -195,6 +195,7 @@
 "delete"="删除";
 "department"="工作岗位";
 "description"="描述";
+"device"="设备";
 "digit"="数字";
 "done"="完成";
 "donot"="不要";
@@ -212,6 +213,7 @@
 "forwardUser"="接收者";
 "from"="从";
 "gender"="性别";
+"get"="获取";
 "have"="有";
 "hour"="时";
 "if"="是否";
@@ -227,6 +229,7 @@
 "leaveType"="假别";
 "limit"="限制";
 "list"="列表";
+"load"="加载";
 "local"="本地";
 "male"="男";
 "member"="人员";
@@ -261,6 +264,7 @@
 "read"="查看";
 "realPayTotal"="实付总计";
 "receiveWay"="收款方式";
+"reason"="原因";
 "references"="相关文件";
 "rememberPawword"="记住密码";
 "rememberUserName"="记住帐号";
@@ -288,6 +292,7 @@
 "this"="此";
 "time"="时间";
 "to"="到";
+"token"="令牌";
 "unit"="单位";
 "unitPrice"="单价";
 "unitPriceOne"="单价 1";
@@ -298,6 +303,7 @@
 "username"="帐号";
 "vendorName"="厂商";
 "wheel"="滚轮";
+"will"="将会";
 "without"="没有";
 "year"="年";
 "yourself"="自己";

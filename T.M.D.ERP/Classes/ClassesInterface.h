@@ -108,6 +108,8 @@
 // Components
 #import "JRComponents.h"
 
+#import "ReturnedReasonView.h"
+
 #import "CMPopTipView.h"
 
 #import "TableHeaderAddButtonView.h"

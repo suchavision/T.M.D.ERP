@@ -6,7 +6,7 @@
 @implementation JsonControllerSeverHelper
 
 
-+(void) startReturnOrderRequest: (NSString*)orderType department:(NSString*)department valueObjects:(NSDictionary*)valueObjects identities:(NSDictionary*)identities
++(void) startReturnOrderRequest: (NSString*)orderType department:(NSString*)department valueObjects:(NSDictionary*)valueObjects identities:(NSDictionary*)identities reason:(NSString*)reason
 {
     NSMutableDictionary* objects = [NSMutableDictionary dictionary];
     NSString* currentApprovingLevel = [JsonControllerHelper getCurrentApprovingLevel: orderType valueObjects:valueObjects];
@@ -17,6 +17,10 @@
         
         if (! currentHasApprovedLevel || [currentHasApprovedLevel isEqualToString:PROPERTY_CREATEUSER]) {
             DLog(@"The last one , can not return ~~~~~~");
+            [VIEW.progress show];
+            VIEW.progress.mode = MBProgressHUDModeText;
+            VIEW.progress.detailsLabelText =  APPLOCALIZE_KEYS(@"cannot", @"RETURN");
+            [VIEW.progress hide: YES afterDelay:2];
             return;
         }
         
@@ -34,6 +38,9 @@
     
     [VIEW.progress show];
     VIEW.progress.detailsLabelText = APPLOCALIZE_KEYS(@"In_Process", @"RETURN");
+    
+    
+    // modify the return field
     [AppServerRequester modifyModel: orderType department:department objects:objects identities:identities completeHandler:^(ResponseJsonModel *response, NSError *error) {
         
         BOOL isSuccess = response.status;
@@ -42,22 +49,37 @@
         VIEW.progress.labelText = [NSString stringWithFormat:@"%@%@", LOCALIZE_KEY(@"RETURN"), isSuccess ? LOCALIZE_KEY(@"success") : LOCALIZE_KEY(@"failed")];
         
         if (response.status) {
-            [self startReturnOrderInformRequest:currentHasApprovedLevel orderType:orderType department:department identities:identities forwardUser:forwardUser];
+            
+            
+            // save the reason
+            
+            RequestJsonModel* jsonModel = [RequestJsonModel getJsonModel];
+            jsonModel.path = PATH_LOGIC_CREATE(@"Approval");
+            [jsonModel addModel:@"ApprovalsReturnedRecord"];
+            [jsonModel addObject:@{@"orderType": orderType, @"orderNO": valueObjects[@"orderNO"], @"reason": reason}];
+            [MODEL.requester startPostRequest: jsonModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+                
+                NSString* applevel = currentHasApprovedLevel;
+                NSString* actionKey = @"RETURN";
+                if ([applevel isEqualToString: PROPERTY_CREATEUSER]) {
+                    applevel = @"create";
+                }
+                NSString* apnsMessage = LOCALIZE_MESSAGE_FORMAT(@"YourOrderHaveBeenReturned", forwardUser, LOCALIZE_KEY(applevel), LOCALIZE_KEY(orderType), LOCALIZE_KEY(actionKey));
+                [self startInformRequest:actionKey orderType:orderType department:department identities:identities forwardUser:forwardUser apnsMessage:apnsMessage];
+                
+            }];
+            
+
+            
+            
         } else {
             [VIEW.progress hideAfterDelay: 2];
         }
+        
     }];
 }
 
-+(void) startReturnOrderInformRequest:(NSString*)applevel orderType:(NSString*)orderType department:(NSString*)department identities:(NSDictionary*)identities forwardUser:(NSString*)forwardUser
-{
-    NSString* actionKey = @"RETURN";
-    if ([applevel isEqualToString: PROPERTY_CREATEUSER]) {
-        applevel = @"create";
-    }
-    NSString* apnsMessage = LOCALIZE_MESSAGE_FORMAT(@"YourOrderHaveBeenReturned", forwardUser, LOCALIZE_KEY(applevel), LOCALIZE_KEY(orderType), LOCALIZE_KEY(actionKey));
-    [self startInformRequest:actionKey orderType:orderType department:department identities:identities forwardUser:forwardUser apnsMessage:apnsMessage];
-}
+
 
 +(void) startInformRequest: (NSString*)actionKey orderType:(NSString*)orderType department:(NSString*)department identities:(NSDictionary*)identities forwardUser:(NSString*)forwardUser apnsMessage:(NSString*)apnsMessage
 {

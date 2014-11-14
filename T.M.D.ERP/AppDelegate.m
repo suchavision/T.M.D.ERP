@@ -43,7 +43,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 #endif
     
     // for registry apns
+    // < ios 8
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge];
+    
+    // >= ios 8
+    [application registerForRemoteNotifications];
     
     // for dropbox
     [DropboxSyncAPIManager setAppKey: DROPBOX_APPKEY secret:DROPBOX_APPSECRET];
@@ -112,7 +116,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-    LOG(@"Failed to get token, error: %@", error);
+    NSString* errorMsg = error.userInfo[NSLocalizedDescriptionKey];
+    NSString* message = APPLOCALIZE_KEYS(@"SEND", @"Push_Notifications", @"will", @"failed");
+    message = [message stringByAppendingFormat:@", %@", errorMsg ];
+    [UIAlertView alertViewWithTitle:APPLOCALIZE_KEYS(@"get", @"device", @"token", @"ERROR") message:message cancelButtonTitle:LOCALIZE_KEY(@"OK")];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{

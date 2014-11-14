@@ -174,10 +174,7 @@
 +(UIView*) getCommonPopupTableView
 {
     // background
-    UIImage* bgImage = [UIImage imageNamed:@"Pushbutton_06.png"];
-    UIImageView* bgImageView = [[UIImageView alloc] initWithImage: bgImage];
-    [bgImageView setSize:[FrameTranslater convertCanvasSize: bgImage.size]];
-    bgImageView.userInteractionEnabled = YES;
+    UIImageView* bgImageView = [self getCommonPopupBackgroundImageView];
     
     
     JRButtonsHeaderTableView* searchTableView = [[JRButtonsHeaderTableView alloc] initWithFrame: CGRectMake([FrameTranslater convertCanvasX:15], 0, [bgImageView sizeWidth] - [FrameTranslater convertCanvasWidth:28], [bgImageView sizeHeight] - [FrameTranslater convertCanvasHeight:30])];
@@ -210,5 +207,15 @@
     
     return bgImageView;
 }
+
++(UIImageView*) getCommonPopupBackgroundImageView
+{
+    UIImage* bgImage = [UIImage imageNamed:@"Pushbutton_06.png"];
+    UIImageView* bgImageView = [[UIImageView alloc] initWithImage: bgImage];
+    [bgImageView setSize:[FrameTranslater convertCanvasSize: bgImage.size]];
+    bgImageView.userInteractionEnabled = YES;
+    return bgImageView;
+}
+
 
 @end

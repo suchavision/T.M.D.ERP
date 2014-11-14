@@ -32,6 +32,8 @@
 // to get back JRButtonsHeaderTableView you should use viewWithTag:POPUP_TABLEVIEW_TAG ....
 +(UIView*) getCommonPopupTableView;
 
++(UIImageView*) getCommonPopupBackgroundImageView;
+
 
 +(NSMutableArray*) getJobPositionDataSoucesFromSettingsString: (NSString*)jobPositionString;
 
