@@ -240,7 +240,27 @@
         NSDictionary* identities = [RequestModelHelper getModelIdentities: self.identification];
         if (! identities) return;
         
-        [JsonControllerSeverHelper startReturnOrderRequest: self.order department:self.department valueObjects:self.valueObjects identities:identities];
+        ReturnedReasonView* returnView = [[ReturnedReasonView alloc] init];
+        [PopupViewHelper popView:returnView willDissmiss:nil];
+        JRButton* sureButton = returnView.rightButton;
+        JRButton* cancelButton = returnView.leftButton;
+        JRTextView* textView = returnView.reasonTextView;
+        
+        cancelButton.didClikcButtonAction = ^void(JRButton* button) {
+            [PopupViewHelper dissmissCurrentPopView];
+        };
+        
+        sureButton.didClikcButtonAction = ^void(JRButton* button) {
+            NSString* reason = textView.text;
+            if (OBJECT_EMPYT(reason)) {
+                [UIAlertView alertViewWithTitle:nil message:LOCALIZE_MESSAGE_FORMAT(@"ValueCannotEmpty", APPLOCALIZE(@"reason")) cancelButtonTitle:LOCALIZE_KEY(@"CANCEL") ensureButtonTitle:LOCALIZE_KEY(@"OK") onCancel:nil onEnsure:nil];
+                return;
+            }
+            [JsonControllerSeverHelper startReturnOrderRequest: self.order department:self.department valueObjects:self.valueObjects identities:identities reason:reason];
+            
+            [PopupViewHelper dissmissCurrentPopView];
+        };
+        
     };
     
     // set up Submit Buttons Event
@@ -393,6 +413,39 @@
 -(void) didRenderWithReceiveObjects: (NSMutableDictionary*)objects
 {
     [JsonControllerHelper loadImagesToJsonView: self objects:objects];
+    
+    BOOL isReturnedToSignedUser = [JsonControllerHelper isReturnedToSignedUser: self.valueObjects order:self.order];
+    if (isReturnedToSignedUser) {
+        // get the returned reason
+        RequestJsonModel* jsonModel = [RequestJsonModel getJsonModel];
+        jsonModel.path = PATH_LOGIC_READ(@"Approval");
+        [jsonModel addModel:@"ApprovalsReturnedRecord"];
+        [jsonModel addObject:@{@"orderType": self.order, @"orderNO": objects[@"orderNO"]}];
+        [jsonModel.limits addObject:@[@(0), @(1)]];
+        [jsonModel.sorts addObject: @[@"id.DESC"]];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = APPLOCALIZE_KEYS(@"In_Process", @"load", @"returned", @"reason");
+        hud.removeFromSuperViewOnHide = YES;
+        hud.userInteractionEnabled = NO;
+        [hud hide:YES afterDelay: 1.5];
+        
+        [MODEL.requester startPostRequest: jsonModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+            
+            if (response.status) {
+                NSDictionary* ApprovalsReturnedRecord = [[response.results firstObject] firstObject];
+
+                ReturnedReasonView* returnView = [[ReturnedReasonView alloc] init];
+                [PopupViewHelper popView:returnView willDissmiss:nil];
+                
+                returnView.rightButton.hidden = YES;
+                returnView.leftButton.hidden = YES;
+                returnView.reasonTextView.text = ApprovalsReturnedRecord[@"reason"];
+            }
+            
+        }];
+    }
 }
 
 //------------------------------------------------------------------------ Read End

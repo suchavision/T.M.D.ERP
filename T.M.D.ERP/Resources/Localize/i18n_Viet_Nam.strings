@@ -188,6 +188,7 @@
 "delete"="xóa";
 "department"="ban";
 "description"="z";
+"device"="z";
 "digit"="kỹ thuật số";
 "done"="hoàn thành";
 "donot"="z";
@@ -205,6 +206,7 @@
 "forwardUser"="z";
 "from"="từ";
 "gender"="giới tính";
+"get"="z";
 "have"="z";
 "hour"="thời gian";
 "if"="z";
@@ -220,6 +222,7 @@
 "leaveType"="không để lại";
 "limit"="giới hạn";
 "list"="danh sách";
+"load"="z";
 "local"="z";
 "male"="nam";
 "member"="nhân viên";
@@ -253,6 +256,7 @@
 "re_password"="tra";
 "read"="xem";
 "receiveWay"="z";
+"reason"="z";
 "references"="Tài liệu liên quan";
 "rememberPawword"="nhớ mật khẩu";
 "rememberUserName"="nhớ tài khoản";
@@ -280,6 +284,7 @@
 "this"="z";
 "time"="thời gian";
 "to"="để";
+"token"="z";
 "unit"="đơn vị";
 "unitPrice"="đơn giá";
 "unitPriceOne"="z";
@@ -289,6 +294,7 @@
 "username"="số tài khoản";
 "vendorName"="công ty";
 "wheel"="bánh xe";
+"will"="z";
 "without"="z";
 "year"="trong";
 "yourself"="z";
