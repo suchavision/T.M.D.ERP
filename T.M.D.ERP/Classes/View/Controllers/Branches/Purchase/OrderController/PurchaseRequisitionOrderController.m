@@ -170,10 +170,13 @@
     [requestModel addModel: order];
     
     [requestModel addObject: withoutImagesObjects ];
-    
+    if(vendorNumber)
     [withoutImagesObjects setObject:vendorNumber forKey:@"vendorNumber"];
+    if(vendorNumber1)
     [withoutImagesObjects setObject:vendorNumber1 forKey:@"vendorNumber1"];
+    if(vendorNumber2)
     [withoutImagesObjects setObject:vendorNumber2 forKey:@"vendorNumber2"];
+    if(vendorNumber3)
     [withoutImagesObjects setObject:vendorNumber3 forKey:@"vendorNumber3"];
     
     [requestModel.preconditions addObject: @{}];

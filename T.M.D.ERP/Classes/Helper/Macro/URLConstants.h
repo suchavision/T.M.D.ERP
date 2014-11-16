@@ -8,13 +8,13 @@
 
 //#define kURL @"http://192.168.0.161"        // LAN Server
 
-//#define kURL @"http://127.0.0.1"            // Simualtor
+#define kURL @"http://127.0.0.1"            // Simualtor
 
 //#define kURL @"http://192.168.0.166"        // Dong
 
 //#define kURL @"http://192.168.0.123"        // Zhu
 
-#define kURL @"http://192.168.0.115"        // Is Air
+//#define kURL @"http://192.168.0.115"        // Is Air
 
 //#define kURL @"http://192.168.0.105"        // Dong Air
 

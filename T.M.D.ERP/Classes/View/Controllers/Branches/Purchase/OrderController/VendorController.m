@@ -28,7 +28,10 @@
     };
     JRTextField* categoryTxtFidld = ((JRLabelTextFieldView*)[self.jsonView getView:@"NESTED_INFO.category"]).textField;
     categoryTxtFidld.textFieldDidClickAction = ^void(JRTextField* jrTextField) {
-        [WarehouseHelper popTableView:jrTextField settingModel:APPSettings_PURCHASE_VENDOR_CATEGORY];
+//        [WarehouseHelper popTableView:jrTextField settingModel:APPSettings_PURCHASE_VENDOR_CATEGORY];
+        [WarehouseHelper popTableView:jrTextField settingModel:APPSettings_PURCHASE_VENDOR_CATEGORY title:nil];
+
+        
     };
     
     

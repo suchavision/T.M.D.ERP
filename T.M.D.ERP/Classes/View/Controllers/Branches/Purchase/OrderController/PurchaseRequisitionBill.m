@@ -136,9 +136,7 @@
         NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
         NSString* productCode = cellContentDictionary[@"productCode"];
-        if(!productCode) return ;
-        if(!productCode) {
-            weakProductCode.userInteractionEnabled = NO;
+        if([productCode isEqualToString:@""]) {
             JRButtonsHeaderTableView* popTableView = [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:nil selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
                 [jrTextField setValue: selectedVisualValue];
                 
@@ -182,34 +180,42 @@
                 [PopupTableHelper dissmissCurrentPopTableView];
             };
             
-            
-            return ;
         }
-        
         RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
         requestModel.path = PATH_LOGIC_READ(DEPARTMENT_WAREHOUSE);
         [requestModel addModel: MODEL_WHInventory];
         [requestModel addObject: @{@"productCode": productCode}];
-        [requestModel.fields addObject:@[@"basicUnit", @"unit"]];
+        [requestModel.fields addObject:@[@"basicUnit", @"unit",@"amount",]];
         [MODEL.requester startPostRequest: requestModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
             
             NSArray* results = response.results;
+            
             NSArray *uinits = [[results firstObject] firstObject];
+            
+            if(uinits){
             NSString *basicUnitString = [uinits objectAtIndex:0];
             NSString *unitString = [uinits objectAtIndex:1];
-            NSArray *array = [NSArray arrayWithObject:unitString];
-        
-            if([basicUnitString isEqualToString:unitString])  {
-                uinits = array;
+            NSArray *myArray = [NSArray arrayWithObjects:basicUnitString,unitString, nil];
+            NSNumber *amountNumber = [uinits objectAtIndex:2];
+            NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+            NSString *amountString = [numberFormatter stringFromNumber:amountNumber];
+            NSArray *array = [NSArray arrayWithObject:basicUnitString];
+            if([amountString isEqualToString:@"1"]){
+                myArray = array;
             }
             
-            [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:uinits selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
+            [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:myArray selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
+                
+                [jrTextField setValue:selectedVisualValue];
                 NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
                 NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
                 [cellContentDictionary setObject: selectedVisualValue forKey:jrTextField.attribute];
                 [tableView reloadData];
                 
             }];
+                
+                
+            }
 
         }];
         

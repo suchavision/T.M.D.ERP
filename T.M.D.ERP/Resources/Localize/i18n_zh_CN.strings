@@ -24,6 +24,7 @@
 "CASH"="现金";
 "CHEQUE"="支票";
 "CLIENT"="客户";
+"CONSTRUCTION_TEAM"="施工队";
 "Cards"="商业名片";
 "Client"="客户资料";
 "Contract"="合同";
@@ -263,8 +264,8 @@
 "re_password"="重复密码";
 "read"="查看";
 "realPayTotal"="实付总计";
-"receiveWay"="收款方式";
 "reason"="原因";
+"receiveWay"="收款方式";
 "references"="相关文件";
 "rememberPawword"="记住密码";
 "rememberUserName"="记住帐号";
