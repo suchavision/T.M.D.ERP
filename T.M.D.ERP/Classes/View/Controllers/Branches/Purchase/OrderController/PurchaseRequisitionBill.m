@@ -141,7 +141,7 @@
                 [jrTextField setValue: selectedVisualValue];
                 
                 
-                UITableView* tableView = [weakInstance getTableView];
+                UITableView* tableView = [TableViewHelper getTableViewBySubView: weakInstance];
                 NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
                 NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
                 if (!cellContentDictionary) {

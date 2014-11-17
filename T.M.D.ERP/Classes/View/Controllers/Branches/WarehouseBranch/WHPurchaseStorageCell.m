@@ -137,7 +137,7 @@
             NSArray* array = [filterTableView realContentForIndexPath: realIndexPath];
             
             
-            UITableView* tableView = [weakInstance getTableView];
+            UITableView* tableView = [TableViewHelper getTableViewBySubView: jrTextField];
             NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
             NSMutableDictionary* cellContentDictionary = [weakInstance.middleTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
             if (!cellContentDictionary) {
@@ -157,7 +157,7 @@
     };
     _storageUnitTxtField.textFieldDidClickAction = ^(JRTextField *jrTextField) {
         
-        UITableView* tableView = [weakInstance getTableView];
+         UITableView* tableView = [TableViewHelper getTableViewBySubView: jrTextField];
         NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
         NSMutableDictionary* cellContentDictionary = [weakInstance.middleTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
@@ -187,21 +187,13 @@
 }
 
 
--(UITableView*) getTableView
-{
-    UITableView* tableView = (UITableView*)self.superview;
-    while (tableView && ![tableView isKindOfClass:[UITableView class]]) {
-        tableView = (UITableView*)tableView.superview;
-    }
-    return tableView;
-}
-
 
 -(void)setDatas:(id)cotents
 {
     [super setDatas:cotents];
     _subTotalTxtField.text = nil;
     _storageSubTotalTxtField.text = nil;
+
     
     if (!(OBJECT_EMPYT(_numTxtField.text) || OBJECT_EMPYT(_unitPriceTxtField.text))) {
         _subTotalTxtField.text = [AppMathUtility calculateMultiply:_numTxtField.text,_unitPriceTxtField.text,nil];
@@ -212,24 +204,6 @@
     }
     
 }
-
-#pragma mark -
-//#pragma mark - UITextField Delegate
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//    [textField resignFirstResponder];
-//    return YES;
-//}
-//
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    JRTextField* valTxtFld = (JRTextField*)textField;
-//    if (valTxtFld.inputValidator && ![valTxtFld textFieldValidate]) {
-//        valTxtFld.text = @"";
-//         return;
-//    }
-//    if (self.didEndEditNewCellAction) self.didEndEditNewCellAction(self);
-//}
 
 
 @end
