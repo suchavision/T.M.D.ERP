@@ -60,10 +60,10 @@
             weakSelf.didEndEditNewCellAction(weakSelf);
         };
         
-        _productNameTxtField.delegate = self;
-        _amountTxtField.delegate = self;
-        _unitTxtField.delegate = self;
-        _unitPriceTxtField.delegate = self;
+//        _productNameTxtField.delegate = self;
+//        _amountTxtField.delegate = self;
+//        _unitTxtField.delegate = self;
+//        _unitPriceTxtField.delegate = self;
         
         [self.contentView addSubview:_productCodeTxtField];
         [self.contentView addSubview:_productNameTxtField];
@@ -131,9 +131,9 @@
     _subTotalTxtField.text = finalValueString;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [textField resignFirstResponder];
+//    return YES;
+//}
 @end

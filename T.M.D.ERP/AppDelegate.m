@@ -119,7 +119,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString* errorMsg = error.userInfo[NSLocalizedDescriptionKey];
     NSString* message = APPLOCALIZE_KEYS(@"SEND", @"Push_Notifications", @"will", @"failed");
     message = [message stringByAppendingFormat:@", %@", errorMsg ];
-    [UIAlertView alertViewWithTitle:APPLOCALIZE_KEYS(@"get", @"device", @"token", @"ERROR") message:message cancelButtonTitle:LOCALIZE_KEY(@"OK")];
+    if (![VIEW isTestDevice]) [UIAlertView alertViewWithTitle:APPLOCALIZE_KEYS(@"get", @"device", @"token", @"ERROR") message:message cancelButtonTitle:LOCALIZE_KEY(@"OK")];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{

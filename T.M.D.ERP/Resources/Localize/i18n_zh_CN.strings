@@ -256,10 +256,12 @@
 "phoneNO"="电话";
 "photoLibrary"="相册";
 "please"="请";
+"product"="产品";
 "productCode"="产品代码";
 "productName"="品名";
 "productNames"="品名/规格";
 "purchaseOrderNO"="采购单号";
+"purchaseQC"="进货质检单";
 "purpose"="用途";
 "re_password"="重复密码";
 "read"="查看";
@@ -284,8 +286,12 @@
 "skip"="忽略";
 "spinPurchaseOrder"="抛转采购单";
 "staffCategory"="人员类别";
+"storageNum"="入库数量";
+"storageSubTotal"="小计";
+"storageUnitPrice"="入库单价";
 "submit"="提交";
 "subtotal"="小计";
+"subtotal0"="小计";
 "success"="成功";
 "summary"="合计";
 "system"="系统";

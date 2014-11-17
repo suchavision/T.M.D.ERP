@@ -122,8 +122,8 @@
                         
                         "headerColor":0,
                         "headerHeight": 45,
-                        "headers":["WHPurchaseOrder.productCode","WHPurchaseOrder.productName","WHPurchaseOrder.purchaseQC","WHPurchaseOrder.num","WHPurchaseOrder.unit","WHPurchaseOrder.unitPrice",
-                                   "WHPurchaseOrder.subTotal", "WHPurchaseOrder.storageNum","WHPurchaseOrder.storageUnit","WHPurchaseOrder.storageUnitPrice","WHPurchaseOrder.storageSubTotal"],
+                        "headers":["WHPurchaseOrder.productCode","productNames","purchaseQC","amount","WHPurchaseOrder.unit","WHPurchaseOrder.unitPrice",
+                                   "subtotal0", "storageNum","unit","storageUnitPrice","storageSubTotal"],
                         "headersX":[8, 110, 220, 350, 425, 490, 590, 670, 763, 810, 930],
                         "headersY": [10],
                     }

@@ -3,7 +3,7 @@
 #import "AppInterface.h"
 
 
-#define CacheIntervalTime 10
+#define CacheIntervalTime 12
 
 
 @implementation JsonControllerScheduledTaskHelper

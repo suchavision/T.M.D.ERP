@@ -162,13 +162,24 @@
         NSArray* cannotEmptyAttributes = self.specifications[kController_SERVER][json_CHECK_NOTEMPTY];
         for (NSString* attribute in cannotEmptyAttributes) {
             UIView* view = [jsonView getView: attribute];
-            if (! [view isKindOfClass:[JRLabelBaseView class]]) continue;
+            
+//            if ([view isKindOfClass:[JRImageView class]]) continue;
+            
             UILabel* label = [[UILabel alloc] init];
+            
+            if ( [view isKindOfClass:[JRLabelBaseView class]]) {
+                [label setOriginX: CanvasX(-15)];
+                [view addSubview: label];
+                
+            } else {
+                [label setOrigin: [view origin]];
+                [view.superview addSubview: label];
+            }
+            
+            
             [label setSize:CGSizeMake(CanvasW(15), [view sizeHeight])];
-            [label setOriginX: CanvasX(-15)];
             label.textAlignment = NSTextAlignmentCenter;
             label.textColor = [UIColor redColor];
-            [view addSubview: label];
             label.text = @"*";
         }
         
@@ -474,7 +485,7 @@
 -(BOOL) validateSendObjects: (NSMutableDictionary*)objects order:(NSString*)order
 {
     // For Debug , not check it, remove it production
-    if ([VIEW isTestDevice]) return YES;
+//    if ([VIEW isTestDevice]) return YES;
     
     NSDictionary* serverConfig = self.specifications[kController_SERVER];
     NSString* message = nil;
@@ -543,6 +554,7 @@
     
     
     [[self scheduledTaskHelper] didCreateOrderDeleteCacheFile];
+    [[self scheduledTaskHelper] viewDidAppearCheckRegisterCache];
 }
 
 -(void) didFailedSendObjects: (NSMutableDictionary*)objects response:(ResponseJsonModel*)response

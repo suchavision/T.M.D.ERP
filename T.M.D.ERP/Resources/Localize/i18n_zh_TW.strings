@@ -255,10 +255,12 @@
 "phoneNO"="電話";
 "photoLibrary"="相冊";
 "please"="z";
+"product"="產品";
 "productCode"="產品代碼";
 "productName"="品名";
 "productNames"="品名/規格";
 "purchaseOrderNO"="采購單號";
+"purchaseQC"="進貨質檢單";
 "purpose"="用途";
 "re_password"="重復密碼";
 "read"="查看";
@@ -282,8 +284,12 @@
 "skip"="忽略";
 "spinPurchaseOrder"="拋轉採購單";
 "staffCategory"="人員類別";
+"storageNum"="入庫數量";
+"storageSubTotal"="小計";
+"storageUnitPrice"="入庫單價";
 "submit"="提交";
 "subtotal"="小計";
+"subtotal0"="小計";
 "success"="成功";
 "summary"="合計";
 "system"="系統";

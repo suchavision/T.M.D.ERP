@@ -24,7 +24,7 @@
     
     "SERVER":{
         "CHECK_NOTEMPTY": [
-                           "productNames","amount", "unit","unitPriceOne"
+                           "vendorName","vendorName1"
                            ]
         
     },
