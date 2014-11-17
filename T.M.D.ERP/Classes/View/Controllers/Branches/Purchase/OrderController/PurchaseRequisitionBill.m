@@ -107,7 +107,7 @@
             NSArray* array = [filterTableView realContentForIndexPath: realIndexPath];
             
             
-            UITableView* tableView = [weakInstance getTableView];
+            UITableView* tableView = [TableViewHelper getTableViewBySubView: weakInstance];
             NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
             NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
             if (!cellContentDictionary) {
@@ -127,7 +127,7 @@
     };
     _unitTxtField.textFieldDidClickAction = ^(JRTextField *jrTextField) {
         
-        UITableView* tableView = [weakInstance getTableView];
+        UITableView* tableView = [TableViewHelper getTableViewBySubView: weakInstance];
         NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
         NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
@@ -156,29 +156,6 @@
     };
 }
 
-
--(UITableView*) getTableView
-{
-    UITableView* tableView = (UITableView*)self.superview;
-    while (tableView && ![tableView isKindOfClass:[UITableView class]]) {
-        tableView = (UITableView*)tableView.superview;
-    }
-    return tableView;
-}
-
-
-//-(void)setDatas:(id)cotents
-//{
-//    [super setDatas:cotents];
-//    _subTotalTxtField.text = nil;
-//    
-//    if (OBJECT_EMPYT(_amountTxtField.text) || OBJECT_EMPYT(_unitPriceTxtField.text)) return;
-//    
-//    float finalValue = [_amountTxtField.text floatValue] *[_unitPriceTxtField.text floatValue];
-//    NSString *finalValueString = [[NSNumber numberWithFloat:finalValue] stringValue];
-//    //    NSString *finalValueString = [NSString stringWithFormat:@"%.2f",finalValue];
-//    _subTotalTxtField.text = finalValueString;
-//}
 
 
 

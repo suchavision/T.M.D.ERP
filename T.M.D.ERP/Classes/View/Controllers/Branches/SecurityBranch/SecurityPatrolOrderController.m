@@ -86,7 +86,11 @@ static const int buttonOffset = buttonWidth + buttonMargin;
     cellButtons = @[LOCALIZE_KEY(LOCALIZE(@"repair")),@"patrol_button1.png",LOCALIZE_KEY(LOCALIZE(@"checker")),@"patrol_button2.png",LOCALIZE_KEY(LOCALIZE(@"photo")),@"pass_cam.png"];
     
     void(^clickAction)(id sender) = ^(NormalButton* sender){
-        NSIndexPath* indexPath = [TableViewHelper getIndexPath: table.tableView cellSubView:sender];
+        // get table cell
+        UITableViewCell* cell = [TableViewHelper getTableViewCellBySubView:sender];
+        // get the index path
+        NSIndexPath* indexPath = [table.tableView indexPathForCell: cell];
+        
         NSLog(@"%d:%d",indexPath.row,sender.tag);
         switch (sender.tag) {
             case 1:

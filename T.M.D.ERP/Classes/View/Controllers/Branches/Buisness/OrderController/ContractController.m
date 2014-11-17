@@ -267,7 +267,7 @@
         return;
     }
     
-    ContractPayCell* payCell = (ContractPayCell*)[TableViewHelper getTableViewCell: _contractPayTableView.tableView cellSubView:jrTextField];
+    ContractPayCell* payCell = (ContractPayCell*)[TableViewHelper getTableViewCellBySubView:jrTextField];
     NSIndexPath* indexPath  = [_contractPayTableView.tableView indexPathForCell: payCell];
     int row = indexPath.row;
     
@@ -359,7 +359,7 @@
 #pragma mark - Handle TableView
 -(NSIndexPath*)getIndexPathFromView:(JRTextField*)jrTextField
 {
-    ContractPayCell* payCell = (ContractPayCell*)[TableViewHelper getTableViewCell: _contractPayTableView.tableView cellSubView:jrTextField];
+    ContractPayCell* payCell = (ContractPayCell*)[TableViewHelper getTableViewCellBySubView:jrTextField];
     return [_contractPayTableView.tableView indexPathForCell: payCell];
 }
 

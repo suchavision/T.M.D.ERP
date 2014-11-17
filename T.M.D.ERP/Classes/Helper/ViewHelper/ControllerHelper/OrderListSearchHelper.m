@@ -251,9 +251,11 @@
 
 -(void) valueDidChangeAction: (id)sender
 {
-    NSIndexPath* indexPath = [TableViewHelper getIndexPath: _searchTableView cellSubView:sender];
+    // get table cell
+    UITableViewCell* cell = [TableViewHelper getTableViewCellBySubView:sender];
+    // get the index path
+    NSIndexPath* indexPath = [_searchTableView indexPathForCell: cell];
     if (!indexPath) return;
-    UITableViewCell* cell = [TableViewHelper getTableViewCell: _searchTableView cellSubView:sender];
     
     NSString* property = _orderSearchProperties[indexPath.row];
 //    NSLog(@"%d,%d : %@", indexPath.section, indexPath.row, property);

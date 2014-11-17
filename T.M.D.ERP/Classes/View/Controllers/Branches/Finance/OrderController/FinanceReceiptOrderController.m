@@ -304,7 +304,11 @@
     JRTextField* jrTextField = (JRTextField*)textField;
     id value = [jrTextField getValue];
     if (value) {
-        NSIndexPath* indexPath = [TableViewHelper getIndexPath: tableLeft.tableView cellSubView:textField];
+        // get table cell
+        UITableViewCell* cell = [TableViewHelper getTableViewCellBySubView:textField];
+        // get the index path
+        NSIndexPath* indexPath = [tableLeft.tableView indexPathForCell: cell];
+        
         NSMutableDictionary* itemValues = [tableLeftSectionBillsContents safeObjectAtIndex: indexPath.row];
         if (itemValues) {
             [itemValues setObject:value forKey:jrTextField.attribute];
