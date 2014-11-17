@@ -20,7 +20,7 @@
     
     JRCheckBox* userCheckBox ;
     JRCheckBox* passwordCheckBox ;
-}
+}     
 
 -(void)viewWillAppear:(BOOL)animated
 {

@@ -26,7 +26,15 @@
         
         
         
-    }
+    },
+    
+    "SERVER":{
+        "CHECK_NOTEMPTY": [
+                           "vendorName","contact", "phoneNO"
+                           ]
+        
+    },
+
     
     
 }

@@ -11,7 +11,8 @@
 
 @implementation WarehouseHelper
 
-+(void)popTableView:(JRTextField*)jrTextField settingModel:(NSString*)model
+
++(void)popTableView:(JRTextField*)jrTextField settingModel:(NSString*)model title:(NSString*)title
 {
     NSString* contentKey = model;
     __block BOOL isNeedToSaveToServer = NO;
@@ -19,9 +20,10 @@
     UIView* superView = [PopupTableHelper getCommonPopupTableView];
     JRButtonsHeaderTableView* modelTableView = (JRButtonsHeaderTableView*)[superView viewWithTag: POPUP_TABLEVIEW_TAG];
     // title label
-    modelTableView.titleLabel.text = LOCALIZE_KEY(model);
+    modelTableView.titleLabel.text = title;
     // cancel button
     JRButton* cancelBtn = modelTableView.leftButton ;
+    
     cancelBtn.didClikcButtonAction = ^void(id sender) {
         [PopupViewHelper dissmissCurrentPopView];
     };
@@ -30,7 +32,7 @@
     
     // add button
     addBtn.didClikcButtonAction = ^void(NormalButton* button) {
-        NSString* addNewmessage = LOCALIZE_MESSAGE_FORMAT(@"AddNew", LOCALIZE_KEY(model));
+        NSString* addNewmessage = LOCALIZE_MESSAGE_FORMAT(@"AddNew", title);
         [PopupViewHelper popAlert: addNewmessage message:nil style:UIAlertViewStylePlainTextInput actionBlock:^(UIView *popView, NSInteger index) {
             UIAlertView* alertView = (UIAlertView*)popView;
             NSString* newObject = [alertView textFieldAtIndex: 0].text;
@@ -44,7 +46,7 @@
                 [modelTableView.tableView.tableView selectRowAtIndexPath:containsIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
             } else {
                 isNeedToSaveToServer = YES;
-                [sectionsContents insertObject:newObject atIndex:0];
+                [sectionsContents addObject:newObject];
                 [modelTableView.tableView.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow: 0 inSection:0]] withRowAnimation: UITableViewRowAnimationBottom];
             }
         } dismissBlock:nil buttons:LOCALIZE_KEY(@"CANCEL"), LOCALIZE_KEY(@"OK"), nil];

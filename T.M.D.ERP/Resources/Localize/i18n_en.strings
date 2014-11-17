@@ -21,6 +21,7 @@
 "Business"="Business";
 "CANCEL"="Cancel";
 "CLIENT"="CLIENT";
+"CONSTRUCTION_TEAM"="z";
 "Cards"="Bussiness Cards";
 "Client"="Client";
 "Contract"="Contract";
@@ -159,6 +160,7 @@
 "YES"="YES";
 "ZZ_BTNSubmit"="Submit";
 "accountName"="z";
+"addNewUnit"="z";
 "address"="Address";
 "age"="Age";
 "already"="Already";
@@ -256,8 +258,8 @@
 "purpose"="z";
 "re_password"="Verify";
 "read"="Read";
-"receiveWay"="z";
 "reason"="Reason";
+"receiveWay"="z";
 "references"="Related Documents";
 "rememberPawword"="Save Password";
 "rememberUserName"="Save Account";

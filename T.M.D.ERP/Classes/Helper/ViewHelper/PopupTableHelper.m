@@ -155,7 +155,7 @@
 
 
 
-+(void) popTableView: (NSString*)title keys:(NSArray*)keys selectedAction:(void(^)(JRButtonsHeaderTableView* sender, NSUInteger selectedIndex, NSString* selectedVisualValue))selectedAction
++(JRButtonsHeaderTableView*) popTableView: (NSString*)title keys:(NSArray*)keys selectedAction:(void(^)(JRButtonsHeaderTableView* sender, NSUInteger selectedIndex, NSString* selectedVisualValue))selectedAction
 {
     NSArray* localizeKeys = [LocalizeHelper localize: keys] ;
     JRButtonsHeaderTableView* searchTableView = [self showPopTableView: nil titleKey:title dataSources:localizeKeys];
@@ -167,6 +167,7 @@
             selectedAction((JRButtonsHeaderTableView*)headerTableView, selectedIndex, selectedVisualValue);
         }
     };
+    return searchTableView;
 }
 
 

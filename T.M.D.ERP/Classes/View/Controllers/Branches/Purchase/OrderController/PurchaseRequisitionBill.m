@@ -1,6 +1,6 @@
 #import "PurchaseRequisitionBill.h"
 #import "AppInterface.h"
-@interface PurchaseRequisitionBill()
+@interface PurchaseRequisitionBill()<UITextFieldDelegate>
 @property(nonatomic, strong) JRTextField* productCodeTxtField;
 @property(nonatomic, strong) JRTextField* productNameTxtField;
 @property(nonatomic, strong) JRTextField* amountTxtField;
@@ -32,7 +32,9 @@
         _unitPriceTxtFieldTwo.attribute = attr_unitPriceTwo;
         _unitPriceTxtFieldThree  = [[JRTextField alloc] initWithFrame:CanvasRect(800, 0, 125, 50)];
         _unitPriceTxtFieldThree.attribute = attr_unitPriceThree;
-
+        
+        
+        
         _productCodeTxtField.textAlignment = NSTextAlignmentCenter;
         _productNameTxtField.textAlignment = NSTextAlignmentCenter;
         _amountTxtField.textAlignment = NSTextAlignmentCenter;
@@ -64,8 +66,6 @@
         _unitPriceTxtFieldThree.textFieldDidEndEditingBlock = ^void(UITextField* tx, NSString* oldText) {
             weakSelf.didEndEditNewCellAction(weakSelf);
         };
-
-
         
         
         [self.contentView addSubview:_productCodeTxtField];
@@ -76,7 +76,7 @@
         [self.contentView addSubview:_unitPriceTxtFieldTwo];
         [self.contentView addSubview:_unitPriceTxtFieldThree];
         
-               
+        
         [self setValidatorTextField];
         self.backgroundColor = [UIColor clearColor];
         
@@ -96,12 +96,15 @@
     
     
     __weak PurchaseRequisitionBill* weakInstance = self;
+    __weak JRTextField *weakProductName = _productNameTxtField;
+    __weak JRTextField *weakProductCode = _productCodeTxtField;
     _productCodeTxtField.textFieldDidClickAction = ^(JRTextField* jrTextField){
-        
+        weakProductName.userInteractionEnabled = NO;
         NSArray* needFields = @[@"productCode",@"productName",@"basicUnit",@"unit"];
         PickerModelTableView* pickView = [PickerModelTableView popupWithRequestModel:MODEL_WHInventory fields:needFields];
+        pickView.tableView.headersXcoordinates =  @[@(30), @(300),@(700),@(800)];
+        
         pickView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
-            
             FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
             NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
             NSArray* array = [filterTableView realContentForIndexPath: realIndexPath];
@@ -114,11 +117,12 @@
                 cellContentDictionary = [NSMutableDictionary dictionary];
                 [weakInstance.requisitionTableViewDataSource addObject: cellContentDictionary];
             }
-            
             [cellContentDictionary setObject:array[1] forKey:@"productCode"];
             [cellContentDictionary setObject:array[2] forKey:@"productName"];
+    
             
             [tableView reloadData];
+            
             
             [PickerModelTableView dismiss];
             
@@ -132,22 +136,87 @@
         NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
         NSString* productCode = cellContentDictionary[@"productCode"];
-        
-        
+        if([productCode isEqualToString:@""]) {
+            JRButtonsHeaderTableView* popTableView = [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:nil selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
+                [jrTextField setValue: selectedVisualValue];
+                
+                
+                UITableView* tableView = [weakInstance getTableView];
+                NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
+                NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
+                if (!cellContentDictionary) {
+                    cellContentDictionary = [NSMutableDictionary dictionary];
+                    [weakInstance.requisitionTableViewDataSource addObject: cellContentDictionary];
+                }
+                [cellContentDictionary setObject: selectedVisualValue forKey:attr_unit];
+                [tableView reloadData];
+                
+            }];
+            
+            
+            popTableView.rightButton.hidden = NO;
+            [popTableView.rightButton setTitle:LOCALIZE_KEY(@"ADD") forState:UIControlStateNormal];
+            __weak TableViewBase* weakTableView = popTableView.tableView.tableView;
+            
+            NSMutableDictionary* datasources = [NSMutableDictionary dictionary];
+            NSMutableArray* array = [NSMutableArray array];
+            [datasources setObject: array forKey:@""];
+            weakTableView.contentsDictionary = datasources;
+            
+            popTableView.rightButton.didClikcButtonAction = ^void(JRButton* btn) {
+                NSString* addNewmessage = LOCALIZE_KEY(@"addNewUnit");
+                [PopupViewHelper popAlert: addNewmessage message:nil style:UIAlertViewStylePlainTextInput actionBlock:^(UIView *popView, NSInteger index) {
+                    UIAlertView* alertView = (UIAlertView*)popView;
+                    NSString* newUnitString = [alertView textFieldAtIndex: 0].text;
+                    [array addObject: newUnitString];
+                    
+                    [weakTableView reloadData];
+                    
+                } dismissBlock:nil buttons:LOCALIZE_KEY(@"CANCEL"), LOCALIZE_KEY(@"OK"), nil];
+            };
+            JRButton *cancleButton = popTableView.leftButton;
+            cancleButton.hidden = NO;
+            cancleButton.didClikcButtonAction = ^void(JRButton *btn){
+                [PopupTableHelper dissmissCurrentPopTableView];
+            };
+            
+        }
         RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
         requestModel.path = PATH_LOGIC_READ(DEPARTMENT_WAREHOUSE);
         [requestModel addModel: MODEL_WHInventory];
         [requestModel addObject: @{@"productCode": productCode}];
-        [requestModel.fields addObject:@[@"basicUnit", @"unit"]];
+        [requestModel.fields addObject:@[@"basicUnit", @"unit",@"amount",]];
         [MODEL.requester startPostRequest: requestModel completeHandler:^(HTTPRequester *requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
             
             NSArray* results = response.results;
+            
             NSArray *uinits = [[results firstObject] firstObject];
             
-            [PopupTableHelper popTableView:nil keys:uinits selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
-                [jrTextField setValue: selectedVisualValue];
-            }];
+            if(uinits){
+            NSString *basicUnitString = [uinits objectAtIndex:0];
+            NSString *unitString = [uinits objectAtIndex:1];
+            NSArray *myArray = [NSArray arrayWithObjects:basicUnitString,unitString, nil];
+            NSNumber *amountNumber = [uinits objectAtIndex:2];
+            NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+            NSString *amountString = [numberFormatter stringFromNumber:amountNumber];
+            NSArray *array = [NSArray arrayWithObject:basicUnitString];
+            if([amountString isEqualToString:@"1"]){
+                myArray = array;
+            }
             
+            [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:myArray selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
+                
+                [jrTextField setValue:selectedVisualValue];
+                NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
+                NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
+                [cellContentDictionary setObject: selectedVisualValue forKey:jrTextField.attribute];
+                [tableView reloadData];
+                
+            }];
+                
+                
+            }
+
         }];
         
         
@@ -155,7 +224,6 @@
         
     };
 }
-
 
 
 

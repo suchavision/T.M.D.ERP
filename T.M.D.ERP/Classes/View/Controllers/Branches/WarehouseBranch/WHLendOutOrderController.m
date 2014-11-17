@@ -1,5 +1,6 @@
 #import "WHLendOutOrderController.h"
 #import "AppInterface.h"
+#import "PurchaseBillCell.h"
 
 
 @interface WHLendOutOrderController ()
@@ -38,19 +39,37 @@
     
     /*select staffCategory and staffNO*/
     JRTextField* staffCategoryTxtField = ((JRLabelCommaTextFieldView*)[self.jsonView getView:@"staffCategory"]).textField;
-    JRTextField* staffNOTxtField = ((JRLabelCommaTextFieldView*)[self.jsonView getView:@"staffNO"]).textField;
-    NSArray* arr = [MODEL.usersNONames allValues];
-    NSDictionary* dic = @{@"施工队": @[], @"客户资料":@[], @"员工资料":arr,@"供应商":@[]};
+    JRTextField* staffNOTextField = ((JRLabelCommaTextFieldView*)[self.jsonView getView:@"staffNO"]).textField;
     
-    JRTextFieldDidClickAction clickBlock = ^void(JRTextField* jrTextField){
-        [CustomPickerView showPicker:jrTextField title:@"选择人员" pickerDataSource:dic doneBlock:^(NSInteger selectedIndex, NSString *selectedValue) {
-            NSArray* array = [selectedValue componentsSeparatedByString:KEY_COMMA];
-            staffCategoryTxtField.text = [array firstObject];
-            staffNOTxtField.text = [array lastObject];
+    NSArray* keys =  @[KEY_CONSTRUCTION_TEAM,KEY_EMPLOYEE, KEY_VENDOR, KEY_CLIENT];
+    NSArray* values = @[KEY_CONSTRUCTION_TEAM, MODEL_EMPLOYEE, MODEL_VENDOR, MODEL_CLIENT];
+    staffCategoryTxtField.isEnumerateValue = YES;
+    staffCategoryTxtField.enumerateValues = values;
+    staffCategoryTxtField.enumerateValuesLocalizeKeys = keys;
+    staffCategoryTxtField.textFieldDidClickAction = ^void(JRTextField* textField) {
+        [PopupTableHelper popTableView:nil keys:keys selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString* selectedVisualValue) {
+            
+            textField.text = selectedVisualValue;        // set text
+            
+            staffNOTextField.text = nil;
+            NSString* selectedMemberType = [textField.enumerateValues objectAtIndex: selectedIndex];
+            staffNOTextField.memberType = selectedMemberType;
+            
+            
+                // pop
+                [weakSelf popupMembersPicker: selectedMemberType textField:staffNOTextField];
+                // change the staff number click action
+                staffNOTextField.textFieldDidClickAction = ^void(JRTextField* textField) {
+                    [weakSelf popupMembersPicker: selectedMemberType textField:textField];
+                };
+            
+            
         }];
     };
-    staffCategoryTxtField.textFieldDidClickAction = clickBlock;
-    staffNOTxtField.textFieldDidClickAction = clickBlock;
+
+
+    
+    
     
     /*select product*/
     _productCodeTxtField= ((JRLabelTextFieldView*)[self.jsonView getView:@"productCode"]).textField;
@@ -101,6 +120,23 @@
     [WHLendOutOrderController deriveReturnViews: self index:0];
     weakSelf.incrementInt++;
 }
+
+
+-(void) popupMembersPicker:(NSString*)memberType textField:(JRTextField*)textField
+{
+    PickerModelTableView *pickerTableView = [PickerModelTableView popupWithModel: memberType ];
+    pickerTableView.titleHeaderViewDidSelectAction = ^void(JRTitleHeaderTableView* headerTableView, NSIndexPath* indexPath){
+        FilterTableView* filterTableView = (FilterTableView*)headerTableView.tableView.tableView;
+        NSIndexPath* realIndexPath = [filterTableView getRealIndexPathInFilterMode: indexPath];
+        NSArray* realContents = [filterTableView realContentForIndexPath: realIndexPath];
+        NSString* number = [realContents safeObjectAtIndex:1];
+        [textField setValue: number];
+        [PickerModelTableView dismiss];
+    };
+}
+
+
+
 
 +(void) removerDeriveReturnViews: (WHLendOutOrderController*)controller index:(int)index
 {
@@ -207,7 +243,9 @@
         [objects setObject:remarkTxtView.text forKey:@"remark"];
     }
     else {
+        
         NSString* orderNO = self.valueObjects[@"orderNO"];
+        if(orderNO)
         [objects setObject:orderNO forKey:@"billNO"];
         [objects setObject:MODEL.signedUserName forKey:@"createUser"];
     }

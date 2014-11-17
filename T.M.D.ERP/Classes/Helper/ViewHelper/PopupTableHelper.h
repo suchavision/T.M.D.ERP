@@ -23,7 +23,7 @@
 +(JRButtonsHeaderTableView*) showPopTableView: (JRTextField*)textField titleKey:(NSString*)titleKey dataSources:(NSArray*)dataSources realDataSources:(NSArray*)realDataSources;
 
 
-+(void) popTableView: (NSString*)title keys:(NSArray*)keys selectedAction:(void(^)(JRButtonsHeaderTableView* sender, NSUInteger selectedIndex, NSString* selectedVisualValue))selectedAction;
++(JRButtonsHeaderTableView*) popTableView: (NSString*)title keys:(NSArray*)keys selectedAction:(void(^)(JRButtonsHeaderTableView* sender, NSUInteger selectedIndex, NSString* selectedVisualValue))selectedAction;
 
 
 +(void) dissmissCurrentPopTableView;

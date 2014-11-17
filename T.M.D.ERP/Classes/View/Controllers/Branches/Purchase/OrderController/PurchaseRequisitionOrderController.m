@@ -43,6 +43,7 @@
     _purchaseRequisitionTableView.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase *tableObj ,NSIndexPath *indexPath ,UITableViewCell *olderCell){
         static NSString *CellIdentifier = @"Cell";
         PurchaseRequisitionBill* cell = [tableObj dequeueReusableCellWithIdentifier:CellIdentifier];
+        
         if (cell == nil) {
             cell = [[PurchaseRequisitionBill alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.requisitionTableViewDataSource = weakSelf.requisitionTableViewDataSource;
@@ -59,7 +60,9 @@
                 [tableObj reloadData];
                 [tableObj scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
             };
-        }
+            }
+        
+        
         [cell setDatas: [blockSelf->_requisitionTableViewDataSource safeObjectAtIndex: indexPath.row]];
         return cell;
 
@@ -167,10 +170,13 @@
     [requestModel addModel: order];
     
     [requestModel addObject: withoutImagesObjects ];
-    
+    if(vendorNumber)
     [withoutImagesObjects setObject:vendorNumber forKey:@"vendorNumber"];
+    if(vendorNumber1)
     [withoutImagesObjects setObject:vendorNumber1 forKey:@"vendorNumber1"];
+    if(vendorNumber2)
     [withoutImagesObjects setObject:vendorNumber2 forKey:@"vendorNumber2"];
+    if(vendorNumber3)
     [withoutImagesObjects setObject:vendorNumber3 forKey:@"vendorNumber3"];
     
     [requestModel.preconditions addObject: @{}];

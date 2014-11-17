@@ -82,8 +82,9 @@
     
     // titleLabel
     titleLabel = [[JRLocalizeLabel alloc] init];
+    titleLabel.textColor = [UIColor whiteColor];
     titleLabel.frame = [FrameTranslater convertCanvasRect: CGRectMake(0, 0, 400, 50)];// default
-    titleLabel.font = [UIFont systemFontOfSize:[FrameTranslater convertFontSize: 18]];
+    titleLabel.font = [UIFont fontWithName:@"Menlo-Bold" size:[FrameTranslater convertFontSize: 25]];
     titleLabel.labelDidSetTextBlock = ^(NormalLabel* label, NSString* newText, NSString* oldText){
         [label adjustWidthToFontText];
     };

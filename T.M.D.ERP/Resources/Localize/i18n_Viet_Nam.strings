@@ -21,6 +21,7 @@
 "Business"="kinh doanh";
 "CANCEL"="hủy bỏ";
 "CLIENT"="khách hàng";
+"CONSTRUCTION_TEAM"="z";
 "Cards"="kinh doanh Thẻ";
 "Client"="khách hàng";
 "Contract"="hợp đồng";
@@ -158,6 +159,7 @@
 "YES"="được";
 "ZZ_BTNSubmit"="lưu trữ";
 "accountName"="z";
+"addNewUnit"="z";
 "address"="địa chỉ";
 "age"="tuổi";
 "already"="z";
@@ -255,8 +257,8 @@
 "purpose"="z";
 "re_password"="tra";
 "read"="xem";
-"receiveWay"="z";
 "reason"="z";
+"receiveWay"="z";
 "references"="Tài liệu liên quan";
 "rememberPawword"="nhớ mật khẩu";
 "rememberUserName"="nhớ tài khoản";

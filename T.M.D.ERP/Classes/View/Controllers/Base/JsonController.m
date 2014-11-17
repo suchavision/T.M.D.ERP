@@ -623,8 +623,7 @@
             }
         }];
         
-    }
-    else if (self.controlMode == JsonControllerModeModify) {
+    } else if (self.controlMode == JsonControllerModeModify) {
         
         NSDictionary* identities = [RequestModelHelper getModelIdentities: self.identification];
         if (! identities) return;
@@ -649,7 +648,9 @@
                 [self didFailedSendObjects: differWithoutImagesObjects response: response];
             }
         }];
+        
     }
+    
 }
 
 -(void) startSendCreateImagesRequest: (NSDictionary*)imagesObjects orderNO:(NSString*)orderNO forwardUser:(NSString*)forwardUser

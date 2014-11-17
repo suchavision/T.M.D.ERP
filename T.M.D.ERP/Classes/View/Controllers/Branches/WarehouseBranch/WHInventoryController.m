@@ -58,7 +58,7 @@
     
     JRTextField* editCategoryTxtFidld = ((JRLabelTextFieldView*)[self.jsonView getView:@"productCategory"]).textField;
     editCategoryTxtFidld.textFieldDidClickAction = ^void(JRTextField* jrTextField) {
-        [WarehouseHelper popTableView:jrTextField settingModel:APPSettings_WHAREHOUSE_PRODUCT_CATEGORY];
+        [WarehouseHelper popTableView:jrTextField settingModel:APPSettings_WHAREHOUSE_PRODUCT_CATEGORY title: LOCALIZE_KEY(APPSettings_WHAREHOUSE_PRODUCT_CATEGORY)];
     };
     
     

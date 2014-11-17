@@ -23,6 +23,7 @@
 "CASH"="現金";
 "CHEQUE"="支票";
 "CLIENT"="客戶";
+"CONSTRUCTION_TEAM"="施工隊";
 "Cards"="商業名片";
 "Client"="客户资料";
 "Contract"="合同";
@@ -163,6 +164,7 @@
 "YES"="是";
 "ZZ_BTNSubmit"="存檔 ";
 "accountName"="收款賬戶";
+"addNewUnit"="新增單位";
 "address"="地址";
 "age"="年齡";
 "already"="已經";
@@ -260,8 +262,8 @@
 "purpose"="用途";
 "re_password"="重復密碼";
 "read"="查看";
-"receiveWay"="收款方式";
 "reason"="原因";
+"receiveWay"="收款方式";
 "references"="相關文件";
 "rememberPawword"="記住密碼";
 "rememberUserName"="記住帳號";

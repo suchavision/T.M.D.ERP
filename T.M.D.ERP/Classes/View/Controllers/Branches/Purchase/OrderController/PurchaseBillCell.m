@@ -1,7 +1,7 @@
 #import "PurchaseBillCell.h"
 #import "AppInterface.h"
 
-@interface PurchaseBillCell()
+@interface PurchaseBillCell()<UITextFieldDelegate>
 
 @property(nonatomic, strong) JRTextField* productCodeTxtField;
 @property(nonatomic, strong) JRTextField* productNameTxtField;
@@ -60,7 +60,10 @@
             weakSelf.didEndEditNewCellAction(weakSelf);
         };
         
-
+        _productNameTxtField.delegate = self;
+        _amountTxtField.delegate = self;
+        _unitTxtField.delegate = self;
+        _unitPriceTxtField.delegate = self;
         
         [self.contentView addSubview:_productCodeTxtField];
         [self.contentView addSubview:_productNameTxtField];
@@ -128,5 +131,9 @@
     _subTotalTxtField.text = finalValueString;
 }
 
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 @end

@@ -19,7 +19,16 @@
             },
         }
 
-    }
+    },
+    
+    
+    "SERVER":{
+        "CHECK_NOTEMPTY": [
+                           "productNames","amount", "unit","unitPriceOne"
+                           ]
+        
+    },
+
 
     
 }

@@ -12,7 +12,7 @@
 @class JRButtonTextFieldView;
 @interface WarehouseHelper : NSObject
 
-+(void)popTableView:(JRTextField*)jrTextField settingModel:(NSString*)model;
++(void)popTableView:(JRTextField*)jrTextField settingModel:(NSString*)model title:(NSString*)title;
 
 +(void)constraint:(JRButtonTextFieldView*)constraintView condition:(JRButtonTextFieldView*)conditionView;
 
