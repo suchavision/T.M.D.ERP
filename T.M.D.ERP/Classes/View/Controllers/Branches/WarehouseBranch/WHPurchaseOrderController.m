@@ -74,6 +74,22 @@
     _storageTotalTxtField = ((JRLabelCommaTextFieldView*)[self.jsonView getView:@"NESTED_Middle_bottom.storageTotal"]).textField;
    
     _purchaseTableView = (JRRefreshTableView*)[self.jsonView getView:@"NESTED_Middle_top.TABLE_Purchase"];
+    UIView *headView = _purchaseTableView.headerView;
+    for(JRLocalizeLabel *localizeLabel in headView.subviews)
+    {
+        NSString *attribute = localizeLabel.attribute;
+        if([attribute isEqualToString:@"productNames" ]|| [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"WHPurchaseOrder.unit" ]|| [attribute isEqualToString:@"WHPurchaseOrder.unitPrice"] || [attribute isEqualToString:@"storageNum"] || [attribute isEqualToString:@"unit"] ||[attribute isEqualToString:@"storageUnitPrice"])
+        {
+            UILabel *label = [[UILabel alloc] init];
+            [label setSize:CGSizeMake(CanvasW(15), [localizeLabel sizeHeight])];
+            [label setOriginX:CanvasX(-5)];
+            [label setOriginY:CanvasY(-5)];
+            [label setTextColor:[UIColor redColor]];
+            label.text = @"*";
+            [localizeLabel addSubview:label];
+        }
+    }
+    
     _purchaseTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObje){
         return 1;
     };
@@ -129,6 +145,77 @@
 
     
 }
+
+
+- (BOOL)validateSendObjects:(NSMutableDictionary *)objects order:(NSString *)order
+{
+    BOOL success = [super validateSendObjects:objects order:order];
+    if(!success)
+    {
+        return NO;
+    }
+    BOOL isSuccess = YES;
+    NSString *message = nil;
+    NSArray *dataSource = _purchaseFooterCellContents;
+    if(!dataSource)
+    {
+        NSString *tip = [LOCALIZE_KEY(@"product") stringByAppendingString:LOCALIZE_KEY(@"list")];
+        message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, tip);
+        isSuccess = NO;
+    }
+    for(NSDictionary *dictionary in dataSource)
+    {
+        if(OBJECT_EMPYT(dictionary[@"productName"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"productName"));
+            isSuccess = NO;
+            break;
+            
+        }
+        if(OBJECT_EMPYT(dictionary[@"amount"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"amount"));
+            isSuccess = NO;
+            break;
+        }
+        if(OBJECT_EMPYT(dictionary[@"unit"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unit"));
+            isSuccess = NO;
+            break;
+        }
+        if(OBJECT_EMPYT(dictionary[@"unitPrice"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unitPrice"));
+            isSuccess = NO;
+            break;
+        }
+        if(OBJECT_EMPYT(dictionary[@"storageNum"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"storageNum"));
+            isSuccess = NO;
+            break;
+        }
+        
+        if(OBJECT_EMPYT(dictionary[@"storageUnit"]))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_MESSAGE(@"storageUnit"));
+            isSuccess = NO;
+            break;
+        }
+        if(OBJECT_EMPYT(@"storageUnitPrice"))
+        {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"storageUnitPrice"));
+            isSuccess = NO;
+            break;
+        }
+           }
+    if(message)
+        [AppViewHelper alertMessage:message];
+    return isSuccess;
+}
+
+
 
 #pragma mark -
 #pragma mark - Request

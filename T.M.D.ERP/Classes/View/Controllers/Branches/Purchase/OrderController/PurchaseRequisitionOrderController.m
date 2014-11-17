@@ -48,6 +48,7 @@
             label.textColor = [UIColor redColor];
             [view addSubview: label];
             label.text = @"*";
+
         }
     }
     
@@ -276,7 +277,6 @@
     if (message)[AppViewHelper alertMessage: message];
     return isSuccess;
 }
-
 
 
 

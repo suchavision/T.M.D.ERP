@@ -60,10 +60,26 @@
             weakSelf.didEndEditNewCellAction(weakSelf);
         };
         
-//        _productNameTxtField.delegate = self;
-//        _amountTxtField.delegate = self;
-//        _unitTxtField.delegate = self;
-//        _unitPriceTxtField.delegate = self;
+        
+        _productNameTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            
+            return [normalTextField resignFirstResponder];
+        };
+        _amountTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _subTotalTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+    
+        
+        
         
         [self.contentView addSubview:_productCodeTxtField];
         [self.contentView addSubview:_productNameTxtField];

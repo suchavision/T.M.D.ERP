@@ -68,6 +68,27 @@
         };
         
         
+        _productNameTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+        
+            return [normalTextField resignFirstResponder];
+        };
+        _amountTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitTxtField.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitPriceTxtFieldOne.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitPriceTxtFieldTwo.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        _unitPriceTxtFieldThree.textFieldShouldReturnBlock = ^BOOL(NormalTextField *normalTextField){
+            return [normalTextField resignFirstResponder];
+        };
+        
+        
         [self.contentView addSubview:_productCodeTxtField];
         [self.contentView addSubview:_productNameTxtField];
         [self.contentView addSubview:_amountTxtField];
@@ -97,7 +118,6 @@
     
     __weak PurchaseRequisitionBill* weakInstance = self;
     __weak JRTextField *weakProductName = _productNameTxtField;
-    __weak JRTextField *weakProductCode = _productCodeTxtField;
     _productCodeTxtField.textFieldDidClickAction = ^(JRTextField* jrTextField){
         weakProductName.userInteractionEnabled = NO;
         NSArray* needFields = @[@"productCode",@"productName",@"basicUnit",@"unit"];

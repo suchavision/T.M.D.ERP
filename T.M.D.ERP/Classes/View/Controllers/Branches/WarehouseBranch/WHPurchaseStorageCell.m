@@ -157,7 +157,7 @@
     };
     _storageUnitTxtField.textFieldDidClickAction = ^(JRTextField *jrTextField) {
         
-         UITableView* tableView = [TableViewHelper getTableViewBySubView: jrTextField];
+        UITableView* tableView = [TableViewHelper getTableViewBySubView: jrTextField];
         NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
         NSMutableDictionary* cellContentDictionary = [weakInstance.middleTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
