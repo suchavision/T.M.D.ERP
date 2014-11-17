@@ -136,7 +136,7 @@
         NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
         NSString* productCode = cellContentDictionary[@"productCode"];
-        if([productCode isEqualToString:@""]) {
+        if([productCode isEqualToString:@"" ] || productCode ==nil ) {
             JRButtonsHeaderTableView* popTableView = [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:nil selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
                 [jrTextField setValue: selectedVisualValue];
                 
@@ -181,6 +181,7 @@
             };
             
         }
+        else{
         RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
         requestModel.path = PATH_LOGIC_READ(DEPARTMENT_WAREHOUSE);
         [requestModel addModel: MODEL_WHInventory];
@@ -219,7 +220,7 @@
 
         }];
         
-        
+        }
         
         
     };
@@ -233,6 +234,23 @@
         tableView = (UITableView*)tableView.superview;
     }
     return tableView;
+}
+
+
+-(void)setDatas:(id)cotents
+{
+    
+    [super setDatas:cotents];
+    
+    if([cotents isKindOfClass:[NSDictionary class]])
+    {
+    NSDictionary* dictionary = (NSDictionary*)cotents;
+    if ([dictionary[attr_unitPriceTwo] floatValue] == 0) {
+        _unitPriceTxtFieldTwo.text = nil;
+    }
+    if([dictionary[attr_unitPriceThree] floatValue] ==0)
+        _unitPriceTxtFieldThree.text = nil;
+    }
 }
 
 

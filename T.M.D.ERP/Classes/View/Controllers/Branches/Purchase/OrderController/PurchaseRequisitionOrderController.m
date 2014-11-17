@@ -33,8 +33,26 @@
     __block PurchaseRequisitionOrderController *blockSelf = self;
     NSString* orderNO = [@"QGD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
     [((id<JRComponentProtocal>)[self.jsonView getView:@"orderNO"]) setValue: orderNO];
+    
+    
     _purchaseRequisitionTableView = (JRRefreshTableView *)[self.jsonView getView:@"NESTED_MIDDLE.TABLE_ITEMS_LIST"];
-       _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase *tableViewObject){
+    UIView* headerView = _purchaseRequisitionTableView.headerView;
+    for (JRLocalizeLabel* view in headerView.subviews) {
+        NSString* attribute = view.attribute;
+        if ([attribute isEqualToString:@"productNames"] || [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit"] || [attribute isEqualToString:@"unitPriceOne"]) {
+            
+            UILabel* label = [[UILabel alloc] init];
+            [label setSize:CGSizeMake(CanvasW(15), [view sizeHeight])];
+            [label setOriginX: CanvasX(-15)];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.textColor = [UIColor redColor];
+            [view addSubview: label];
+            label.text = @"*";
+        }
+    }
+    
+    
+    _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase *tableViewObject){
         return 1;
     };
     _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfRowsInSectionAction = ^NSInteger(TableViewBase *tableViewOBJ ,NSInteger section){
@@ -139,21 +157,35 @@
         NSString *vendorTwo = [vendorName2 getValue];
         NSString *vendorThree = [vendorName3 getValue];
         
-        
-        if(!OBJECT_EMPYT(vendorOne) && vendorTwo != nil && vendorThree != nil)
+//        NSArray *dataSources = [NSArray arrayWithObjects:vendorOne,vendorTwo,vendorThree, nil];
+        NSMutableArray *dataSources = [NSMutableArray array];
+        if(vendorOne) [dataSources addObject:vendorOne];
+        if(vendorTwo) [dataSources addObject:vendorTwo];
+        if(vendorThree) [dataSources addObject:vendorThree];
+        NSMutableArray *realDataSourche = [NSMutableArray array];
+        if(!OBJECT_EMPYT(vendorOne))
         {
-            NSArray *dataSources = [NSArray arrayWithObjects:vendorOne,vendorTwo,vendorThree, nil];
-            NSArray *realDataSources = [NSArray arrayWithObjects:@[vendorNumber1, vendorOne],@[vendorNumber2, vendorTwo],@[vendorNumber3, vendorThree], nil];
+            [realDataSourche addObject:@[vendorNumber1,vendorOne]];
+            if(!OBJECT_EMPYT(vendorNumber2))
+            {
+                [realDataSourche addObject:@[vendorNumber2,vendorTwo]];
+            }
             
-            JRButtonsHeaderTableView* tableViews = [PopupTableHelper showPopTableView: tx titleKey:@"VENDOR" dataSources:dataSources realDataSources:realDataSources];
-            
-            tableViews.tableView.tableView.tableViewBaseDidSelectIndexPathAction = ^void(TableViewBase* tb, NSIndexPath* indexPath) {
-                NSArray* vendorDatas = [tb realContentForIndexPath: indexPath];
-                vendorNumber = [vendorDatas firstObject];
-                [tx setValue: [vendorDatas lastObject]];
-                [PopupTableHelper dissmissCurrentPopTableView];
-            };
+            if(!OBJECT_EMPYT(vendorNumber3))
+            {
+                [realDataSourche addObject:@[vendorNumber3,vendorThree]];
+            }
         }
+                    JRButtonsHeaderTableView* tableViews = [PopupTableHelper showPopTableView: tx titleKey:@"VENDOR" dataSources:dataSources realDataSources:realDataSourche];
+        
+                    tableViews.tableView.tableView.tableViewBaseDidSelectIndexPathAction = ^void(TableViewBase* tb, NSIndexPath* indexPath) {
+                        NSArray* vendorDatas = [tb realContentForIndexPath: indexPath];
+                        vendorNumber = [vendorDatas firstObject];
+                        [tx setValue: [vendorDatas lastObject]];
+                        [PopupTableHelper dissmissCurrentPopTableView];
+                    };
+
+            
     };
 }
 
@@ -192,6 +224,63 @@
 }
 
 
+
+-(BOOL)validateSendObjects:(NSMutableDictionary *)objects order:(NSString *)order
+{
+    BOOL success = [super validateSendObjects:objects order:order];
+    
+    if (!success) {
+        return NO;
+    }
+    
+    BOOL isSuccess = YES;
+    NSString* message = nil;
+    NSArray* dataSources = self.requisitionTableViewDataSource;
+    if (!dataSources.count) {
+        NSString* tips = [LOCALIZE_KEY(@"product") stringByAppendingString:LOCALIZE_KEY(@"list")];
+        message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, tips);
+        isSuccess = NO;
+    }
+
+    for (NSDictionary* dictionary in dataSources) {
+        if (OBJECT_EMPYT(dictionary[@"productName"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"productNames"));
+            isSuccess = NO;
+            break;
+        }
+        
+        if (OBJECT_EMPYT(dictionary[@"amount"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"amount"));
+            isSuccess = NO;
+            break;
+            
+        }
+
+
+         if (OBJECT_EMPYT(dictionary[@"unit"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unit"));
+            isSuccess = NO;
+            break;
+        }
+         if (OBJECT_EMPYT(dictionary[@"unitPrice1"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unitPriceOne"));
+            isSuccess = NO;
+            break;
+            
+        }
+        
+    
+    }
+    
+    
+    if (message)[AppViewHelper alertMessage: message];
+    return isSuccess;
+}
+
+
+
+
+
 -(RequestJsonModel*) assembleReadRequest:(NSDictionary*)objects
 {
     RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
@@ -213,7 +302,6 @@
     
     NSMutableDictionary* valuesObjects = [DictionaryHelper deepCopy: [[results firstObject] firstObject]];
     self.valueObjects = valuesObjects;
-    
     _requisitionTableViewDataSource = [results lastObject];
     [_purchaseRequisitionTableView reloadTableData];
     

@@ -123,7 +123,7 @@
     
 
 //        JsonController* jsonController = [[EmployeeController alloc] initWithOrder:@"Employee" department:DEPARTMENT_HUMANRESOURCE];
-    JsonController* jsonController = [[FinanceReceiptOrderController alloc] initWithOrder:@"FinanceReceiptOrder" department:DEPARTMENT_FINANCE];
+    JsonController* jsonController = [[PurchaseRequisitionOrderController alloc] initWithOrder:@"PurchaseRequisitionOrder" department:DEPARTMENT_PURCHASE];
 
 //        JsonController* jsonController = [[WHInventoryController alloc] initWithOrder:@"PurchaseOrder" department:DEPARTMENT_WAREHOUSE];
 //        JsonController* jsonController = [[FinanceReceiptOrderController alloc] initWithOrder:@"FinanceReceiptOrder" department:DEPARTMENT_FINANCE];
@@ -135,7 +135,7 @@
     
     UIButton* langurageButton = [self getLanguageButtonForTest];
     [jsonController.view addSubview: langurageButton];
-//    [ColorHelper setBorderRecursive: jsonController.view];
+    [ColorHelper setBorderRecursive: jsonController.view];
 
 }
 

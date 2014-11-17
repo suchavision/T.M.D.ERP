@@ -32,6 +32,13 @@
     __weak PurchaseOrderController *weakSelf = self;
     self.purchaseCellContents = [[NSMutableArray alloc] init];
     NSLog(@"self.jsonView:%@",self.jsonView);
+    JRTextField *deliveryDate = ((JRLabelCommaTextFieldView *)[self.jsonView getView:@"deliveryDate"]).textField;
+    deliveryDate.textFieldDidClickAction = ^void(JRTextField *jrTextField){
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM-dd"];
+        NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+        [jrTextField setValue:dateString];
+    };
     _summaryTextField = ((JRLabelCommaTextFieldView *)[self.jsonView getView:@"summary"]).textField;
     JRLabelCommaTextFieldView *contact = (JRLabelCommaTextFieldView *)[self.jsonView getView:@"NESTED_BODY.contact"];
     JRTextField *contactTextField = contact.textField;
@@ -65,6 +72,22 @@
     
     
     _purchaseTableView = (JRRefreshTableView*)[self.jsonView getView:@"NESTED_MIDDLE.TABLE_ITEMS_LIST"];
+    UIView *headView = _purchaseTableView.headerView;
+    for(JRLocalizeLabel *lable in headView.subviews)
+    {
+        NSString *attribute = lable.attribute;
+        if([attribute isEqualToString:@"productNames"] || [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit"] || [attribute isEqualToString:@"unitPrice"])
+        {
+            UILabel* label = [[UILabel alloc] init];
+            [label setSize:CGSizeMake(CanvasW(15), [lable sizeHeight])];
+            [label setOriginX: CanvasX(-15)];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.textColor = [UIColor redColor];
+            [lable addSubview: label];
+            label.text = @"*";
+
+        }
+    }
     _purchaseTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObje){
         return 1;
         
@@ -120,6 +143,60 @@
     
     JRLabelCommaTextFieldView *payWayTextView = (JRLabelCommaTextFieldView *)[self.jsonView getView:@"NESTED_BODY.NESTED_DOWN.payMode"];
     [FinancePaymentOrderController popPayWayTable: payWayTextView.textField selectedAction:nil];
+}
+
+
+-(BOOL)validateSendObjects:(NSMutableDictionary *)objects order:(NSString *)order
+{
+    BOOL success = [super validateSendObjects:objects order:order];
+    
+    if (!success) {
+        return NO;
+    }
+    
+    BOOL isSuccess = YES;
+    NSString* message = nil;
+    NSArray* dataSources = self.purchaseCellContents;
+    
+    if (!dataSources.count) {
+        NSString* tips = [LOCALIZE_KEY(@"product") stringByAppendingString:LOCALIZE_KEY(@"list")];
+        message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, tips);
+        isSuccess = NO;
+    }
+    
+    for (NSDictionary* dictionary in dataSources) {
+        if (OBJECT_EMPYT(dictionary[@"productName"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"productNames"));
+            isSuccess = NO;
+            break;
+        }
+        
+        if (OBJECT_EMPYT(dictionary[@"amount"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"amount"));
+            isSuccess = NO;
+            break;
+            
+        }
+        
+        
+        if (OBJECT_EMPYT(dictionary[@"unit"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unit"));
+            isSuccess = NO;
+            break;
+        }
+        if (OBJECT_EMPYT(dictionary[@"unitPrice"])) {
+            message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unitPrice"));
+            isSuccess = NO;
+            break;
+            
+        }
+        
+        
+    }
+    
+    
+    if (message)[AppViewHelper alertMessage: message];
+    return isSuccess;
 }
 
 #pragma mark -
@@ -249,7 +326,7 @@
     NSArray* dataSources = self.purchaseCellContents;
     for (NSDictionary* cellValues in dataSources ) {
         NSString* productCode = [cellValues objectForKey:attr_productCode];
-        
+       if(!productCode) return;
         [jsonModel addModel:@"PurchaseBill"];
         [jsonModel addObject: @{attr_productCode: productCode}];
         [jsonModel.fields addObject:@[attr_productCode, attr_unitPrice]];

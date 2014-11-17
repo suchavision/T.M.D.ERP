@@ -250,10 +250,12 @@
 "phoneNO"="điện thoại";
 "photoLibrary"="z";
 "please"="z";
+"product"="z";
 "productCode"="mã sản phẩm";
 "productName"="tên";
 "productNames"="tên";
 "purchaseOrderNO"="z";
+"purchaseQC"="z";
 "purpose"="z";
 "re_password"="tra";
 "read"="xem";
@@ -277,8 +279,11 @@
 "skip"="bỏ qua";
 "spinPurchaseOrder"="z";
 "staffCategory"="thể loại";
+"storageSubTotal"="z";
+"storageUnitPrice"="z";
 "submit"="Gửi";
 "subtotal"="tổng phụ";
+"subtotal0"="z";
 "success"="thành công";
 "summary"="tổng";
 "system"="hệ thống";

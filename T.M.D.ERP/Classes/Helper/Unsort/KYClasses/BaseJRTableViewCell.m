@@ -86,7 +86,7 @@
         JRTextField* tx = (JRTextField*)subView;
         id value = [tx getValue];
         NSString* key = tx.attribute;
-        if (value && key) {
+        if (!OBJECT_EMPYT(value) && key) {
             [values setObject: value forKey:key];
         } else {
             if (!value) value = @"";

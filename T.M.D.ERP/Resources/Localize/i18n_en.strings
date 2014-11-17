@@ -251,10 +251,12 @@
 "phoneNO"="Phone";
 "photoLibrary"="Photo Library";
 "please"="Please";
+"product"="z";
 "productCode"="Product code";
 "productName"="Name";
 "productNames"="Name";
 "purchaseOrderNO"="z";
+"purchaseQC"="z";
 "purpose"="z";
 "re_password"="Verify";
 "read"="Read";
@@ -278,8 +280,11 @@
 "skip"="Skip";
 "spinPurchaseOrder"="z";
 "staffCategory"="Category";
+"storageSubTotal"="z";
+"storageUnitPrice"="z";
 "submit"="Submit";
 "subtotal"="Sub Total";
+"subtotal0"="z";
 "success"="success";
 "summary"="Summary";
 "system"="Symtem";

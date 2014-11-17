@@ -21,6 +21,7 @@
             return nil;
         };
         self.searchBar.textField.placeholder = LOCALIZE_KEY(@"SEARCH");
+        self.headerLabelClass = [JRLocalizeLabel class];
     }
     return self;
 }
@@ -108,11 +109,23 @@
     }
     
     // headers , headers and values coordinates
-    if (config[k_JR_TBL_headers]) refreshTableView.headers = [LocalizeHelper localize: config[k_JR_TBL_headers]];
+    if (config[k_JR_TBL_headers]) {
+        NSArray* headers = config[k_JR_TBL_headers];
+        refreshTableView.headers = [LocalizeHelper localize: headers];
+        
+        // set the attribute to the title
+        UIView* headerView = refreshTableView.headerView;
+        for (int i = 0; i < headers.count; i++) {
+            NSString* attribute = headers[i];
+            JRLocalizeLabel* jrLabel = (JRLocalizeLabel*)[headerView viewWithTag:ALIGNTABLE_HEADER_LABEL_TAG(i)];
+            jrLabel.attribute = attribute;
+        }
+    }
     if (config[k_JR_TBL_headersX]) refreshTableView.headersXcoordinates = config[k_JR_TBL_headersX];
     if (config[k_JR_TBL_valuesX]) refreshTableView.valuesXcoordinates = config[k_JR_TBL_valuesX];
     if (config[k_JR_TBL_headersY]) refreshTableView.headersYcoordinates = config[k_JR_TBL_headersY];
     if (config[k_JR_TBL_valuesY]) refreshTableView.valuesYcoordinates = config[k_JR_TBL_valuesY];
+    
     
     
 }
