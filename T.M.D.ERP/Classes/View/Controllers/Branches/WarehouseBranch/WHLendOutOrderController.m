@@ -3,6 +3,14 @@
 #import "PurchaseBillCell.h"
 
 
+
+
+#define ReturnViewAttributeKey @"NESTED_MIDDLE_INCREMENT_"
+#define ReturnViewNestedKey(index) [NSString stringWithFormat:@"%@%d",ReturnViewAttributeKey,index]
+#define ReturnViewNestedSubKeyPath(index, subViewKey) [NSString stringWithFormat:@"%@.%@",ReturnViewNestedKey(index),subViewKey]
+
+
+
 @interface WHLendOutOrderController ()
 {
     JsonDivView* _bottomView;
@@ -107,7 +115,7 @@
     
     JRButton* returnButton = ((JRButton*)[self.jsonView getView:@"NESTED_BOTTOM.BTN_ReturnNum"]);
     returnButton.didClikcButtonAction =  ^void(JRButton* button){
-        [WHLendOutOrderController deriveReturnViews: weakSelf index:weakSelf.incrementInt];
+        [WHLendOutOrderController createOneReturnView: weakSelf index:weakSelf.incrementInt];
         weakSelf.incrementInt++;
         
         NSString* LASTimageKey = [NSString stringWithFormat:@"%@%d.%@",@"NESTED_MIDDLE_INCREMENT_",_incrementInt-1,@"IMG_Photo_Return"];
@@ -117,7 +125,7 @@
         };
     };
     
-    [WHLendOutOrderController deriveReturnViews: self index:0];
+    [WHLendOutOrderController createOneReturnView: self index:0];
     weakSelf.incrementInt++;
 }
 
@@ -148,17 +156,59 @@
     }
 }
 
-+(void) deriveReturnViews: (WHLendOutOrderController*)controller index:(int)index
+
++(void) createOneReturnView: (WHLendOutOrderController*)controller index:(int)index
 {
-    NSDictionary* specifications = controller.jsonView.specifications[@"COMPONENTS"][@"NESTED_MIDDLE_INCREMENT_"];
     
-    NSString* NESTEDTAG = [NSString stringWithFormat:@"%@%d",@"NESTED_MIDDLE_INCREMENT_",index];
-    JsonDivView* nestedDivView = (JsonDivView*)[JsonViewRenderHelper render:NESTEDTAG specifications:specifications];
-    [controller.jsonView addSubviewToContentView:nestedDivView];
+    JsonView* varJsonView = controller.jsonView;
     
+    // create view
+    NSString* NestedKey = ReturnViewNestedKey(index);
+    NSDictionary* specifications = controller.jsonView.specifications[@"COMPONENTS"][ReturnViewAttributeKey];
+    JsonDivView* nestedDivView = (JsonDivView*)[JsonViewRenderHelper render:NestedKey specifications:specifications];
+    [varJsonView addSubviewToContentView:nestedDivView];
     [nestedDivView addOriginY: [nestedDivView sizeHeight] * index];
     
+    
+    
+    JRButton* createUser = ((JRButtonTextFieldView*)[nestedDivView getView:@"createUser"]).button;
+    createUser.didClikcButtonAction = ^void(NormalButton* btn) {
+        
+    };
+    
+    JRButton* app1 = ((JRButtonTextFieldView*)[nestedDivView getView:@"app1"]).button;
+    app1.didClikcButtonAction = ^void(NormalButton* btn) {
+
+    };
+    
+    JRButton* app2 = ((JRButtonTextFieldView*)[nestedDivView getView:@"app2"]).button;
+    app2.didClikcButtonAction = ^void(NormalButton* btn) {
+
+    };
+    
+    // Date Pickers & Date Patterns
+    NSString* returnDateViewKey = ReturnViewNestedSubKeyPath(index, @"returnDate");
+    [JRComponentHelper setupDatePickerComponents: varJsonView pickers:@[returnDateViewKey] patterns: @{returnDateViewKey: @"yyyy-MM-dd"}];
+    
+    
+    // Photos Picker
+    // Photos Previews
+    NSString* buttonTakeViewKey = ReturnViewNestedSubKeyPath(index, @"BTN_Take_Return");
+    NSString* buttonTakeImageViewKey = ReturnViewNestedSubKeyPath(index, @"IMG_Photo_Return");
+    [JRComponentHelper setupPhotoPickerComponents: varJsonView config:@{buttonTakeViewKey: buttonTakeImageViewKey}];
+    [JRComponentHelper setupPreviewImageComponents: controller config:@{buttonTakeImageViewKey:@{}}];
+    
+    
+    if (index != 0) {
+        [controller baseSuperViewMove:[nestedDivView sizeHeight]];
+    }
+    
+    
+    
+    
     // -------- Client
+    
+    /*
     
     // --- DATE
     NSString* deferedReturAttribute = [NSString stringWithFormat:@"%@.%@", NESTEDTAG, @"returnDate"];
@@ -183,11 +233,10 @@
     
     
     // ---------- Sever
-    NSString* creatorButtonKey = [NESTEDTAG stringByAppendingFormat:@".%@",@"createUser"];
     
     [controller.specifications[@"SERVER"][@"SUBMIT_BUTTONS"] addObject:@{@"MODEL_SENDVIEW" : NESTEDTAG,
                                                                    @"MODEL_SENDORDER" : @"WHLendOutBill",
-                                                                   
+     
                                                                    creatorButtonKey: @{ @"MODEL_APPTO" : @"app1"},
                                                                    [NESTEDTAG stringByAppendingFormat:@".%@",@"app1"]: @{@"BUTTON_TYPE" : @(1),
                                                                                                                          @"MODEL_APPFROM" : @"app1",
@@ -195,28 +244,19 @@
                                                                    [NESTEDTAG stringByAppendingFormat:@".%@",@"app2"]: @{@"BUTTON_TYPE" : @(1),
                                                                                                                          @"MODEL_APPFROM" : @"app2",
                                                                                                                          @"MODEL_APPTO" : @"createUser"}
-                                                                   
+     
                                                                    }];
     
+     NSString* creatorButtonKey = [NESTEDTAG stringByAppendingFormat:@".%@",@"createUser"];
     
+    */
     
-    JRButton* createBTN = ((JRButtonTextFieldView*)[nestedDivView getView:creatorButtonKey]).button;
-    NormalButtonDidClickBlock previousAction = createBTN.didClikcButtonAction;
-    createBTN.didClikcButtonAction = ^void(NormalButton* btn) {
-        if (previousAction) {
-            previousAction(btn);
-        }
-    };
-    
-    
-    // refresh event
+    /*
+       // refresh event
     [controller setupClientEvents];
     [controller setupServerEvents];
+    */
     
-    
-    if (index != 0) {
-        [controller baseSuperViewMove:[nestedDivView sizeHeight]];
-    }
 }
 
 #pragma mark -
@@ -334,7 +374,7 @@
     
     NSArray* bills = [objects objectForKey:@"bills"];
     
-    for (int j = 0; j<[bills count]; ++j) {
+    for (int j = 0; j < [bills count]; ++j) {
         
         NSString* NestedBillTag = [NSString stringWithFormat:@"%@%d",@"NESTED_MIDDLE_INCREMENT_",j];
         JsonDivView* billDivView = (JsonDivView*)[self.jsonView getView:NestedBillTag];
@@ -362,20 +402,22 @@
     int substract = billCount - previousBillCount;
     
     if (substract < 0) {
+        
         for (int i = 0; i < abs(substract); i++) {
             [WHLendOutOrderController removerDeriveReturnViews: self index: previousBillCount - (i+1)];
             self.incrementInt -- ;
         }
+        
     } else {
         
         for (int i = 0; i < substract; ++i) {
-            [WHLendOutOrderController deriveReturnViews: self index: previousBillCount + i];
+            [WHLendOutOrderController createOneReturnView: self index: previousBillCount + i];
             self.incrementInt ++ ;
         }
     }
     
     if ([bills count] == 0) {
-        [WHLendOutOrderController deriveReturnViews: self index: 0];
+        [WHLendOutOrderController createOneReturnView: self index: 0];
         self.incrementInt ++ ;
     }
 }
