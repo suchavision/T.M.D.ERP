@@ -42,6 +42,8 @@
 -(void) didRenderWithReceiveObjects: (NSMutableDictionary*)objects; // here , load the images
 
 
+-(NSMutableDictionary*) getCreateObjects: (NSString*)orderType div:(NSString*)divViewKey;
+
 
 #pragma mark - create / update
 -(NSMutableDictionary*) assembleSendObjects: (NSString*)divViewKey;

@@ -6,13 +6,13 @@
             "IMG_Photo_LendOut": {
                 "MAINNAME": ["orderNO", "lendProduct"],
                 "SUF":".png"
-            },
+                                 },
             "IMG_Signature": {
                 "MAINNAME": ["orderNO","signature"],
                 "SUF":".png"
-            }
+                             }
     
-        },
+                                },
         "IMAGES_DATAS": {
             "IMG_Photo_LendOut": {
             },
@@ -21,16 +21,15 @@
            
         },
         "IMAGE_PICKER":{
-            "BTN_Take_LendOut":"IMG_Photo_LendOut"
+        "BTN_Take_LendOut":"IMG_Photo_LendOut"
         },
         "IMAGES_PREVIEWS":{
-            "IMG_Photo_LendOut":{
+        "IMG_Photo_LendOut":{
             },
-            "IMG_Signature":{
+        "IMG_Signature":{
             }
-           
-        }
-    },
+                          }
+               },
     
     "SERVER":{
         

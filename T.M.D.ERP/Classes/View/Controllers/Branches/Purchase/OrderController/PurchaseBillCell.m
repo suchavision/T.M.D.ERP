@@ -108,6 +108,15 @@
 
 -(void)setValidatorTextField
 {
+    
+    
+    _amountTxtField.inputValidator = [[NumericInputValidator alloc]init];
+    _amountTxtField.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseOrder", _amountTxtField.attribute));
+    
+    _unitPriceTxtField.inputValidator = [[NumericInputValidator alloc]init];
+    _unitPriceTxtField.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseOrder", _unitPriceTxtField.attribute));
+    
+  
     __weak PurchaseBillCell* weakSelf = self;
     __weak JRTextField *_weakProductNameTxtField =  _productNameTxtField;
     

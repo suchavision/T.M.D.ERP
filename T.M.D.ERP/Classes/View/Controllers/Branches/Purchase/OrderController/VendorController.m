@@ -22,7 +22,7 @@
     
     JsonView* jsonView = self.jsonView;
 
-    JRButton *cancelButton = (JRButton *)[self.jsonView getView:@"NESTED_BODY_FOOTER.CANCEL"];
+    JRButton *cancelButton = (JRButton *)[jsonView getView:@"NESTED_BODY_FOOTER.CANCEL"];
     cancelButton.didClikcButtonAction = ^void(UIButton* button) {
         [weakInstance.jsonView setModel: weakInstance.renderObjects];
     };

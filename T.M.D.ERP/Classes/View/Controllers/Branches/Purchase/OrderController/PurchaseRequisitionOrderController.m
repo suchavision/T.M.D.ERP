@@ -15,6 +15,11 @@
 
 }
 
+@property (strong) id delectIdentification;
+
+
+@property (strong) NSMutableArray* deletedContents;
+
 @end
 
 @implementation PurchaseRequisitionOrderController
@@ -23,6 +28,7 @@
     self = [super init];
     if (self) {
         _requisitionTableViewDataSource = [[NSMutableArray alloc] init];
+        _deletedContents = [NSMutableArray array];
     }
     return self;
 }
@@ -51,15 +57,29 @@
 
         }
     }
-    
-    
-    _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase *tableViewObject){
-        return 1;
+    _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObj) { return 1; };
+    _purchaseRequisitionTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj, NSIndexPath *indexPath) {
+        if (indexPath.row == blockSelf->_requisitionTableViewDataSource.count) return NO;
+        return YES;
     };
-    _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfRowsInSectionAction = ^NSInteger(TableViewBase *tableViewOBJ ,NSInteger section){
+    _purchaseRequisitionTableView.tableView.tableViewBaseShouldDeleteContentsAction = ^BOOL(TableViewBase *tableViewObj, NSIndexPath *indexPath) {
+        if (indexPath.row == blockSelf->_requisitionTableViewDataSource.count) {
+            return NO;
+        } else {
+            id contents = [blockSelf->_requisitionTableViewDataSource objectAtIndex: indexPath.row];
+            [blockSelf->_deletedContents addObject:contents];
+            [blockSelf->_requisitionTableViewDataSource removeObjectAtIndex: indexPath.row];     // keep the data source update . or will error occur
+    
+            return YES;
+        }
+    };
+    _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfRowsInSectionAction = ^NSInteger(TableViewBase* tableViewObj, NSInteger section) {
         return weakSelf.controlMode == JsonControllerModeCreate ? blockSelf->_requisitionTableViewDataSource.count + 1 : blockSelf->_requisitionTableViewDataSource.count;
     };
-    _purchaseRequisitionTableView.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase *tableObj ,NSIndexPath *indexPath ,UITableViewCell *olderCell){
+
+
+    
+       _purchaseRequisitionTableView.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase *tableObj ,NSIndexPath *indexPath ,UITableViewCell *olderCell){
         static NSString *CellIdentifier = @"Cell";
         PurchaseRequisitionBill* cell = [tableObj dequeueReusableCellWithIdentifier:CellIdentifier];
         
@@ -92,6 +112,15 @@
     
     JRTextField *vendorName1 = (JRTextField *)[self.jsonView getView:@"vendorName1"];
     vendorName1.textFieldDidClickAction = ^void(JRTextField *jrTextField){
+        NSArray *dataSource = _requisitionTableViewDataSource;
+        for(NSDictionary *dic in dataSource)
+        {
+            NSString *unitPriceOneString = dic[@"unitPrice1"];
+            if(!unitPriceOneString)
+            {
+                return;
+            }
+        }
         NSArray* needFields = @[@"number", @"name", @"principal",@"phoneNO"];
         PickerModelTableView* pickView = [PickerModelTableView popupWithRequestModel:MODEL_VENDOR  fields:needFields criterias:nil];
         pickView.tableView.headersXcoordinates = @[@(30), @(200), @(520), @(800)];
@@ -112,6 +141,18 @@
     };
     JRTextField *vendorName2 = (JRTextField *)[self.jsonView getView:@"vendorName2"];
     vendorName2.textFieldDidClickAction = ^void(JRTextField *jrTextField){
+        
+        NSArray *dataSource = _requisitionTableViewDataSource;
+        for(NSDictionary *dic in dataSource)
+        {
+            NSString *unitPriceTwoString = dic[@"unitPrice2"];
+            if(!unitPriceTwoString)
+            {
+                return;
+            }
+        }
+
+        
         NSArray* needFields = @[@"number", @"name", @"principal",@"phoneNO"];
         PickerModelTableView* pickView = [PickerModelTableView popupWithRequestModel:MODEL_VENDOR  fields:needFields criterias:nil];
         pickView.tableView.headersXcoordinates = @[@(30), @(200), @(520), @(800)];
@@ -132,6 +173,19 @@
     };
     JRTextField *vendorName3 = (JRTextField *)[self.jsonView getView:@"vendorName3"];
     vendorName3.textFieldDidClickAction = ^void(JRTextField *jrTextField){
+        
+        NSArray *dataSource = _requisitionTableViewDataSource;
+        for(NSDictionary *dic in dataSource)
+        {
+            NSString *unitPriceThreeString = dic[@"unitPrice3"];
+            if(!unitPriceThreeString)
+            {
+                return;
+            }
+        }
+        
+
+        
         NSArray* needFields = @[@"number", @"name", @"principal",@"phoneNO"];
         PickerModelTableView* pickView = [PickerModelTableView popupWithRequestModel:MODEL_VENDOR  fields:needFields criterias:nil];
         pickView.tableView.headersXcoordinates = @[@(30), @(200), @(520), @(800)];
@@ -160,9 +214,9 @@
         
 //        NSArray *dataSources = [NSArray arrayWithObjects:vendorOne,vendorTwo,vendorThree, nil];
         NSMutableArray *dataSources = [NSMutableArray array];
-        if(vendorOne) [dataSources addObject:vendorOne];
-        if(vendorTwo) [dataSources addObject:vendorTwo];
-        if(vendorThree) [dataSources addObject:vendorThree];
+        if(!OBJECT_EMPYT(vendorOne)) [dataSources addObject:vendorOne];
+        if(!OBJECT_EMPYT(vendorTwo)) [dataSources addObject:vendorTwo];
+        if(!OBJECT_EMPYT(vendorThree)) [dataSources addObject:vendorThree];
         NSMutableArray *realDataSourche = [NSMutableArray array];
         if(!OBJECT_EMPYT(vendorOne))
         {
@@ -225,15 +279,39 @@
 }
 
 
+-(RequestJsonModel*) purchaseRequisitionAssembleSendRequest: (NSMutableDictionary*)withoutImagesObjects order:(NSString*)order department:(NSString*)department
+{
+    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
+    requestModel.path = PATH_LOGIC_CREATE(department);
+    [requestModel addModels: order, nil];
+    [requestModel addObject: withoutImagesObjects ];
+    if(vendorNumber)
+        [withoutImagesObjects setObject:vendorNumber forKey:@"vendorNumber"];
+    if(vendorNumber1)
+        [withoutImagesObjects setObject:vendorNumber1 forKey:@"vendorNumber1"];
+    if(vendorNumber2)
+        [withoutImagesObjects setObject:vendorNumber2 forKey:@"vendorNumber2"];
+    if(vendorNumber3)
+        [withoutImagesObjects setObject:vendorNumber3 forKey:@"vendorNumber3"];
+    
+    [requestModel.preconditions addObject: @{}];
+    
+    for (int i = 0; i < _requisitionTableViewDataSource.count; i++) {
+        NSMutableDictionary* itemValues = _requisitionTableViewDataSource[i];
+        [requestModel addModel: @"PurchaseRequisitionBill"];
+        [requestModel addObject: itemValues];
+        [requestModel.preconditions addObject: @{@"purchaseRequisitionOrderNO":@"0-orderNO"}];
+    }
+
+    return requestModel;
+}
+
+
 
 -(BOOL)validateSendObjects:(NSMutableDictionary *)objects order:(NSString *)order
 {
-    BOOL success = [super validateSendObjects:objects order:order];
     
-    if (!success) {
-        return NO;
-    }
-    
+   
     BOOL isSuccess = YES;
     NSString* message = nil;
     NSArray* dataSources = self.requisitionTableViewDataSource;
@@ -257,7 +335,6 @@
             
         }
 
-
          if (OBJECT_EMPYT(dictionary[@"unit"])) {
             message = LOCALIZE_MESSAGE_FORMAT(MESSAGE_ValueCannotEmpty, LOCALIZE_KEY(@"unit"));
             isSuccess = NO;
@@ -269,6 +346,12 @@
             break;
             
         }
+        BOOL success = [super validateSendObjects:objects order:order];
+        
+        if (!success) {
+            return NO;
+        }
+
         
     
     }
@@ -276,6 +359,8 @@
     
     if (message)[AppViewHelper alertMessage: message];
     return isSuccess;
+    
+   
 }
 
 
@@ -283,6 +368,8 @@
 
 -(RequestJsonModel*) assembleReadRequest:(NSDictionary*)objects
 {
+    [_deletedContents removeAllObjects];
+    
     RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
     requestModel.path = PATH_LOGIC_READ(self.department);
     [requestModel addModels: self.order, @"PurchaseRequisitionBill", nil];
@@ -302,7 +389,9 @@
     
     NSMutableDictionary* valuesObjects = [DictionaryHelper deepCopy: [[results firstObject] firstObject]];
     self.valueObjects = valuesObjects;
-    _requisitionTableViewDataSource = [results lastObject];
+    _requisitionTableViewDataSource = [ArrayHelper deepCopy:[results lastObject]];
+//    NSDictionary *delectContent = [_requisitionTableViewDataSource objectAtIndex:self.delectRow];
+//    self.delectIdentification = [delectContent objectForKey:@"id"];
     [_purchaseRequisitionTableView reloadTableData];
     
     return valuesObjects;
@@ -392,6 +481,14 @@
 
 }
 
+
+-(void) didSuccessApplyOrder: (NSString*)orderType appFrom:(NSString*)appFrom appTo:(NSString*)appTo divViewKey:(NSString*)divViewKey forwarduser:(NSString*)forwardUser
+{
+    [super didSuccessApplyOrder:orderType appFrom:appFrom appTo:appTo divViewKey:divViewKey forwarduser:forwardUser];
+    
+}
+
+
 -(void) translateReceiveObjects: (NSMutableDictionary*)objects
 {
     [super translateReceiveObjects: objects];
@@ -400,6 +497,44 @@
     vendorNumber1 = objects[@"vendorNumber1"];
     vendorNumber2 = objects[@"vendorNumber2"];
     vendorNumber3 = objects[@"vendorNumber3"];
+}
+
+
+-(void) startApplyOrderRequest: (NSString*)orderType divViewKey:(NSString*)divViewKey appFrom:(NSString*)appFrom appTo:(NSString*)appTo forwarduser:(NSString*)forwardUser objects:(NSDictionary*)objects identities:(NSDictionary*)identities
+{
+    [VIEW.progress show];
+    VIEW.progress.detailsLabelText = LOCALIZE_MESSAGE(@"ApplyingNow");
+    
+    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
+    requestModel.path = PATH_LOGIC_APPLY(self.department);
+    [requestModel addModels: orderType, nil];
+    if (objects) [requestModel addObject: objects ];
+    
+    [requestModel.identities addObject: identities];
+    [requestModel.parameters setObject: appFrom forKey:REQUEST_PARA_APPLEVEL];
+    
+    for (int i = 0 ; i < self.deletedContents.count; i++) {
+        id identifictaion = self.deletedContents[i][@"id"];
+        [requestModel.parameters setObject: identifictaion forKey:@"shouldDeleteBillId"];
+    }
+    
+//        [requestModel.parameters setObject: self.delectIdentification forKey:@"shouldDeleteBillId"];
+    
+    if (forwardUser) [requestModel.apns_forwards addObject:forwardUser];
+    
+    [MODEL.requester startPostRequestWithAlertTips: requestModel completeHandler:^(HTTPRequester* requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+        
+        BOOL isSuccessfully = response.status;
+        if (isSuccessfully) {
+            [self didSuccessApplyOrder: orderType appFrom:appFrom appTo:appTo divViewKey:divViewKey forwarduser:forwardUser];
+        } else {
+            [self didFailedApplyOrder: orderType appFrom:appFrom appTo:appTo divViewKey:divViewKey];
+        }
+        
+    }];
+    
+    
+    
 }
 
 

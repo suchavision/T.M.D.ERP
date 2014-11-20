@@ -115,6 +115,17 @@
 -(void)setValidatorTextField
 {
     
+    _amountTxtField.inputValidator = [[NumericInputValidator alloc]init];
+    _amountTxtField.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseRequisitionOrder", _amountTxtField.attribute));
+    
+    _unitPriceTxtFieldOne.inputValidator = [[NumericInputValidator alloc]init];
+    _unitPriceTxtFieldOne.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseRequisitionOrder", _unitPriceTxtFieldOne.attribute));
+    
+    _unitPriceTxtFieldTwo.inputValidator = [[NumericInputValidator alloc]init];
+    _unitPriceTxtFieldTwo.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseRequisitionOrder", _unitPriceTxtFieldTwo.attribute));
+    
+    _unitPriceTxtFieldThree.inputValidator = [[NumericInputValidator alloc]init];
+    _unitPriceTxtFieldThree.inputValidator.errorMsg = LOCALIZE_KEY(LOCALIZE_CONNECT_KEYS(@"PurchaseRequisitionOrder", _unitPriceTxtFieldThree.attribute));
     
     __weak PurchaseRequisitionBill* weakInstance = self;
     __weak JRTextField *weakProductName = _productNameTxtField;
@@ -156,52 +167,17 @@
         NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
         
         NSString* productCode = cellContentDictionary[@"productCode"];
+        
         if([productCode isEqualToString:@"" ] || productCode ==nil ) {
-            JRButtonsHeaderTableView* popTableView = [PopupTableHelper popTableView:LOCALIZE_KEY(@"unit") keys:nil selectedAction:^(JRButtonsHeaderTableView *sender, NSUInteger selectedIndex, NSString *selectedVisualValue) {
-                [jrTextField setValue: selectedVisualValue];
-                
-                
-                UITableView* tableView = [TableViewHelper getTableViewBySubView: weakInstance];
-                NSIndexPath* ownerIndexPath = [tableView indexPathForCell: weakInstance];
-                NSMutableDictionary* cellContentDictionary = [weakInstance.requisitionTableViewDataSource safeObjectAtIndex: ownerIndexPath.row];
-                if (!cellContentDictionary) {
-                    cellContentDictionary = [NSMutableDictionary dictionary];
-                    [weakInstance.requisitionTableViewDataSource addObject: cellContentDictionary];
-                }
-                [cellContentDictionary setObject: selectedVisualValue forKey:attr_unit];
-                [tableView reloadData];
-                
-            }];
             
-            
-            popTableView.rightButton.hidden = NO;
-            [popTableView.rightButton setTitle:LOCALIZE_KEY(@"ADD") forState:UIControlStateNormal];
-            __weak TableViewBase* weakTableView = popTableView.tableView.tableView;
-            
-            NSMutableDictionary* datasources = [NSMutableDictionary dictionary];
-            NSMutableArray* array = [NSMutableArray array];
-            [datasources setObject: array forKey:@""];
-            weakTableView.contentsDictionary = datasources;
-            
-            popTableView.rightButton.didClikcButtonAction = ^void(JRButton* btn) {
-                NSString* addNewmessage = LOCALIZE_KEY(@"addNewUnit");
-                [PopupViewHelper popAlert: addNewmessage message:nil style:UIAlertViewStylePlainTextInput actionBlock:^(UIView *popView, NSInteger index) {
-                    UIAlertView* alertView = (UIAlertView*)popView;
-                    NSString* newUnitString = [alertView textFieldAtIndex: 0].text;
-                    [array addObject: newUnitString];
-                    
-                    [weakTableView reloadData];
-                    
-                } dismissBlock:nil buttons:LOCALIZE_KEY(@"CANCEL"), LOCALIZE_KEY(@"OK"), nil];
-            };
-            JRButton *cancleButton = popTableView.leftButton;
-            cancleButton.hidden = NO;
-            cancleButton.didClikcButtonAction = ^void(JRButton *btn){
-                [PopupTableHelper dissmissCurrentPopTableView];
-            };
+            [jrTextField becomeFirstResponder];
+            return ;
             
         }
-        else{
+        
+        else
+        
+        {
         RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
         requestModel.path = PATH_LOGIC_READ(DEPARTMENT_WAREHOUSE);
         [requestModel addModel: MODEL_WHInventory];
@@ -244,6 +220,34 @@
         
         
     };
+    _unitPriceTxtFieldTwo.textFieldDidClickAction = ^(JRTextField *jrTextField){
+    
+        UITableView *tableView = [TableViewHelper getTableViewBySubView:weakInstance];
+        NSIndexPath *indexPath = [tableView indexPathForCell:weakInstance];
+        NSDictionary *content = [weakInstance.requisitionTableViewDataSource objectAtIndex:indexPath.row];
+        NSString *unitPriceOneString = content[@"unitPrice1"];
+        if([unitPriceOneString isEqualToString:@""] || unitPriceOneString == nil)
+        {
+            return ;
+        }
+        [jrTextField becomeFirstResponder];
+    };
+    _unitPriceTxtFieldThree.textFieldDidClickAction = ^(JRTextField *jrTextField){
+        
+        UITableView *tableView = [TableViewHelper getTableViewBySubView:weakInstance];
+        NSIndexPath *indexPath = [tableView indexPathForCell:weakInstance];
+        NSDictionary *content = [weakInstance.requisitionTableViewDataSource objectAtIndex:indexPath.row];
+        NSString *unitPriceTwoString = content[@"unitPrice2"];
+        if([unitPriceTwoString isEqualToString:@""] || unitPriceTwoString == nil)
+        {
+            return ;
+        }
+        [jrTextField becomeFirstResponder];
+    };
+
+
+        
+
 }
 
 
@@ -262,6 +266,25 @@
     if([dictionary[attr_unitPriceThree] floatValue] ==0)
         _unitPriceTxtFieldThree.text = nil;
     }
+}
+
+
+-(id)getDatas
+{
+    NSMutableDictionary* values = [NSMutableDictionary dictionary];
+    
+    [ViewHelper iterateSubView: self.contentView class:[JRTextField class] handler:^BOOL(id subView) {
+        JRTextField* tx = (JRTextField*)subView;
+        id value = [tx getValue];
+        NSString* key = tx.attribute;
+        if (!OBJECT_EMPYT(value) && key) {
+            [values setObject: value forKey:key];
+        }
+        return NO;
+    }];
+
+    return values;
+    
 }
 
 

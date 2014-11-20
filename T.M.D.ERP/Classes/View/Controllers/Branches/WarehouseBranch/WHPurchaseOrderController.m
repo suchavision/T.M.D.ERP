@@ -90,6 +90,21 @@
         }
     }
     
+    
+    _purchaseTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj , NSIndexPath *indexPath){
+        return YES;
+    };
+    _purchaseTableView.tableView.tableViewBaseShouldDeleteContentsAction = ^BOOL(TableViewBase *tableViewObj ,NSIndexPath *indexPath)
+    {
+        if (indexPath.row == blockSelf.middleTableViewDataSource.count) {
+            return NO;
+        } else {
+            [blockSelf.middleTableViewDataSource removeObjectAtIndex: indexPath.row];     // keep the data source update . or will error occur
+            
+            return YES;
+        }
+
+    };
     _purchaseTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObje){
         return 1;
     };

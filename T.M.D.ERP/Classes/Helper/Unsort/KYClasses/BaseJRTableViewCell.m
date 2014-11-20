@@ -95,7 +95,12 @@
         return NO;
     }];
     
-    return values.count ? values : results;
+    if (!values.count) {
+        if (results.count) {
+            return results;
+        }
+    }
+    return values;
     
 }
 

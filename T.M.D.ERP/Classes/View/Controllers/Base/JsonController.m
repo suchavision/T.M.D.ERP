@@ -9,7 +9,7 @@
 
 -(void) setScheduledTaskHelper: (JsonControllerScheduledTaskHelper*)helper
 {
-    scheduledTaskHelper = helper;
+scheduledTaskHelper = helper;
 }
 
 -(JsonControllerScheduledTaskHelper*) scheduledTaskHelper
@@ -22,8 +22,8 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.order = order;
-        self.department = department;
-        self.controlMode = JsonControllerModeNull;
+          self.department = department;
+           self.controlMode = JsonControllerModeNull;
         
     }
     return self;
@@ -325,11 +325,16 @@
                         [ViewControllerHelper popApprovalView: appTo department:weakSelf.department order:weakSelf.order selectAction:nil cancelAction:nil sendAction:^(id sender, NSString *number) {
                             [weakSelf startApplyOrderRequest:orderType divViewKey:sendNestedViewKey appFrom:appFrom appTo:appTo forwarduser:number objects:objects identities:identities];
                         }];
+                        
+                        [self startSendCreateUpdateOrderRequest:objects order:orderType department:departmentType];
                     }
                 } else {
                     [weakSelf startApplyOrderRequest:orderType divViewKey:sendNestedViewKey appFrom:appFrom appTo:appTo forwarduser:nil objects:objects identities:identities];
                 }
             }
+            
+            
+            
         };
         return NO;
     }];
@@ -525,6 +530,8 @@
     return requestModel;
 }
 
+
+
 -(void) didSuccessSendObjects: (NSMutableDictionary*)objects response:(ResponseJsonModel*)response
 {
     NSString* orderNO = objects[PROPERTY_ORDERNO];
@@ -678,8 +685,11 @@
     NSMutableArray* imagesThumbnailsDatas = [NSMutableArray array];
     NSMutableArray* imagesThumbnailsPaths = [NSMutableArray array];
     [JsonControllerHelper getImagesDatasAndPaths:self datas:imagesDatas thumbnailDatas:imagesThumbnailsDatas paths:imagesPaths thumbnailPaths:imagesThumbnailsPaths attributes:jrImageViewAttributes uiImages:uploadUIImges];
-//    [imagesDatas addObjectsFromArray: imagesThumbnailsDatas];
-//    [imagesPaths addObjectsFromArray: imagesThumbnailsPaths];
+
+
+
+
+    
     DLOG(@"Assemble images paths: %@", imagesPaths);
     if (imagesPaths.count != imagesDatas.count) {
         DLog(@"Upload Images Count ---- Have Error , check it out !!!");
@@ -753,6 +763,7 @@
 
 
 // inform ----------------
+
 
 -(void) startCreateUpdateInformRequest:(NSString*)orderNO forwardUser:(NSString*)forwardUser
 {

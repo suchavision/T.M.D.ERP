@@ -238,6 +238,11 @@
             }
         },
         
+        
+        
+        
+        
+        
         "NESTED_MIDDLE_INCREMENT_":{
             "JFrame":[60, 390, 908, 164],
             "BORDER_": 11,
@@ -371,6 +376,14 @@
 
             }
         },
+        
+        
+        
+        
+        
+        
+        
+        
         "NESTED_BOTTOM":{ 
             "JFrame":[58, 554, 910, 108],
             "BORDER": 11,

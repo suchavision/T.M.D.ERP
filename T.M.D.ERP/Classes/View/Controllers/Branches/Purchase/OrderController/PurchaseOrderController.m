@@ -92,12 +92,20 @@
         return 1;
         
     };
+    
     _purchaseTableView.tableView.tableViewBaseNumberOfRowsInSectionAction = ^NSInteger(TableViewBase* tableViewObj, NSInteger section) {
         return weakSelf.controlMode == JsonControllerModeCreate ? weakSelf.purchaseCellContents.count + 1 : weakSelf.purchaseCellContents.count;
     };
     _purchaseTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj, NSIndexPath *indexPath) {
         return YES ;
     };
+    _purchaseTableView.tableView.tableViewBaseShouldDeleteContentsAction = ^BOOL(TableViewBase* tableViewObj, NSIndexPath* indexPath) {
+        if (indexPath.row == 0 || indexPath.row == 1) {
+            return NO;
+        }
+        return YES;
+    };
+
     _purchaseTableView.tableView.tableViewBaseCellForIndexPathAction = ^UITableViewCell*(TableViewBase* tableViewObj, NSIndexPath* indexPath, UITableViewCell* oldCell) {
         
         static NSString *CellIdentifier = @"Cell";
