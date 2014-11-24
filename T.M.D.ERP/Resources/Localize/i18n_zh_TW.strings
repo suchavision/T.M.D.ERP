@@ -55,6 +55,9 @@
 "FinanceAccount"="賬戶資料";
 "FinanceAccountCHOrder"="賬戶異動表";
 "FinancePaymentOrder"="支付單";
+"FinancePaymentOrder.notPay"="未付金額";
+"FinancePaymentOrder.realPay"="實付金額";
+"FinancePaymentOrder.shouldPay"="應付金額";
 "FinanceReceiptOrder"="收費單";
 "FinanceReceiptOrder.orderNO"="單名";
 "FinanceReceiptOrder.receiveDate"="收款日期";

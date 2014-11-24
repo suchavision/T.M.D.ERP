@@ -53,6 +53,9 @@
 "FinanceAccount"="Thông tin tài khoản";
 "FinanceAccountCHOrder"="tài khoản giao dịch";
 "FinancePaymentOrder"="thanh toán duy nhất";
+"FinancePaymentOrder.notPay"="z";
+"FinancePaymentOrder.realPay"="z";
+"FinancePaymentOrder.shouldPay"="z";
 "FinanceReceiptOrder"="z";
 "FinanceReceiptOrder.receiveDate"="z";
 "FinanceReceiptOrder.receiveWay"="z";

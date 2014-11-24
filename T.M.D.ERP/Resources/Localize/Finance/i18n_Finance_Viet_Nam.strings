@@ -19,7 +19,6 @@
 "FinancePaymentOrder.bankAccount"="tài khoản";
 "FinancePaymentOrder.createDate"="ngày";
 "FinancePaymentOrder.notPay"="không có trả";
-"FinancePaymentOrder.orderNO"="số lẻ";
 "FinancePaymentOrder.photos"="ảnh tập tin";
 "FinancePaymentOrder.realPay"="túi";
 "FinancePaymentOrder.shouldPay"="đối phó";

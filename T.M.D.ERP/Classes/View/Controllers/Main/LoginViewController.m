@@ -102,7 +102,8 @@
                 
                 UIView* view = [VIEW.navigator topViewController].view;
                 for (UIView* subView in view.subviews) {
-                    if ([subView isKindOfClass:[JsonView class]]){
+                    if ([subView isKindOfClass:[JsonView class]])
+                    {
                         JsonView* jsonview_ = (JsonView*)subView;
                         [JsonViewHelper refreshJsonViewLocalizeText: jsonview_];
                     }
@@ -123,7 +124,8 @@
     
 
 //        JsonController* jsonController = [[EmployeeController alloc] initWithOrder:@"Employee" department:DEPARTMENT_HUMANRESOURCE];
-    JsonController* jsonController = [[PurchaseRequisitionOrderController alloc] initWithOrder:@"PurchaseRequisitionOrder" department:DEPARTMENT_PURCHASE];
+//    JsonController* jsonController = [[PurchaseRequisitionOrderController alloc] initWithOrder:@"PurchaseRequisitionOrder" department:DEPARTMENT_PURCHASE];
+    JsonController* jsonController = [[FinancePaymentOrderController alloc] initWithOrder:@"FinancePaymentOrder" department:DEPARTMENT_FINANCE];
 
 //        JsonController* jsonController = [[WHInventoryController alloc] initWithOrder:@"PurchaseOrder" department:DEPARTMENT_WAREHOUSE];
 //        JsonController* jsonController = [[FinanceReceiptOrderController alloc] initWithOrder:@"FinanceReceiptOrder" department:DEPARTMENT_FINANCE];
@@ -143,8 +145,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    
 //    [self previewJsonView];
 //    return;
     

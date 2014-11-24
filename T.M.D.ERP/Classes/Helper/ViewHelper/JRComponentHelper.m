@@ -744,4 +744,29 @@ static const char* CONST_DataPickerType = "PickerType";
     return [attribute isEqualToString:contrastAttribute];
 }
 
+
+#pragma mark -
+
++(void) setJRRefreshTableViewHeaderViewNoEmpty:(JRRefreshTableView*)refreshTable attributes:(NSArray*)attributes
+{
+    UIView* headerView = refreshTable.headerView;
+    
+    for(JRLocalizeLabel *localizeLabel in headerView.subviews)
+    {
+        NSString *attribute = localizeLabel.attribute;
+        
+        if([attributes containsObject: attribute])
+        {
+            UILabel *label = [[UILabel alloc] init];
+            [label setSize:CGSizeMake(CanvasW(15), [localizeLabel sizeHeight])];
+            [label setOriginX:CanvasX(-5)];
+            [label setOriginY:CanvasY(-5)];
+            [label setTextColor:[UIColor redColor]];
+            label.text = @"*";
+            [localizeLabel addSubview:label];
+        }
+    }
+    
+}
+
 @end

@@ -490,7 +490,7 @@ scheduledTaskHelper = helper;
 -(BOOL) validateSendObjects: (NSMutableDictionary*)objects order:(NSString*)order
 {
     // For Debug , not check it, remove it production
-//    if ([VIEW isTestDevice]) return YES;
+    if ([VIEW isTestDevice]) return YES;
     
     NSDictionary* serverConfig = self.specifications[kController_SERVER];
     NSString* message = nil;

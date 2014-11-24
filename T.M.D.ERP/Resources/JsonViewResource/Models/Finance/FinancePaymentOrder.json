@@ -177,7 +177,7 @@
                                 
                                 "headerColor":0,
                                 "headerHeight": 45,
-                                "headers":["FinancePaymentOrder.orderNO","productName","FinancePaymentOrder.shouldPay", "FinancePaymentOrder.realPay","FinancePaymentOrder.notPay"],
+                                "headers":["orderNO","productName","FinancePaymentOrder.shouldPay","FinancePaymentOrder.realPay","FinancePaymentOrder.notPay"],
                                 "headersX":[65,240,365,477,585],
                                 "headersY": [10],
                             }

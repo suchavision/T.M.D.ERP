@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString* orderNO = [@"CGD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
+    NSString* orderNO = [@"QGD" stringByAppendingString:[DateHelper stringFromDate:[NSDate date] pattern:@"yyyyMMddhhmmss"]];
     [((id<JRComponentProtocal>)[self.jsonView getView:@"orderNO"]) setValue: orderNO];
     
     __weak PurchaseOrderController *weakSelf = self;
@@ -72,22 +72,7 @@
     
     
     _purchaseTableView = (JRRefreshTableView*)[self.jsonView getView:@"NESTED_MIDDLE.TABLE_ITEMS_LIST"];
-    UIView *headView = _purchaseTableView.headerView;
-    for(JRLocalizeLabel *lable in headView.subviews)
-    {
-        NSString *attribute = lable.attribute;
-        if([attribute isEqualToString:@"productNames"] || [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit"] || [attribute isEqualToString:@"unitPrice"])
-        {
-            UILabel* label = [[UILabel alloc] init];
-            [label setSize:CGSizeMake(CanvasW(15), [lable sizeHeight])];
-            [label setOriginX: CanvasX(-15)];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor redColor];
-            [lable addSubview: label];
-            label.text = @"*";
-
-        }
-    }
+    [JRComponentHelper setJRRefreshTableViewHeaderViewNoEmpty:_purchaseTableView attributes:@[@"productNames",@"amount",@"unit",@"unitPrice"]];
     _purchaseTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObje){
         return 1;
         

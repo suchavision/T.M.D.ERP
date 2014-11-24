@@ -16,6 +16,7 @@
     JRTextField* _storageTotalTxtField;
     
 }
+@property (strong) NSMutableArray* whPurchseDeletedContents;
 
 @end
 
@@ -28,9 +29,11 @@
     self = [super init];
     if (self) {
         _middleTableViewDataSource = [[NSMutableArray alloc] init];
+        _whPurchseDeletedContents = [[NSMutableArray alloc] init];
     }
     return self;
 }
+
 
 - (void)viewDidLoad
 {
@@ -74,21 +77,23 @@
     _storageTotalTxtField = ((JRLabelCommaTextFieldView*)[self.jsonView getView:@"NESTED_Middle_bottom.storageTotal"]).textField;
    
     _purchaseTableView = (JRRefreshTableView*)[self.jsonView getView:@"NESTED_Middle_top.TABLE_Purchase"];
-    UIView *headView = _purchaseTableView.headerView;
-    for(JRLocalizeLabel *localizeLabel in headView.subviews)
-    {
-        NSString *attribute = localizeLabel.attribute;
-        if([attribute isEqualToString:@"productNames" ]|| [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"WHPurchaseOrder.unit" ]|| [attribute isEqualToString:@"WHPurchaseOrder.unitPrice"] || [attribute isEqualToString:@"storageNum"] || [attribute isEqualToString:@"unit"] ||[attribute isEqualToString:@"storageUnitPrice"])
-        {
-            UILabel *label = [[UILabel alloc] init];
-            [label setSize:CGSizeMake(CanvasW(15), [localizeLabel sizeHeight])];
-            [label setOriginX:CanvasX(-5)];
-            [label setOriginY:CanvasY(-5)];
-            [label setTextColor:[UIColor redColor]];
-            label.text = @"*";
-            [localizeLabel addSubview:label];
-        }
-    }
+
+    [JRComponentHelper setJRRefreshTableViewHeaderViewNoEmpty: _purchaseTableView attributes:@[@"productNames", @"amount",@"unit",@"unitPrice",@"storageNum",@"storageUnitPrice"]];
+    
+//    for(JRLocalizeLabel *localizeLabel in headView.subviews)
+//    {
+//        NSString *attribute = localizeLabel.attribute;
+//        if([attribute isEqualToString:@"productNames" ]|| [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit" ]|| [attribute isEqualToString:@"unitPrice"] || [attribute isEqualToString:@"storageNum"] ||[attribute isEqualToString:@"storageUnitPrice"])
+//        {
+//            UILabel *label = [[UILabel alloc] init];
+//            [label setSize:CGSizeMake(CanvasW(15), [localizeLabel sizeHeight])];
+//            [label setOriginX:CanvasX(-5)];
+//            [label setOriginY:CanvasY(-5)];
+//            [label setTextColor:[UIColor redColor]];
+//            label.text = @"*";
+//            [localizeLabel addSubview:label];
+//        }
+//    }
     
     
     _purchaseTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj , NSIndexPath *indexPath){
@@ -99,6 +104,9 @@
         if (indexPath.row == blockSelf.middleTableViewDataSource.count) {
             return NO;
         } else {
+            id contents = [blockSelf->_middleTableViewDataSource objectAtIndex: indexPath.row];
+            [blockSelf->_whPurchseDeletedContents addObject:contents];
+
             [blockSelf.middleTableViewDataSource removeObjectAtIndex: indexPath.row];     // keep the data source update . or will error occur
             
             return YES;
@@ -171,7 +179,7 @@
     }
     BOOL isSuccess = YES;
     NSString *message = nil;
-    NSArray *dataSource = _purchaseFooterCellContents;
+    NSArray *dataSource = _middleTableViewDataSource;
     if(!dataSource)
     {
         NSString *tip = [LOCALIZE_KEY(@"product") stringByAppendingString:LOCALIZE_KEY(@"list")];
@@ -253,7 +261,6 @@
 
 -(NSMutableDictionary*) assembleReadResponse: (ResponseJsonModel*)response
 {
-    NSLog(@"homePath:%@",NSHomeDirectory());
     NSArray* results = response.results;
     DBLOG(@"results === %@", results);
     _purchaseFooterCellContents = [ArrayHelper deepCopy: [results lastObject]];
@@ -301,6 +308,43 @@
     
     _deliveryTotalTxtField.text = [[NSNumber numberWithFloat:subTotalFloat]stringValue];
     _storageTotalTxtField.text = [[NSNumber numberWithFloat:storageSubTotalFloat]stringValue];
+}
+
+-(void) startApplyOrderRequest: (NSString*)orderType divViewKey:(NSString*)divViewKey appFrom:(NSString*)appFrom appTo:(NSString*)appTo forwarduser:(NSString*)forwardUser objects:(NSDictionary*)objects identities:(NSDictionary*)identities
+{
+    [VIEW.progress show];
+    VIEW.progress.detailsLabelText = LOCALIZE_MESSAGE(@"ApplyingNow");
+    
+    RequestJsonModel* requestModel = [RequestJsonModel getJsonModel];
+    requestModel.path = PATH_LOGIC_APPLY(self.department);
+    [requestModel addModels: orderType, nil];
+    if (objects) [requestModel addObject: objects ];
+    
+    [requestModel.identities addObject: identities];
+    [requestModel.parameters setObject: appFrom forKey:REQUEST_PARA_APPLEVEL];
+    
+    for (int i = 0 ; i < self.whPurchseDeletedContents.count; i++) {
+        id identifictaion = self.whPurchseDeletedContents[i][@"id"];
+        [requestModel.parameters setObject: identifictaion forKey:@"shouldDeleteBillId"];
+    }
+    
+    //        [requestModel.parameters setObject: self.delectIdentification forKey:@"shouldDeleteBillId"];
+    
+    if (forwardUser) [requestModel.apns_forwards addObject:forwardUser];
+    
+    [MODEL.requester startPostRequestWithAlertTips: requestModel completeHandler:^(HTTPRequester* requester, ResponseJsonModel *response, NSHTTPURLResponse *httpURLReqponse, NSError *error) {
+        
+        BOOL isSuccessfully = response.status;
+        if (isSuccessfully) {
+            [self didSuccessApplyOrder: orderType appFrom:appFrom appTo:appTo divViewKey:divViewKey forwarduser:forwardUser];
+        } else {
+            [self didFailedApplyOrder: orderType appFrom:appFrom appTo:appTo divViewKey:divViewKey];
+        }
+        
+    }];
+    
+    
+    
 }
 
 

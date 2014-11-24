@@ -6,6 +6,7 @@
 @class JRTextField;
 @class JRImageView;
 @class JsonController;
+@class JRRefreshTableView;
 @class AppImagePickerController;
 
 @interface JRComponentHelper : NSObject
@@ -73,4 +74,8 @@
 +(NSString*) getJRAttributePathLastKey:(NSString*) attribute;
 +(BOOL) isJRAttributesTheSame: (NSString*)attribute with:(NSString*)contrastAttribute;
 
+
++(void) setJRRefreshTableViewHeaderViewNoEmpty:(JRRefreshTableView*)refreshTable attributes:(NSArray*)attributes;
+
 @end
+

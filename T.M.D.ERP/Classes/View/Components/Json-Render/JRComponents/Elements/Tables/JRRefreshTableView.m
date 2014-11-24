@@ -117,6 +117,9 @@
         UIView* headerView = refreshTableView.headerView;
         for (int i = 0; i < headers.count; i++) {
             NSString* attribute = headers[i];
+            if ([attribute rangeOfString:@"."].location != NSNotFound) {
+                attribute = [[attribute componentsSeparatedByString:@"."] lastObject];
+            }
             JRLocalizeLabel* jrLabel = (JRLocalizeLabel*)[headerView viewWithTag:ALIGNTABLE_HEADER_LABEL_TAG(i)];
             jrLabel.attribute = attribute;
         }
@@ -125,7 +128,6 @@
     if (config[k_JR_TBL_valuesX]) refreshTableView.valuesXcoordinates = config[k_JR_TBL_valuesX];
     if (config[k_JR_TBL_headersY]) refreshTableView.headersYcoordinates = config[k_JR_TBL_headersY];
     if (config[k_JR_TBL_valuesY]) refreshTableView.valuesYcoordinates = config[k_JR_TBL_valuesY];
-    
     
     
 }

@@ -19,7 +19,6 @@
 "FinancePaymentOrder.bankAccount"="Account";
 "FinancePaymentOrder.createDate"="Date";
 "FinancePaymentOrder.notPay"="Unpaid";
-"FinancePaymentOrder.orderNO"="Order NO.";
 "FinancePaymentOrder.photos"="File photo";
 "FinancePaymentOrder.realPay"="Pocket";
 "FinancePaymentOrder.shouldPay"="Cope";

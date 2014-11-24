@@ -14,10 +14,6 @@
     NSString* vendorNumber3;		// 询价厂商编号
 
 }
-
-@property (strong) id delectIdentification;
-
-
 @property (strong) NSMutableArray* deletedContents;
 
 @end
@@ -42,21 +38,22 @@
     
     
     _purchaseRequisitionTableView = (JRRefreshTableView *)[self.jsonView getView:@"NESTED_MIDDLE.TABLE_ITEMS_LIST"];
-    UIView* headerView = _purchaseRequisitionTableView.headerView;
-    for (JRLocalizeLabel* view in headerView.subviews) {
-        NSString* attribute = view.attribute;
-        if ([attribute isEqualToString:@"productNames"] || [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit"] || [attribute isEqualToString:@"unitPriceOne"]) {
-            
-            UILabel* label = [[UILabel alloc] init];
-            [label setSize:CGSizeMake(CanvasW(15), [view sizeHeight])];
-            [label setOriginX: CanvasX(-15)];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor redColor];
-            [view addSubview: label];
-            label.text = @"*";
-
-        }
-    }
+    [JRComponentHelper setJRRefreshTableViewHeaderViewNoEmpty:_purchaseRequisitionTableView attributes:@[@"productNames",@"amount",@"unit",@"unitPriceOne"]];
+//    UIView* headerView = _purchaseRequisitionTableView.headerView;
+//    for (JRLocalizeLabel* view in headerView.subviews) {
+//        NSString* attribute = view.attribute;
+//        if ([attribute isEqualToString:@"productNames"] || [attribute isEqualToString:@"amount"] || [attribute isEqualToString:@"unit"] || [attribute isEqualToString:@"unitPriceOne"]) {
+//            
+//            UILabel* label = [[UILabel alloc] init];
+//            [label setSize:CGSizeMake(CanvasW(15), [view sizeHeight])];
+//            [label setOriginX: CanvasX(-15)];
+//            label.textAlignment = NSTextAlignmentCenter;
+//            label.textColor = [UIColor redColor];
+//            [view addSubview: label];
+//            label.text = @"*";
+//
+//        }
+//    }
     _purchaseRequisitionTableView.tableView.tableViewBaseNumberOfSectionsAction = ^NSInteger(TableViewBase* tableViewObj) { return 1; };
     _purchaseRequisitionTableView.tableView.tableViewBaseCanEditIndexPathAction = ^BOOL(TableViewBase *tableViewObj, NSIndexPath *indexPath) {
         if (indexPath.row == blockSelf->_requisitionTableViewDataSource.count) return NO;

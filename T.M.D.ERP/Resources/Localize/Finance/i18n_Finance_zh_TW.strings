@@ -19,7 +19,6 @@
 "FinancePaymentOrder.bankAccount"="付款帳戶";
 "FinancePaymentOrder.createDate"="日期";
 "FinancePaymentOrder.notPay"="未付金額";
-"FinancePaymentOrder.orderNO"="單號";
 "FinancePaymentOrder.photos"="相關拍照文件";
 "FinancePaymentOrder.realPay"="實付金額";
 "FinancePaymentOrder.shouldPay"="應付金額";

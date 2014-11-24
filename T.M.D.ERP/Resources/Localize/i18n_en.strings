@@ -53,6 +53,9 @@
 "FinanceAccount"="Bank Account";
 "FinanceAccountCHOrder"="Transaction accounts";
 "FinancePaymentOrder"="Single payment";
+"FinancePaymentOrder.notPay"="z";
+"FinancePaymentOrder.realPay"="z";
+"FinancePaymentOrder.shouldPay"="z";
 "FinanceReceiptOrder"="Receipt Order";
 "FinanceReceiptOrder.receiveDate"="z";
 "FinanceReceiptOrder.receiveWay"="z";
